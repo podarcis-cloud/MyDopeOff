@@ -1,0 +1,20 @@
+{
+  "name": "Lucide — Réduction des risques",
+  "short_name": "Lucide",
+  "description": "Neurosciences appliquées à la réduction des risques. Protocoles validés. Données locales.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f3ff",
+  "theme_color": "#5b4cf5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%235b4cf5'/%3E%3Cpath d='M52 38v116h88v-24H76V38z' fill='white'/%3E%3Ccircle cx='148' cy='62' r='18' fill='white' opacity='.7'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "lang": "fr"
+}
