@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
+<meta name="color-scheme" content="light"/>
+<meta name="theme-color" content="#F8FAFC"/>
+<link rel="manifest" href="manifest.json"/>
+<title>Lucide</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style id="lucide-core">
+/* ============================================================
+   LUCIDE — Design system (source unique)
+   Clarté · neutralité scientifique · light uniquement
+   ============================================================ */
+
+:root{
+  color-scheme: light only;
+
+  /* — Couleurs de marque — */
+  --blue:#2563EB;     --blue-700:#1D4ED8;  --blue-50:#EFF4FF;  --blue-100:#DCE6FF;
+  --ink:#0F172A;      --ink-2:#334155;     --muted:#64748B;
+  --teal:#14B8A6;     --teal-50:#E6FAF7;
+
+  /* — Surfaces — */
+  --bg:#F8FAFC;       --card:#FFFFFF;      --soft:#F1F5F9;
+  --line:#E2E8F0;     --line-2:#CBD5E1;
+
+  /* — Fonctionnel — */
+  --green:#16A34A;    --green-50:#E9F8EF;
+  --amber:#F59E0B;    --amber-50:#FEF6E7;
+  --red:#DC2626;      --red-50:#FCEBEC;
+
+  /* — Forme — */
+  --r:18px; --r-sm:13px; --r-xs:10px;
+  --sh:0 1px 2px rgba(15,23,42,.04), 0 2px 6px rgba(15,23,42,.05);
+  --sh-md:0 8px 24px rgba(15,23,42,.09);
+  --sh-up:0 -6px 22px rgba(15,23,42,.07);
+
+  /* — Type — */
+  --disp:'Manrope', system-ui, sans-serif;
+  --body:'Inter', system-ui, sans-serif;
+
+  --nav-h:64px;
+  --maxw:480px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{color-scheme:light only;background:var(--bg);}
+@media (prefers-color-scheme:dark){
+  html,body{background:var(--bg);color:var(--ink);}
+}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--ink);
+  max-width:var(--maxw);
+  margin:0 auto;
+  min-height:100svh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  line-height:1.5;
+}
+input,select,textarea,button{font-family:inherit;color:var(--ink);}
+input,select,textarea{background:var(--card);-webkit-appearance:none;appearance:none;}
+::placeholder{color:#94A3B8;}
+a{color:inherit;text-decoration:none;}
+svg{display:block;}
+
+/* — Typographie utilitaire — */
+.h1{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em;line-height:1.1;}
+.h2{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.015em;line-height:1.2;}
+.h3{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-.01em;}
+.eyebrow{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);}
+.lede{color:var(--muted);font-size:14.5px;line-height:1.55;}
+.muted{color:var(--muted);}
+.small{font-size:12.5px;}
+
+/* ── Marque / logo ─────────────────────────────────── */
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .mark{width:34px;height:34px;flex:0 0 auto;}
+.brand .name{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:.02em;}
+.brand .name b{color:var(--blue);font-weight:800;}
+
+/* ── Topbar ────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  height:54px;padding:0 16px;
+  background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .tb-title{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;}
+.topbar .tb-side{min-width:80px;display:flex;align-items:center;}
+.topbar .tb-side.right{justify-content:flex-end;}
+.btn-back{
+  display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding:0 13px 0 10px;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);cursor:pointer;
+}
+.btn-back:active{background:var(--soft);}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none;}
+
+/* ── Boutons ───────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;height:52px;padding:0 18px;
+  font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;
+  border:none;border-radius:var(--r-sm);cursor:pointer;transition:transform .06s, filter .15s;
+}
+.btn:active{transform:scale(.985);}
+.btn svg{width:19px;height:19px;stroke:currentColor;stroke-width:2;fill:none;}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.28);}
+.btn-primary:active{background:var(--blue-700);}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(20,184,166,.25);}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh);}
+.btn-ghost:active{background:var(--soft);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-sm{height:42px;font-size:13.5px;border-radius:11px;}
+.btn:disabled{opacity:.4;pointer-events:none;}
+
+/* ── Cartes ────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);}
+.card-pad{padding:16px;}
+
+/* ── Champs ────────────────────────────────────────── */
+.field{margin-bottom:14px;}
+.field > label{display:block;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.02em;color:var(--ink-2);margin-bottom:7px;}
+.input,.select{
+  width:100%;height:50px;padding:0 15px;
+  font-size:16px;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-sm);outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+textarea.input{height:auto;min-height:50px;padding:13px 15px;line-height:1.5;resize:vertical;}
+.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 3.5px var(--blue-50);}
+.select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%2364748B' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;cursor:pointer;
+}
+
+/* ── Segments (onglets pilule) ─────────────────────── */
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:14px;}
+.seg button{
+  flex:1;height:38px;border:none;background:transparent;border-radius:10px;cursor:pointer;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--muted);transition:color .15s;
+}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh);}
+
+/* ── Badges familles ───────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;
+  font-family:var(--disp);font-weight:600;font-size:11.5px;letter-spacing:.01em;white-space:nowrap;}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+.b-opioide{background:#FCEBEC;color:#B91C1C;}
+.b-stimulant{background:#FEF6E7;color:#B45309;}
+.b-depresseur{background:#EAF2FF;color:#1D4ED8;}
+.b-psychedelique{background:#F3ECFE;color:#7C3AED;}
+.b-dissociatif{background:#E6FAF7;color:#0F766E;}
+.b-cannabinoide{background:#E9F8EF;color:#15803D;}
+.b-empathogene{background:#FDEEF6;color:#BE185D;}
+.b-nootropique{background:#EAF6FF;color:#0369A1;}
+
+/* — Pastilles d'intensité / risque — */
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+.lv-0{background:var(--green);}  .tx-0{color:var(--green);}
+.lv-1{background:#5FB98C;}        .tx-1{color:#3F9E72;}
+.lv-2{background:var(--amber);}  .tx-2{color:#B45309;}
+.lv-3{background:var(--red);}    .tx-3{color:var(--red);}
+
+/* ── Bottom nav ────────────────────────────────────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:var(--maxw);height:var(--nav-h);
+  display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);box-shadow:var(--sh-up);z-index:80;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#94A3B8;}
+.bn-item svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.9;fill:none;transition:stroke-width .15s;}
+.bn-item span{font-family:var(--disp);font-weight:600;font-size:9.5px;letter-spacing:.01em;}
+.bn-item.on{color:var(--blue);}
+.bn-item.on svg{stroke-width:2.4;}
+.has-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));}
+
+/* ── Feuille modale (bottom sheet) ─────────────────── */
+.sheet-bg{position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.42);
+  backdrop-filter:blur(2px);display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;transition:opacity .18s;}
+.sheet-bg.on{opacity:1;}
+.sheet{width:100%;max-width:var(--maxw);background:var(--card);
+  border-radius:24px 24px 0 0;padding:8px 18px calc(26px + env(safe-area-inset-bottom));
+  box-shadow:var(--sh-md);transform:translateY(24px);transition:transform .22s cubic-bezier(.22,1,.36,1);
+  max-height:90svh;overflow-y:auto;}
+.sheet-bg.on .sheet{transform:translateY(0);}
+.sheet-grip{width:38px;height:4px;border-radius:2px;background:var(--line-2);margin:8px auto 16px;}
+
+/* ── Divers ────────────────────────────────────────── */
+.empty{text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;
+  padding:30px 18px;background:var(--card);border:1px dashed var(--line-2);border-radius:var(--r);}
+.divider{height:1px;background:var(--line);border:none;margin:16px 0;}
+.row{display:flex;align-items:center;gap:10px;}
+.tag-num{font-family:var(--disp);font-weight:700;font-size:12px;color:var(--blue);
+  background:var(--blue-50);border-radius:8px;padding:3px 8px;}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+</style>
+<style>
+  body{overflow:hidden;}
+  .screen{display:none;}
+  .screen.on{display:block;}
+
+  /* ── LOGIN ── */
+  #login{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:28px 24px;overflow-y:auto;}
+  #login .logo-wrap{width:62px;height:62px;border-radius:18px;background:var(--blue-50);
+    display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+  #login h1{font-family:var(--disp);font-weight:800;font-size:34px;letter-spacing:-.02em;margin-bottom:8px;}
+  #login .sub{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:26px;}
+  .row2{display:flex;gap:11px;}
+  .row2 .field{flex:1;}
+  #login .note{text-align:center;color:var(--muted);font-size:12px;line-height:1.6;margin-top:16px;}
+
+  /* ── HOME ── */
+  #home{height:100svh;display:flex;flex-direction:column;}
+  .home-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 8px;}
+  .ava{width:38px;height:38px;border-radius:50%;background:var(--blue-50);color:var(--blue);
+    font-family:var(--disp);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;
+    border:none;cursor:pointer;}
+  .seg-wrap{padding:2px 18px 10px;}
+  .seg{max-width:260px;margin:0 auto;}
+
+  .viewport{flex:1;overflow:hidden;position:relative;}
+  .pager{display:flex;width:200%;height:100%;transition:transform .28s cubic-bezier(.22,1,.36,1);}
+  .page{width:50%;height:100%;padding:2px 18px 12px;display:flex;flex-direction:column;gap:11px;overflow:hidden;}
+
+  .greet{font-family:var(--disp);font-weight:700;font-size:20px;letter-spacing:-.01em;margin:2px 2px 0;}
+  .greet span{color:var(--muted);font-weight:600;font-size:13px;display:block;margin-top:2px;letter-spacing:0;}
+
+  /* statut / streak */
+  .status{display:flex;align-items:center;gap:13px;background:var(--ink);border-radius:var(--r);padding:14px 16px;color:#fff;}
+  .status .n{font-family:var(--disp);font-weight:800;font-size:26px;line-height:1;}
+  .status .ic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.12);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .status .ic svg{width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none;}
+  .status .l{font-weight:600;font-size:13.5px;}
+  .status .s{font-size:11.5px;color:rgba(255,255,255,.6);margin-top:2px;}
+
+  /* carte craving */
+  .craving{display:flex;align-items:center;gap:13px;background:var(--amber-50);
+    border:1px solid #F6DFA8;border-radius:var(--r);padding:13px 15px;}
+  .craving .ic{width:42px;height:42px;border-radius:12px;background:var(--amber);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .craving .ic svg{width:21px;height:21px;stroke:#fff;stroke-width:2.2;fill:none;}
+  .craving .t{font-family:var(--disp);font-weight:700;font-size:15px;color:#92560A;}
+  .craving .s{font-size:12px;color:#B45309;margin-top:1px;}
+  .craving .go{margin-left:auto;color:#B45309;}
+  .craving .go svg{width:20px;height:20px;stroke:currentColor;stroke-width:2.2;fill:none;}
+
+  /* grille outils */
+  .tools{display:grid;grid-template-columns:1fr 1fr;gap:11px;flex:1;}
+  .tool{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:var(--r);
+    background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);}
+  .tool:active{background:var(--soft);}
+  .tool .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+  .tool .ic svg{width:21px;height:21px;stroke-width:2;fill:none;}
+  .tool .nm{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;}
+  .tool .ds{font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:-2px;}
+  .i-blue{background:var(--blue-50);} .i-blue svg{stroke:var(--blue);}
+  .i-teal{background:var(--teal-50);} .i-teal svg{stroke:var(--teal);}
+  .i-amber{background:var(--amber-50);} .i-amber svg{stroke:#B45309;}
+  .i-red{background:var(--red-50);} .i-red svg{stroke:var(--red);}
+
+  /* page 2 : liste */
+  .menu{display:flex;flex-direction:column;gap:10px;}
+  .mrow{display:flex;align-items:center;gap:13px;padding:15px;border-radius:var(--r);
+    background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);}
+  .mrow:active{background:var(--soft);}
+  .mrow .ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .mrow .ic svg{width:21px;height:21px;stroke-width:2;fill:none;}
+  .mrow .nm{font-family:var(--disp);font-weight:700;font-size:15px;}
+  .mrow .ds{font-size:12px;color:var(--muted);margin-top:1px;}
+  .mrow .chev{margin-left:auto;color:var(--line-2);}
+  .mrow .chev svg{width:20px;height:20px;stroke:currentColor;stroke-width:2.2;fill:none;}
+  .mrow.support{background:#FFF7F6;border-color:#FBD5CF;}
+  .mrow.support .ic{background:#FF5E5B;} .mrow.support .ic svg{stroke:#fff;}
+  .mrow.support .nm{color:#C0392B;}
+
+  .about{margin-top:auto;text-align:center;color:var(--muted);font-size:11.5px;line-height:1.6;padding:8px 6px 0;}
+  .about b{color:var(--ink-2);font-weight:600;}
+</style>
+</head>
+<body data-page="index">
+
+<!-- ══ LOGIN ══ -->
+<section id="login" class="screen">
+  <div class="logo-wrap" data-logo="40"></div>
+  <h1>Lucide</h1>
+  <p class="sub">Comprendre les substances, réduire les risques, décider plus clairement.<br>Tes données restent sur ton appareil.</p>
+
+  <div class="field">
+    <label>Prénom</label>
+    <input class="input" type="text" id="f-name" placeholder="Ton prénom" maxlength="30" autocomplete="given-name"/>
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>Âge</label>
+      <input class="input" type="number" id="f-age" placeholder="24" min="14" max="99"/>
+    </div>
+    <div class="field">
+      <label>Région</label>
+      <select class="select" id="f-region">
+        <option value="BE">Belgique</option>
+        <option value="FR">France</option>
+        <option value="CH">Suisse</option>
+        <option value="CA">Canada (QC)</option>
+        <option value="LU">Luxembourg</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn btn-primary" id="f-go" disabled onclick="doLogin()">Entrer</button>
+  <p class="note">Aucun compte · aucune inscription · 100 % local</p>
+</section>
+
+<!-- ══ HOME ══ -->
+<section id="home" class="screen">
+  <header class="home-head">
+    <div class="brand"><span class="mark" data-logo="32"></span><span class="name">Lu<b>cide</b></span></div>
+    <button class="ava" id="ava" onclick="editProfile()">·</button>
+  </header>
+
+  <div class="seg-wrap">
+    <div class="seg" id="seg">
+      <button class="on" onclick="goPage(0)">Aujourd'hui</button>
+      <button onclick="goPage(1)">Plus</button>
+    </div>
+  </div>
+
+  <div class="viewport" id="viewport">
+    <div class="pager" id="pager">
+
+      <!-- PAGE 1 -->
+      <div class="page">
+        <div class="greet" id="greet">Bonjour<span>Que veux-tu consulter ?</span></div>
+
+        <div class="status" id="status">
+          <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5 12H2M22 12h-3M5.6 5.6 7.7 7.7M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></div>
+          <div style="flex:1">
+            <div class="l">Premier pas</div>
+            <div class="s">Commence ton suivi dès aujourd'hui.</div>
+          </div>
+        </div>
+
+        <a class="craving" data-go="fiches.html">
+          <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div>
+          <div>
+            <div class="t">Envie pressante ?</div>
+            <div class="s">3 min d'exercice pour faire passer la vague</div>
+          </div>
+          <div class="go"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+        </a>
+
+        <div class="tools">
+          <a class="tool" data-go="psychochecker.html">
+            <div class="ic i-blue"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12ZM20 20l-5.4-5.4"/></svg></div>
+            <div class="nm">Substances</div>
+            <div class="ds">175 fiches · interactions</div>
+          </a>
+          <a class="tool" data-go="fiches.html">
+            <div class="ic i-teal"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12h-4l-3 8-4-16-3 8H3"/></svg></div>
+            <div class="nm">Exercices</div>
+            <div class="ds">Protocoles anti-craving</div>
+          </a>
+          <a class="tool" data-go="suivi.html">
+            <div class="ic i-amber"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5.5-5.5 3.5 3.5L21 6M21 6h-4M21 6v4"/></svg></div>
+            <div class="nm">Suivi</div>
+            <div class="ds">Journal · coûts · tests</div>
+          </a>
+          <a class="tool" data-go="rdr.html">
+            <div class="ic i-red"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-3.7 7-9.3V5.6L12 3 5 5.6v6.1C5 17.3 12 21 12 21Z"/></svg></div>
+            <div class="nm">RDR</div>
+            <div class="ds">Urgences · centres</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div class="page">
+        <div class="menu">
+          <a class="mrow" data-go="guide.html">
+            <div class="ic i-blue"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM18 3v18M8 7h6M8 11h6"/></svg></div>
+            <div><div class="nm">Guide d'utilisation</div><div class="ds">Comment se servir de Lucide</div></div>
+            <div class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+          </a>
+          <button class="mrow" onclick="editProfile()" style="width:100%;text-align:left;cursor:pointer;border:1px solid var(--line);">
+            <div class="ic i-teal"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg></div>
+            <div><div class="nm">Mon profil</div><div class="ds" id="prof-sub">Prénom, âge, région</div></div>
+            <div class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+          </button>
+          <a class="mrow support" data-go="soutenir.html">
+            <div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke="#fff"><path d="M17 8h2a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3h-1M5 8h12v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/></svg></div>
+            <div><div class="nm">Soutenir le projet</div><div class="ds">Lucide est gratuit et le restera</div></div>
+            <div class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+          </a>
+        </div>
+
+        <div class="about">
+          <b>Lucide</b> — base de connaissances et outil de réduction des risques.<br>
+          Information scientifique · ne remplace pas un avis médical.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div data-nav></div>
+</section>
+
+<script>
+/* ============================================================
+   LUCIDE — Socle partagé (navigation, profil, logo)
+   ============================================================ */
+window.LUCIDE = (function () {
+  const KEY = 'ctc_v6';
+
+  function user() {
+    try { return (JSON.parse(localStorage.getItem(KEY)) || {}).user || null; }
+    catch (e) { return null; }
+  }
+  function qs() {
+    const u = user();
+    if (!u || !u.name) return '';
+    return '?name=' + encodeURIComponent(u.name) +
+           '&region=' + encodeURIComponent(u.region || 'BE') +
+           (u.age ? '&age=' + encodeURIComponent(u.age) : '');
+  }
+  function link(href) { return href + qs(); }
+
+  /* Logo œil + L (vectoriel, lisible à 24px) */
+  function logoSVG(size, mono) {
+    const s = size || 34;
+    const iris = mono ? '#fff' : '#2563EB';
+    const ink  = mono ? '#fff' : '#0F172A';
+    const pupil= mono ? '#2563EB' : '#0F172A';
+    return `<svg viewBox="0 0 48 48" width="${s}" height="${s}" fill="none" aria-label="Lucide" role="img">
+      <path d="M5 24c5.5-8.4 12.8-12.6 19-12.6S37.5 15.6 43 24c-5.5 8.4-12.8 12.6-19 12.6S10.5 32.4 5 24Z"
+            stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="24" cy="24" r="8.4" fill="${iris}"/>
+      <circle cx="24" cy="24" r="3.6" fill="${pupil}"/>
+      <circle cx="26.4" cy="21.4" r="1.5" fill="#fff" opacity=".9"/>
+      <path d="M20.2 18.2v11.6h6" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" opacity=".0"/>
+    </svg>`;
+  }
+  function appIcon(size) {
+    const s = size || 34;
+    return `<span style="display:inline-flex;width:${s}px;height:${s}px;border-radius:${Math.round(s*0.28)}px;
+      background:#EFF4FF;align-items:center;justify-content:center;flex:0 0 auto;">${logoSVG(Math.round(s*0.74))}</span>`;
+  }
+
+  /* Onglets de la barre inférieure */
+  const NAV = [
+    { page:'index',         href:'index.html',         label:'Accueil',     icon:'M3 11.2 12 4l9 7.2M5 9.6V19a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1V9.6' },
+    { page:'fiches',        href:'fiches.html',        label:'Exercices',   icon:'M21 12h-4l-3 8-4-16-3 8H3' },
+    { page:'psychochecker', href:'psychochecker.html', label:'Substances',  icon:'M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12ZM20 20l-5.4-5.4' },
+    { page:'suivi',         href:'suivi.html',         label:'Suivi',       icon:'M3 17l5.5-5.5 3.5 3.5L21 6M21 6h-4M21 6v4' },
+    { page:'rdr',           href:'rdr.html',           label:'RDR',         icon:'M12 21s7-3.7 7-9.3V5.6L12 3 5 5.6v6.1C5 17.3 12 21 12 21Z' }
+  ];
+
+  function renderNav(active) {
+    const items = NAV.map(n =>
+      `<a class="bn-item${n.page===active?' on':''}" href="${link(n.href)}">
+         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="${n.icon}"/></svg>
+         <span>${n.label}</span>
+       </a>`).join('');
+    return `<nav class="bottom-nav">${items}</nav>`;
+  }
+
+  function init(opts) {
+    opts = opts || {};
+    // Logos
+    document.querySelectorAll('[data-logo]').forEach(el => {
+      el.innerHTML = logoSVG(parseInt(el.dataset.logo) || 34, el.hasAttribute('data-mono'));
+    });
+    document.querySelectorAll('[data-appicon]').forEach(el => {
+      el.outerHTML = appIcon(parseInt(el.dataset.appicon) || 34);
+    });
+    // Barre de navigation
+    const navMount = document.querySelector('[data-nav]');
+    if (navMount) navMount.outerHTML = renderNav(opts.page || document.body.dataset.page || '');
+    // Liens internes à compléter avec le profil
+    document.querySelectorAll('a[data-go]').forEach(a => { a.href = link(a.dataset.go); });
+    // Boutons retour → accueil
+    document.querySelectorAll('[data-back]').forEach(b => {
+      b.addEventListener('click', () => { location.href = link('index.html'); });
+    });
+    // Service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  }
+
+  return { user, qs, link, logoSVG, appIcon, renderNav, init };
+})();
+
+</script>
+<script>
+const KEY='ctc_v6';
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}};
+const save=d=>{try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}};
+
+const nameI=document.getElementById('f-name');
+const goBtn=document.getElementById('f-go');
+nameI.addEventListener('input',()=>goBtn.disabled=nameI.value.trim().length===0);
+nameI.addEventListener('keydown',e=>{if(e.key==='Enter'&&nameI.value.trim())doLogin();});
+
+function doLogin(){
+  const name=nameI.value.trim(); if(!name)return;
+  const d=load();
+  d.user={name,age:document.getElementById('f-age').value.trim(),region:document.getElementById('f-region').value};
+  save(d); showHome();
+}
+function editProfile(){
+  const u=load().user;
+  if(u){nameI.value=u.name||'';document.getElementById('f-age').value=u.age||'';
+    document.getElementById('f-region').value=u.region||'BE';goBtn.disabled=false;}
+  document.getElementById('home').classList.remove('on');
+  document.getElementById('login').classList.add('on');
+}
+
+/* pager */
+let pg=0;
+function goPage(i){
+  pg=i;
+  document.getElementById('pager').style.transform='translateX('+(-50*i)+'%)';
+  document.querySelectorAll('#seg button').forEach((b,k)=>b.classList.toggle('on',k===i));
+}
+(function(){ // swipe
+  const vp=document.getElementById('viewport'); let x0=null;
+  vp.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  vp.addEventListener('touchend',e=>{
+    if(x0===null)return; const dx=e.changedTouches[0].clientX-x0; x0=null;
+    if(Math.abs(dx)<55)return; goPage(dx<0?Math.min(1,pg+1):Math.max(0,pg-1));
+  },{passive:true});
+})();
+
+function dstr(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
+
+function showHome(){
+  const u=load().user; if(!u)return;
+  document.getElementById('ava').textContent=(u.name||'·').slice(0,2).toUpperCase();
+  document.getElementById('greet').innerHTML='Bonjour '+u.name+'<span>Que veux-tu consulter ?</span>';
+  document.getElementById('prof-sub').textContent=u.name+(u.age?' · '+u.age+' ans':'')+' · '+(u.region||'BE');
+
+  // streak
+  try{
+    const sv=JSON.parse(localStorage.getItem('ctc_v6_suivi'));
+    if(sv&&sv.entries&&sv.entries.length){
+      let st=0;
+      for(let k=0;k<365;k++){const e=sv.entries.filter(x=>x.date===dstr(k));if(!e.length)break;
+        if(Math.max(...e.map(x=>x.intensity))===0)st++;else break;}
+      document.getElementById('status').innerHTML=
+        '<div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5 12H2M22 12h-3M5.6 5.6 7.7 7.7M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></div>'+
+        '<div style="flex:1"><div class="l">'+st+' jour'+(st>1?'s':'')+' sobre'+(st>1?'s':'')+'</div>'+
+        '<div class="s">Continue, ton cerveau récupère.</div></div>';
+    }
+  }catch(e){}
+
+  document.getElementById('login').classList.remove('on');
+  document.getElementById('home').classList.add('on');
+  LUCIDE.init({page:'index'});
+  goPage(0);
+}
+
+if(load()?.user?.name) showHome();
+else { document.getElementById('login').classList.add('on');
+       if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>
