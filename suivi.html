@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="only light"/>
+<meta name="supported-color-schemes" content="light"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<title>Lucide · Suivi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0d0d;--ink2:#2a2a2a;--ink3:#666;
+  --red:#d4001a;--blue:#0f2f7a;--green:#1a6640;--orange:#b05800;--purple:#6a1060;
+  --cream:#f7f5f0;--cream2:#ede9e0;--white:#fff;--border:#e0dbd0;
+  --fa:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+  color-scheme:light only;
+  forced-color-adjust:none;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:#f7f5f0 !important;color:#0d0d0d !important;font-family:var(--fb);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e0dbd0;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;}
+.btn-back{background:none;border:1.5px solid #e0dbd0;border-radius:4px;padding:7px 13px;font-family:var(--fa);font-size:11px;color:#666;cursor:pointer;}
+.btn-back:active{background:#ede9e0;}
+
+/* TABS */
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e0dbd0;position:sticky;top:49px;z-index:99;}
+.tab-btn{flex:1;background:none;border:none;padding:11px 4px;font-family:var(--fa);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
+.tab-btn.active{color:#0f2f7a;border-bottom-color:#0f2f7a;}
+.tab-panel{display:none;padding:16px 20px 80px;}
+.tab-panel.active{display:block;animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* STREAK */
+.streak-banner{background:#0d0d0d;color:#fff;border-radius:4px;padding:18px;margin-bottom:14px;display:flex;align-items:center;gap:16px;}
+.streak-flame{font-size:44px;line-height:1;}
+.streak-val{font-family:var(--fa);font-size:36px;font-weight:800;line-height:1;}
+.streak-lbl{font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;}
+.streak-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+.stat-card{background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:12px 10px;text-align:center;}
+.stat-val{font-family:var(--fa);font-size:22px;font-weight:800;color:#0d0d0d;}
+.stat-lbl{font-size:9px;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.stat-card.good .stat-val{color:#1a6640;}
+.stat-card.warn .stat-val{color:#b05800;}
+.stat-card.bad .stat-val{color:#d4001a;}
+
+/* CALENDAR */
+.section-label{font-family:var(--fa);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#666;margin:14px 0 8px;}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px;}
+.cal-day{
+  aspect-ratio:1;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-family:var(--fa);font-weight:700;
+  cursor:pointer;user-select:none;
+  background:#e8e3d8 !important;color:#666 !important;
+  transition:transform .08s;
+}
+.cal-day:active{transform:scale(.88);}
+.cal-day.header{
+  background:transparent !important;color:#aaa !important;
+  font-size:9px;cursor:default;
+  aspect-ratio:auto;padding:2px 0;transform:none !important;
+}
+.cal-day.today{outline:2px solid #0d0d0d !important;outline-offset:-1px;}
+.cal-day.clean   {background:#1a6640 !important;color:#fff !important;}
+.cal-day.light   {background:#5fa87a !important;color:#fff !important;}
+.cal-day.moderate{background:#b05800 !important;color:#fff !important;}
+.cal-day.heavy   {background:#d4001a !important;color:#fff !important;}
+
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#666;}
+.leg-dot{width:10px;height:10px;border-radius:2px;}
+
+/* BAR CHART */
+.chart-wrap{background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:14px;margin-bottom:14px;}
+.chart-title{font-family:var(--fa);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#666;margin-bottom:12px;}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:100px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bar-lbl{font-size:9px;color:#666;font-family:var(--fa);}
+
+/* LOG FORM */
+.log-form{background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:16px;margin-bottom:14px;}
+.form-title{font-family:var(--fa);font-size:14px;font-weight:700;margin-bottom:14px;color:#0d0d0d;}
+.form-row{margin-bottom:12px;}
+.form-label{font-family:var(--fa);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#666;margin-bottom:6px;}
+.form-input{width:100%;padding:11px 13px;border:1.5px solid #e0dbd0;border-radius:4px;font-family:var(--fb);font-size:14px;background:#fff;color:#0d0d0d;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:#0f2f7a;}
+.intensity-btns{display:flex;gap:8px;}
+.int-btn{flex:1;padding:10px;border:1.5px solid #e0dbd0;border-radius:4px;font-family:var(--fa);font-size:11px;cursor:pointer;text-align:center;background:#fff;color:#0d0d0d;}
+.int-btn.active{border-color:#0f2f7a;background:rgba(15,47,122,.07);color:#0f2f7a;}
+.int-btn.c1.active{border-color:#1a6640;background:rgba(26,102,64,.07);color:#1a6640;}
+.int-btn.c2.active{border-color:#b05800;background:rgba(176,88,0,.07);color:#b05800;}
+.int-btn.c3.active{border-color:#d4001a;background:rgba(212,0,26,.07);color:#d4001a;}
+.btn-log{width:100%;padding:14px;font-family:var(--fa);font-size:14px;font-weight:700;background:#0d0d0d;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-top:4px;}
+.btn-log:active{opacity:.8;}
+.btn-log-clean{width:100%;padding:13px;font-family:var(--fa);font-size:13px;background:rgba(26,102,64,.08);color:#1a6640;border:1.5px solid rgba(26,102,64,.3);border-radius:4px;cursor:pointer;margin-top:6px;}
+.btn-log-clean:active{opacity:.8;}
+
+/* AUTOCOMPLETE */
+.sub-auto-wrap{position:relative;}
+#sub-suggestions{
+  display:none;position:absolute;top:calc(100% + 3px);left:0;right:0;
+  background:#ffffff !important;border:2px solid #0f2f7a;border-radius:6px;
+  max-height:220px;overflow-y:auto;z-index:9999;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+#sub-suggestions div{
+  padding:10px 14px;cursor:pointer;
+  border-bottom:1px solid #f0ece4;
+  background:#ffffff !important;color:#0d0d0d !important;
+  font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+#sub-suggestions div:last-child{border-bottom:none;}
+#sub-suggestions div:active{background:#f7f5f0 !important;}
+
+/* DETOX PANEL */
+.detox-panel{display:none;background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:14px;margin-bottom:14px;}
+
+/* LOG ENTRIES */
+.log-entry{background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px;}
+.log-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.log-dot.clean   {background:#1a6640;}
+.log-dot.light   {background:#5fa87a;}
+.log-dot.moderate{background:#b05800;}
+.log-dot.heavy   {background:#d4001a;}
+.log-info{flex:1;}
+.log-sub-label{font-family:var(--fa);font-size:11px;color:#666;}
+.log-name{font-family:var(--fa);font-size:13px;font-weight:700;margin-bottom:1px;color:#0d0d0d;}
+.log-note{font-size:12px;color:#666;margin-top:2px;}
+.btn-del{background:none;border:none;color:#aaa;font-size:16px;cursor:pointer;padding:4px;}
+
+/* GOALS */
+.goal-card{background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:14px;margin-bottom:8px;}
+.goal-bar{height:6px;background:#ede9e0;border-radius:3px;overflow:hidden;}
+.goal-fill{height:100%;border-radius:3px;transition:width .5s ease;}
+.form-select{width:100%;padding:11px 13px;border:1.5px solid #e0dbd0;border-radius:4px;font-family:var(--fb);font-size:14px;background:#fff;color:#0d0d0d;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;}
+.no-data{text-align:center;padding:32px;color:#666;font-size:13px;background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;}
+.tip-row{background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:13px;margin-bottom:7px;display:flex;gap:12px;align-items:flex-start;}
+.tip-icon{font-size:22px;flex-shrink:0;width:30px;text-align:center;}
+.tip-name{font-family:var(--fa);font-size:13px;font-weight:700;margin-bottom:2px;color:#0d0d0d;}
+.tip-desc{font-size:12px;color:#666;line-height:1.5;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:9999;display:flex;align-items:flex-end;justify-content:center;animation:fadeIn .15s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-sheet{background:#ffffff !important;color:#0d0d0d !important;border-radius:16px 16px 0 0;width:100%;max-width:430px;padding:20px 20px 44px;animation:slideUp .22s ease;box-shadow:0 -4px 32px rgba(0,0,0,.18);}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 18px;}
+.modal-date-lbl{font-family:var(--fa);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:4px;}
+.modal-title{font-family:var(--fa);font-size:22px;font-weight:800;margin-bottom:14px;}
+.modal-entry{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid #ede9e0;background:#ffffff !important;}
+.modal-entry:last-child{border-bottom:none;}
+.modal-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.modal-dot.clean   {background:#1a6640 !important;}
+.modal-dot.light   {background:#5fa87a !important;}
+.modal-dot.moderate{background:#b05800 !important;}
+.modal-dot.heavy   {background:#d4001a !important;}
+.modal-empty{font-size:14px;color:#666;text-align:center;padding:24px 0;line-height:1.7;}
+.modal-close-btn{width:100%;padding:13px;font-family:var(--fa);font-size:13px;background:#f0ece4 !important;color:#333 !important;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;margin-top:16px;}
+.modal-close-btn:active{background:#e0dbd0 !important;}
+.modal-add-btn{width:100%;padding:14px;font-family:var(--fa);font-size:13px;font-weight:700;background:#0d0d0d !important;color:#fff !important;border:none;border-radius:6px;cursor:pointer;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;}
+</style>
+<style id="lucide-override">
+:root{
+  --bg:#f5f3ff;--surface:#fff;
+  --primary:#5b4cf5;--primary-dk:#4338ca;--primary-lt:rgba(91,76,245,.1);
+  --teal:#0e9f9b;--teal-lt:rgba(14,159,155,.1);
+  --danger:#dc2626;--danger-lt:rgba(220,38,38,.08);
+  --warn:#d97706;--warn-lt:rgba(217,119,6,.08);
+  --success:#059669;--success-lt:rgba(5,150,105,.09);
+  --ink:#1e1b4b;--ink2:#374151;--ink3:#6b7280;
+  --border:#e8e6f0;--surface2:#faf9ff;
+  --shadow:0 1px 3px rgba(91,76,245,.1),0 1px 2px rgba(91,76,245,.06);
+  --shadow-md:0 4px 16px rgba(91,76,245,.12);
+  --r:14px;--r-sm:10px;
+    /* Legacy var aliases */
+  --cream:#f5f3ff;--cream2:#ede9ff;--white:#fff;
+  --red:#dc2626;--blue:#5b4cf5;--purple:#6a1060;
+  --green:#059669;--orange:#d97706;
+  color-scheme:light only;forced-color-adjust:none;
+}
+html,body{background:#f5f3ff !important;color:#1e1b4b !important;font-family:'DM Sans',sans-serif;}
+.topbar{background:#fff !important;border-bottom:1.5px solid #e8e6f0 !important;box-shadow:0 1px 8px rgba(91,76,245,.06);}
+.topbar-title{font-family:'Syne',sans-serif;color:#1e1b4b !important;font-weight:700;font-size:13px;}
+.topbar-tag{font-family:'Syne',sans-serif;font-size:9px;color:#9ca3af;letter-spacing:.1em;}
+.btn-back{background:#f5f3ff !important;border:1.5px solid #e8e6f0 !important;border-radius:10px !important;color:#5b4cf5 !important;font-family:'Syne',sans-serif;padding:7px 13px;font-size:11px;cursor:pointer;}
+.btn-back:hover{background:#ede9ff !important;}
+.tabs{background:#fff !important;border-bottom:2px solid #e8e6f0 !important;}
+.tab-btn{font-family:'Syne',sans-serif;}
+.tab-btn.active{color:#5b4cf5 !important;border-bottom-color:#5b4cf5 !important;}
+.section-label{font-family:'Syne',sans-serif;color:#6b7280;letter-spacing:.14em;text-transform:uppercase;font-size:10px;}
+.stat-card,.chart-wrap,.log-form,.log-entry,.test-card,.q-card,.goal-card,
+.result-section,.mission-card,.harm-card,.rdr-item,.donation-wrap,
+.no-data,.tip-row,.score-list,.road-text,.impact-card,.neuro-card,
+.completion-bar-wrap,.radar-wrap{
+  background:#fff !important;border-color:#e8e6f0 !important;
+  border-radius:12px !important;
+  box-shadow:0 1px 3px rgba(91,76,245,.08) !important;
+}
+.btn-primary,.btn-log{background:#5b4cf5 !important;border-radius:10px !important;}
+.btn-outline,.btn-log-clean,.modal-close-btn,.btn-back,.amount-btn{border-radius:10px !important;}
+.streak-banner{background:linear-gradient(135deg,#5b4cf5,#4338ca) !important;border-radius:14px !important;}
+.emergency-banner{border-radius:12px !important;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:64px;background:#fff;border-top:1px solid #e8e6f0;display:flex;z-index:9999;box-shadow:0 -4px 20px rgba(91,76,245,.07);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:#9ca3af;padding:8px 4px;-webkit-tap-highlight-color:transparent;transition:color .15s;}
+.bn-item svg{width:22px;height:22px;stroke-width:1.8;transition:stroke-width .15s;}
+.bn-item span{font-family:'Syne',sans-serif;font-size:9px;letter-spacing:.04em;text-transform:uppercase;}
+.bn-item.active{color:#5b4cf5;}
+.bn-item.active svg{stroke-width:2.3;}
+[class*="tab-panel"].active,[class*="screen"].active,.page,.page-pad,.tab-panel.active{padding-bottom:80px;}
+</style>
+<style id="dm-kill">
+:root{color-scheme:only light !important;}
+html{color-scheme:only light !important;background:#ffffff !important;}
+@media (prefers-color-scheme:dark){
+  html,body{background:#f5f3ff !important;color:#16161d !important;}
+  input,select,textarea,button{background-color:#ffffff !important;color:#16161d !important;}
+}
+input,select,textarea{background:#ffffff !important;color:#16161d !important;-webkit-appearance:none;appearance:none;}
+input::placeholder,textarea::placeholder{color:#b9b9c6 !important;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="btn-back" id="back-btn">← Retour</button>
+  <span style="font-family:var(--fa);font-size:13px;font-weight:700;">📊 Suivi</span>
+  <span style="font-family:var(--fa);font-size:10px;color:#666;letter-spacing:.1em;">V6</span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+  <button class="tab-btn" data-tab="journal">✏️ Journal</button>
+  <button class="tab-btn" data-tab="couts">💶 Coûts</button>
+  <button class="tab-btn" data-tab="objectifs">🎯 Objectifs</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="tab-panel active" id="tab-dashboard">
+  <div id="streak-wrap"></div>
+  <div class="stats-row" id="stats-row"></div>
+  <div class="section-label">30 derniers jours</div>
+  <div class="calendar-grid" id="cal-grid"></div>
+  <div class="cal-legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#1a6640"></div>Sobre</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#5fa87a"></div>Léger</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#b05800"></div>Modéré</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#d4001a"></div>Intensif</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#e8e3d8;border:1px solid #ccc"></div>Vide</div>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-title">Consommations — 8 semaines</div>
+    <div class="bar-chart" id="bar-chart"></div>
+  </div>
+  <div class="section-label">Tendance substances</div>
+  <div id="substance-trend"></div>
+</div>
+
+<!-- JOURNAL -->
+<div class="tab-panel" id="tab-journal">
+  <div class="log-form">
+    <div class="form-title">Ajouter une entrée</div>
+    <div class="form-row">
+      <div class="form-label">Date</div>
+      <input class="form-input" type="date" id="log-date"/>
+    </div>
+    <div class="form-row">
+      <div class="form-label">Substance(s)</div>
+      <div class="sub-auto-wrap">
+        <input class="form-input" type="text" id="log-sub"
+          placeholder="ex. Alcool, MDMA, Xanax…" autocomplete="off"
+          oninput="subAutoInput(this.value)"
+          onblur="setTimeout(closeSubAuto, 180)"/>
+        <div id="sub-suggestions"></div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-label">Intensité</div>
+      <div class="intensity-btns">
+        <button class="int-btn c0" data-int="0" onclick="selectInt(0)">🧘 Sobre</button>
+        <button class="int-btn c1" data-int="1" onclick="selectInt(1)">🟢 Léger</button>
+        <button class="int-btn c2" data-int="2" onclick="selectInt(2)">🟠 Modéré</button>
+        <button class="int-btn c3" data-int="3" onclick="selectInt(3)">🔴 Intensif</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;">
+          <div class="form-label">Coût estimé (€)</div>
+          <input class="form-input" type="number" id="log-cost" placeholder="0.00" min="0" step="0.5" style="font-size:15px;"/>
+        </div>
+        <div style="flex:2;">
+          <div class="form-label">Note (optionnel)</div>
+          <input class="form-input" type="text" id="log-note" placeholder="Contexte, ressenti…" maxlength="200"/>
+        </div>
+      </div>
+    </div>
+    <button class="btn-log" onclick="addEntry()">+ Enregistrer</button>
+    <button class="btn-log-clean" onclick="addCleanDay()">✓ Journée sobre</button>
+  </div>
+
+  <div class="detox-panel" id="detox-panel">
+    <div style="font-family:'Syne',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#888;margin-bottom:10px;">🧪 Test salivaire estimé</div>
+    <div id="detox-content"></div>
+    <div style="font-size:10px;color:#aaa;margin-top:10px;line-height:1.5;">Sources : SAMHSA/DOT 2023 · Desrosiers &amp; Huestis J Anal Toxicol 2019 · NIH PMC2700061. Usage unique supposé, métabolisme moyen. Usage régulier = fenêtre plus longue.</div>
+  </div>
+
+  <div class="section-label">Historique récent</div>
+  <div id="log-list"></div>
+</div>
+
+<!-- COÛTS -->
+<div class="tab-panel" id="tab-couts">
+  <div id="couts-content"></div>
+</div>
+
+<!-- OBJECTIFS -->
+<div class="tab-panel" id="tab-objectifs">
+  <div class="log-form">
+    <div class="form-title">Nouvel objectif</div>
+    <div class="form-row">
+      <div class="form-label">Objectif</div>
+      <select class="form-select" id="goal-type">
+        <option value="clean_streak">Jours consécutifs sobres</option>
+        <option value="reduce_sub">Réduire une substance</option>
+        <option value="max_per_week">Maximum de prises par semaine</option>
+        <option value="no_heavy">Aucune séance intensive</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-label">Cible</div>
+      <input class="form-input" type="number" id="goal-target" placeholder="ex. 7 (jours) ou 2 (prises/semaine)" min="1" max="365"/>
+    </div>
+    <div class="form-row">
+      <div class="form-label">Substance (si applicable)</div>
+      <input class="form-input" type="text" id="goal-sub" placeholder="ex. Alcool"/>
+    </div>
+    <button class="btn-log" onclick="addGoal()">+ Créer l'objectif</button>
+  </div>
+
+  <div class="section-label">Mes objectifs</div>
+  <div id="goals-list"></div>
+
+  <div class="section-label" style="margin-top:20px;">💡 Conseils de réduction</div>
+  <div id="reduction-tips"></div>
+</div>
+
+<script>
+// ── PARAMS ──
+const params = new URLSearchParams(location.search);
+const userName = params.get('name') || '';
+const userRegion = params.get('region') || 'BE';
+document.getElementById('back-btn').onclick = () => {
+  location.href = `index.html${userName ? '?name='+encodeURIComponent(userName)+'&region='+userRegion : ''}`;
+};
+
+// ── STORAGE ──
+const SKEY = 'ctc_v6_suivi';
+function loadSuivi() { try { return JSON.parse(localStorage.getItem(SKEY)) || {entries:[],goals:[]}; } catch(e){ return {entries:[],goals:[]}; } }
+function saveSuivi(d) { try { localStorage.setItem(SKEY, JSON.stringify(d)); } catch(e){} }
+
+// ── CONSTANTS ──
+const INT_LABELS  = ['Sobre','Léger','Modéré','Intensif'];
+const INT_CLASSES = ['clean','light','moderate','heavy'];
+const INT_HEX     = ['#1a6640','#5fa87a','#b05800','#d4001a'];
+let selectedInt = -1;
+
+// ── TABS ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    renderAll();
+  });
+});
+
+// ── DATE HELPERS ──
+function getDateStr(daysAgo) {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  return d.toISOString().split('T')[0];
+}
+function getDayIntensity(entries, dateStr) {
+  const e = entries.filter(x => x.date === dateStr);
+  return e.length ? Math.max(...e.map(x => x.intensity)) : null;
+}
+
+// ── INTENSITY SELECT ──
+window.selectInt = v => {
+  selectedInt = v;
+  document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.int-btn[data-int="${v}"]`).classList.add('active');
+};
+
+// Set today's date
+document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+
+// ── ADD ENTRY ──
+window.addEntry = () => {
+  const date = document.getElementById('log-date').value;
+  const sub  = document.getElementById('log-sub').value.trim();
+  const note = document.getElementById('log-note').value.trim();
+  const cost = parseFloat(document.getElementById('log-cost').value) || 0;
+  if (!date) return alert('Sélectionne une date.');
+  if (selectedInt === -1) return alert('Choisis une intensité.');
+  if (selectedInt > 0 && !sub) return alert('Indique la substance.');
+  const d = loadSuivi();
+  d.entries.unshift({ id: Date.now(), date, sub: selectedInt === 0 ? 'Sobre' : sub, intensity: selectedInt, note, cost });
+  saveSuivi(d);
+  document.getElementById('log-sub').value = '';
+  document.getElementById('log-note').value = '';
+  document.getElementById('log-cost').value = '';
+  document.getElementById('detox-panel').style.display = 'none';
+  selectedInt = -1;
+  document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('active'));
+  renderAll();
+};
+
+window.addCleanDay = () => {
+  const date = document.getElementById('log-date').value;
+  if (!date) return alert('Sélectionne une date.');
+  const d = loadSuivi();
+  d.entries = d.entries.filter(e => e.date !== date);
+  d.entries.unshift({ id: Date.now(), date, sub: 'Sobre', intensity: 0, note: '' });
+  saveSuivi(d);
+  renderAll();
+};
+
+window.deleteEntry = id => {
+  if (!confirm('Supprimer cette entrée ?')) return;
+  const d = loadSuivi();
+  d.entries = d.entries.filter(e => e.id !== id);
+  saveSuivi(d);
+  renderAll();
+};
+
+// ── SUBSTANCE AUTOCOMPLETE + DETOX DB ──
+// Sources : SAMHSA/DOT Mandatory Guidelines 2023 · Desrosiers & Huestis (2019) J Anal Toxicol 43(6)
+//           NIH PMC2700061 · Cleveland Clinic oral drug test 2025 · Springhill Recovery 2025
+// minH/maxH = fenêtre de détection en heures (usage unique, métabolisme moyen)
+const SUBSTANCE_DB = [
+  {nom:"Alcool",aliases:["éthanol","ethanol","bière","vin","vodka","whisky"],minH:2,maxH:12,note:"Fenêtre très courte.",detectable:true},
+  {nom:"Cannabis",aliases:["weed","herbe","beuh","shit","haschich","marijuana","joint","pétard"],minH:4,maxH:72,note:"Occ. 4–24 h · Régulier jusqu'à 72 h. SAMHSA cutoff 4 ng/mL (DOT 2023).",detectable:true},
+  {nom:"Delta-9 THC",aliases:["thc","delta-9"],minH:4,maxH:72,note:"Identique cannabis.",detectable:true},
+  {nom:"HHC",aliases:["hexahydrocannabinol"],minH:4,maxH:48,note:"Profil similaire THC. Données limitées.",detectable:true},
+  {nom:"THCP",aliases:["thcp"],minH:6,maxH:96,note:"Plus lipophile que THC, fenêtre potentiellement plus longue.",detectable:true},
+  {nom:"Cocaïne",aliases:["coke","cocaine","neige","blow","charlie"],minH:1,maxH:24,note:"Benzoylecgonine détectable jusqu'à 24 h.",detectable:true},
+  {nom:"Amphétamine",aliases:["speed","poudre","base"],minH:4,maxH:48,note:"Rapport S/P > 1 (concentration salivaire élevée). 24–48 h.",detectable:true},
+  {nom:"Méthamphetamine",aliases:["crystal meth","ice","tina","meth"],minH:4,maxH:72,note:"Détecté jusqu'à 50 h (Suzuki 1989). Rapport S/P 13.8.",detectable:true},
+  {nom:"MDMA",aliases:["ecstasy","ecsta","molly","xtc","pilule"],minH:0.5,maxH:48,note:"Positif en 20 min. Pic 2 h. Négatif ~48 h. Doses élevées : jusqu'à 71 h.",detectable:true},
+  {nom:"Méphédrone",aliases:["mephedrone","4-mmc","mcat","drone"],minH:2,maxH:48,note:"Profil similaire MDMA.",detectable:true},
+  {nom:"Méthylphénidate",aliases:["ritalin"],minH:2,maxH:48,note:"24–48 h.",detectable:true},
+  {nom:"Lisdexamfétamine",aliases:["vyvanse"],minH:4,maxH:48,note:"Métabolisé en d-amphétamine.",detectable:true},
+  {nom:"Héroïne",aliases:["heroin","smack","brown"],minH:2,maxH:24,note:"6-MAM spécifique héroïne : 2–8 h. Morphine : jusqu'à 24 h.",detectable:true},
+  {nom:"Morphine",aliases:["morphine"],minH:2,maxH:24,note:"Rapport S/P 3.8. 12–24 h.",detectable:true},
+  {nom:"Codéine",aliases:["codeine","dafalgan codéiné"],minH:2,maxH:36,note:"Jusqu'à 36 h.",detectable:true},
+  {nom:"Tramadol",aliases:["tramal"],minH:4,maxH:48,note:"O-DSMT détectable 24–48 h.",detectable:true},
+  {nom:"Fentanyl",aliases:["fentanil"],minH:2,maxH:48,note:"24–48 h si panel spécifique. Souvent absent des kits standards.",detectable:true},
+  {nom:"Méthadone",aliases:["methadone"],minH:4,maxH:240,note:"Demi-vie 24–36 h. Détectable 2–10 jours. S/P 3.7.",detectable:true},
+  {nom:"Buprénorphine",aliases:["subutex","suboxone"],minH:4,maxH:72,note:"Rapport S/P très élevé (24.8). Jusqu'à 72 h.",detectable:true},
+  {nom:"Hydrocodone",aliases:["vicodin","norco"],minH:2,maxH:36,note:"12–36 h.",detectable:true},
+  {nom:"Hydromorphone",aliases:["dilaudid"],minH:2,maxH:24,note:"8–24 h.",detectable:true},
+  {nom:"Alprazolam",aliases:["xanax"],minH:4,maxH:26,note:"Fenêtre courte ~26 h max. S/P ratio faible (0.28).",detectable:true},
+  {nom:"Diazépam",aliases:["valium","diazepam"],minH:4,maxH:240,note:"Nordazépam (métabolite) jusqu'à 10 jours. S/P très bas (0.026).",detectable:true},
+  {nom:"Klonopin",aliases:["clonazepam","rivotril"],minH:4,maxH:48,note:"S/P 0.16. 24–48 h.",detectable:true},
+  {nom:"Lorazépam",aliases:["lorazepam","ativan","temesta"],minH:4,maxH:36,note:"12–36 h.",detectable:true},
+  {nom:"Zolpidem",aliases:["stilnox","ambien"],minH:2,maxH:24,note:"8–24 h.",detectable:true},
+  {nom:"Pregabaline",aliases:["lyrica"],minH:2,maxH:24,note:"12–24 h.",detectable:true},
+  {nom:"Gabapentine",aliases:["neurontin"],minH:2,maxH:24,note:"12–24 h.",detectable:true},
+  {nom:"Clonazolam",aliases:["clonazolam"],minH:4,maxH:72,note:"Designer benzo. Estimé 48–72 h.",detectable:true},
+  {nom:"Flubromazolam",aliases:["flubro"],minH:4,maxH:96,note:"Demi-vie très longue. 48–96 h estimés.",detectable:true},
+  {nom:"Etizolam",aliases:["etilaam"],minH:4,maxH:48,note:"24–48 h.",detectable:true},
+  {nom:"Kétamine",aliases:["ketamine","ket","spéciale k","keta"],minH:4,maxH:24,note:"~24 h selon données cliniques.",detectable:true},
+  {nom:"2-FDCK",aliases:["2-fdck","2f-dck"],minH:4,maxH:24,note:"Profil estimé similaire kétamine.",detectable:true},
+  {nom:"PCP",aliases:["angel dust","phencyclidine"],minH:4,maxH:72,note:"24–72 h.",detectable:true},
+  {nom:"GHB",aliases:["ghb","liquid ecstasy"],minH:0,maxH:6,note:"Clairance ultra-rapide. 4–6 h max.",detectable:true},
+  {nom:"GBL",aliases:["gbl","gamma-butyrolactone"],minH:0,maxH:6,note:"Prodrogue GHB. Même fenêtre.",detectable:true},
+  {nom:"LSD",aliases:["acide","acid","buvard"],minH:0,maxH:12,note:"~12 h max. Nécessite LC/MS sensible. Souvent absent des panels standards.",detectable:true},
+  {nom:"Psilocybine",aliases:["champignons","shrooms","truffes"],minH:0,maxH:12,note:"Psilocine détectable quelques heures. Rarement ciblé.",detectable:true},
+  {nom:"DMT",aliases:["diméthyltryptamine"],minH:0,maxH:4,note:"Demi-vie très courte. Non ciblé en routine.",detectable:false},
+  {nom:"2C-B",aliases:["nexus","bees"],minH:2,maxH:24,note:"12–24 h estimé.",detectable:true},
+  {nom:"Mescaline",aliases:["peyote","san pedro"],minH:4,maxH:24,note:"12–24 h.",detectable:true},
+  {nom:"Dextrométhorphane",aliases:["dxm","robitussin"],minH:2,maxH:48,note:"24–48 h.",detectable:true},
+  {nom:"Modafinil",aliases:["provigil","modiodal"],minH:4,maxH:48,note:"24–48 h.",detectable:true},
+  {nom:"Kratom",aliases:["mitragynine"],minH:4,maxH:48,note:"24–48 h.",detectable:true},
+  {nom:"Tianeptine",aliases:["stablon"],minH:2,maxH:24,note:"Données limitées.",detectable:true},
+  {nom:"Phénibut",aliases:["phenibut","noofen"],minH:2,maxH:48,note:"24–48 h estimé.",detectable:true},
+  {nom:"3-MMC",aliases:["3mmc"],minH:2,maxH:48,note:"Cathinone. 24–48 h.",detectable:true},
+  {nom:"MDPV",aliases:["bath salts"],minH:2,maxH:24,note:"Cathinone. Données limitées.",detectable:true},
+  {nom:"Quétiapine",aliases:["seroquel"],minH:4,maxH:24,note:"12–24 h.",detectable:true},
+  {nom:"Nitreux",aliases:["n2o","protoxyde d'azote","gaz hilarant","ballons"],minH:0,maxH:1,note:"Élimination en minutes. Non ciblé.",detectable:false},
+  {nom:"Naloxone",aliases:["narcan","prenoxad"],minH:0,maxH:4,note:"Antagoniste. Fenêtre courte.",detectable:true},
+  {nom:"Ibogaïne",aliases:["ibogaine","iboga"],minH:4,maxH:48,note:"24–48 h estimé.",detectable:true},
+  {nom:"Paracétamol",aliases:["doliprane","efferalgan","tylenol"],minH:0,maxH:12,note:"Non ciblé par les tests de dépistage.",detectable:false},
+  {nom:"Ibuprofène",aliases:["advil","nurofen"],minH:0,maxH:12,note:"Non ciblé.",detectable:false},
+  {nom:"Caféine",aliases:["caffeine","café"],minH:0,maxH:6,note:"Non ciblé.",detectable:false},
+  {nom:"Nicotine",aliases:["tabac","cigarette","clope","cigare","snus","iqos","puff","vape","e-cigarette","chicha"],minH:0.5,maxH:4,note:"Cotinine (métabolite) détectable jusqu'à 4 jours (urine). Salive : nicotine 4–6 h, cotinine 24–48 h. Tests standard ciblent cotinine.",detectable:true}
+];
+
+// Build alias map
+const subAliasMap = new Map();
+SUBSTANCE_DB.forEach(s => {
+  subAliasMap.set(s.nom.toLowerCase(), s.nom);
+  s.aliases.forEach(a => subAliasMap.set(a.toLowerCase(), s.nom));
+});
+
+function norm(str){ return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+
+function searchSubstances(query) {
+  if (!query || query.length < 2) return [];
+  const q = norm(query);
+  const results = []; const seen = new Set();
+  for (const s of SUBSTANCE_DB) {
+    const matchNom = norm(s.nom).includes(q);
+    let matchAlias = s.aliases.find(a => norm(a).includes(q)) || null;
+    if ((matchNom || matchAlias) && !seen.has(s.nom)) {
+      seen.add(s.nom);
+      const windowStr = s.detectable === false ? '✅' : s.maxH <= 6 ? `~${s.maxH}h` : s.maxH < 48 ? `${s.minH}–${s.maxH}h` : `${Math.round(s.minH/24)}–${Math.round(s.maxH/24)}j`;
+      results.push({ nom: s.nom, alias: matchAlias && !matchNom ? matchAlias : null, minH: s.minH, maxH: s.maxH, detectable: s.detectable, windowStr });
+      if (results.length >= 8) break;
+    }
+  }
+  return results;
+}
+
+function subAutoInput(val) {
+  const box = document.getElementById('sub-suggestions');
+  const results = searchSubstances(val);
+  if (!results.length) { box.style.display = 'none'; return; }
+  box.innerHTML = results.map(r => {
+    const nomEsc = r.nom.replace(/'/g,"\\'");
+    const aliasHtml = r.alias
+      ? '<span style="font-size:11px;color:#888;margin-left:6px;">' + r.alias + '</span>'
+      : '';
+    const badgeHtml = r.detectable === false
+      ? '<span style="font-size:10px;color:#1a6640;white-space:nowrap;">✅ non ciblé</span>'
+      : '<span style="font-size:10px;font-family:\'Syne\',sans-serif;color:#b05800;white-space:nowrap;">🧪 ' + r.windowStr + '</span>';
+    return '<div onclick="selectSubstance(\'' + nomEsc + '\')" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid #f0ece4;background:#ffffff;color:#0d0d0d;display:flex;align-items:center;justify-content:space-between;gap:8px;">'
+      + '<div><span style="font-family:\'Syne\',sans-serif;font-weight:700;color:#0d0d0d;">' + r.nom + '</span>' + aliasHtml + '</div>'
+      + badgeHtml
+      + '</div>';
+  }).join('');
+  box.style.display = 'block';
+}
+
+window.selectSubstance = (nom) => {
+  document.getElementById('log-sub').value = nom;
+  document.getElementById('sub-suggestions').style.display = 'none';
+  triggerDetox(nom);
+};
+
+function closeSubAuto() {
+  const b = document.getElementById('sub-suggestions');
+  if (b) b.style.display = 'none';
+}
+
+function triggerDetox(nom) {
+  const s = SUBSTANCE_DB.find(x => x.nom === nom);
+  if (s) showDetox(s);
+}
+
+function showDetox(s) {
+  const panel   = document.getElementById('detox-panel');
+  const content = document.getElementById('detox-content');
+  if (!panel || !content) return;
+
+  // Not detectable by standard tests
+  if (s.detectable === false) {
+    content.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+        <div style="font-size:24px;">✅</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#1a6640;">${s.nom} — Non ciblé</div>
+          <div style="font-size:12px;color:#666;margin-top:2px;">${s.note}</div>
+        </div>
+      </div>`;
+    panel.style.display = 'block';
+    return;
+  }
+
+  // Very short window (GHB, alcool etc.)
+  if (s.maxH <= 12) {
+    const col = '#1a6640';
+    content.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        <div style="font-size:22px;">🧪</div>
+        <div style="flex:1;">
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0d0d0d;">${s.nom}</div>
+          <div style="font-size:11px;color:#666;">${s.note}</div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:${col};">${s.minH}–${s.maxH}h</div>
+      </div>
+      <div style="background:#1a664018;border:1.5px solid #1a664040;border-radius:6px;padding:10px 12px;">
+        <div style="font-size:11px;color:#1a6640;font-family:'Syne',sans-serif;font-weight:700;">Fenêtre de détection très courte</div>
+        <div style="font-size:11px;color:#666;margin-top:3px;">Généralement négatif en quelques heures après la prise.</div>
+      </div>`;
+    panel.style.display = 'block';
+    return;
+  }
+
+  // Normal calculation using maxH
+  const dateVal = document.getElementById('log-date').value;
+  const base = dateVal ? new Date(dateVal + 'T12:00:00') : new Date();
+
+  const clearMin = new Date(base.getTime() + s.minH * 3600000);
+  const clearMax = new Date(base.getTime() + s.maxH * 3600000);
+
+  function fmtDate(d) {
+    return d.toLocaleDateString('fr-FR', { weekday:'short', day:'numeric', month:'long' });
+  }
+  function fmtHours(h) {
+    if (h < 24) return `${h}h`;
+    const d = Math.round(h / 24);
+    return `${d} jour${d > 1 ? 's' : ''}`;
+  }
+
+  const col = s.maxH <= 24 ? '#1a6640' : s.maxH <= 72 ? '#b05800' : '#d4001a';
+  const rangeStr = s.minH === s.maxH ? fmtHours(s.maxH) : `${fmtHours(s.minH)}–${fmtHours(s.maxH)}`;
+
+  content.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <div style="font-size:22px;">🧪</div>
+      <div style="flex:1;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0d0d0d;">${s.nom}</div>
+        <div style="font-size:10px;color:#666;margin-top:1px;">${s.note}</div>
+      </div>
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:${col};">${rangeStr}</div>
+    </div>
+    <div style="background:${col}15;border:1.5px solid ${col}35;border-radius:6px;padding:11px 13px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:9px;color:#888;font-family:'Syne',sans-serif;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Test négatif probable dès le</div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:${col};">${fmtDate(clearMin)}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:9px;color:#888;font-family:'Syne',sans-serif;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Usage régulier jusqu'au</div>
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#888;">${fmtDate(clearMax)}</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#aaa;margin-top:8px;border-top:1px solid ${col}20;padding-top:6px;">Usage unique · métabolisme moyen · hydratation normale</div>
+    </div>`;
+  panel.style.display = 'block';
+}
+
+// Re-calculate detox if date changes
+document.getElementById('log-date').addEventListener('change', () => {
+  const val = document.getElementById('log-sub').value.trim();
+  if (!val) return;
+  const nom = subAliasMap.get(val.toLowerCase()) || val;
+  triggerDetox(nom);
+});
+document.getElementById('log-sub').addEventListener('blur', () => {
+  setTimeout(() => {
+    const val = document.getElementById('log-sub').value.trim();
+    if (!val) return;
+    const nom = subAliasMap.get(val.toLowerCase());
+    if (nom) triggerDetox(nom);
+  }, 200);
+});
+
+// ── DASHBOARD ──
+function computeLongestStreak(entries) {
+  let max = 0, cur = 0;
+  for (let k = 0; k < 365; k++) {
+    const ds = getDateStr(k);
+    const e = entries.filter(x => x.date === ds);
+    if (e.length && Math.max(...e.map(x=>x.intensity)) === 0) { cur++; max = Math.max(max,cur); }
+    else if (e.length) cur = 0;
+    else if (k > 0) break;
+  }
+  return max;
+}
+
+function renderDashboard() {
+  const d = loadSuivi();
+  const entries = d.entries;
+
+  // Streak
+  let streak = 0;
+  for (let i = 0; i < 365; i++) {
+    const e = entries.filter(x => x.date === getDateStr(i));
+    if (!e.length) break;
+    if (Math.max(...e.map(x=>x.intensity)) === 0) streak++;
+    else break;
+  }
+
+  const last30 = Array.from({length:30}, (_,k) => getDateStr(29-k));
+  const cleanDays = last30.filter(ds => {
+    const e = entries.filter(x => x.date === ds);
+    return e.length && Math.max(...e.map(x=>x.intensity)) === 0;
+  }).length;
+  const loggedDays = last30.filter(ds => entries.some(x => x.date === ds)).length;
+  const longest = computeLongestStreak(entries);
+
+  document.getElementById('streak-wrap').innerHTML = `
+    <div class="streak-banner">
+      <div class="streak-flame">${streak>=7?'🔥':streak>=3?'✨':'🌱'}</div>
+      <div>
+        <div class="streak-val">${streak}</div>
+        <div class="streak-lbl">Jour${streak>1?'s':''} sobre${streak>1?'s':''} consécutif${streak>1?'s':''}</div>
+        <div class="streak-sub">Record : ${longest}j · ${cleanDays} sobres / 30 jours</div>
+      </div>
+    </div>`;
+
+  const heavy = entries.filter(e => new Date(e.date) >= new Date(getDateStr(29)) && e.intensity===3).length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-card good"><div class="stat-val">${cleanDays}</div><div class="stat-lbl">Sobres</div></div>
+    <div class="stat-card"><div class="stat-val">${loggedDays}</div><div class="stat-lbl">Journalisés</div></div>
+    <div class="stat-card ${heavy===0?'good':heavy<=2?'warn':'bad'}"><div class="stat-val">${heavy}</div><div class="stat-lbl">Intenses</div></div>`;
+
+  // Calendar
+  const dayNames = ['L','M','M','J','V','S','D'];
+  let cal = dayNames.map(n=>`<div class="cal-day header">${n}</div>`).join('');
+  const firstDay = new Date(); firstDay.setDate(firstDay.getDate()-29);
+  const pad = (firstDay.getDay()+6)%7;
+  for (let k=0;k<pad;k++) cal += '<div></div>';
+  for (let k=0;k<30;k++) {
+    const ds = getDateStr(29-k);
+    const dn = new Date(ds).getDate();
+    const today = ds === getDateStr(0);
+    const intv = getDayIntensity(entries, ds);
+    const cls = intv===null ? '' : INT_CLASSES[intv];
+    cal += `<div class="cal-day ${cls}${today?' today':''}" onclick="openDayModal('${ds}')">${dn}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = cal;
+
+  // Bar chart 8 weeks
+  let bars = '';
+  for (let w=0;w<8;w++) {
+    const wEntries = Array.from({length:7},(_,d)=>getDateStr(7*(7-w)+d)).flatMap(ds=>entries.filter(e=>e.date===ds));
+    const total = wEntries.filter(e=>e.intensity>0).length;
+    const h = Math.min(80, total*16);
+    const col = total===0?'#1a6640':total<=2?'#5fa87a':total<=5?'#b05800':'#d4001a';
+    bars += `<div class="bar-col">
+      <div style="font-size:9px;color:#666;">${total||''}</div>
+      <div style="height:${h}px;width:100%;background:${col};border-radius:3px 3px 0 0;min-height:2px;"></div>
+      <div class="bar-lbl">S${8-w}</div>
+    </div>`;
+  }
+  document.getElementById('bar-chart').innerHTML = bars;
+
+  // Substance trend
+  const subCounts = {};
+  entries.filter(e=>e.intensity>0 && new Date(e.date)>=new Date(getDateStr(29)))
+    .forEach(e=>{ subCounts[e.sub]=(subCounts[e.sub]||0)+1; });
+  const sorted = Object.entries(subCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const max = sorted[0]?.[1] || 1;
+  document.getElementById('substance-trend').innerHTML = sorted.length
+    ? sorted.map(([sub,count])=>`
+        <div style="background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:12px;margin-bottom:6px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;">${sub}</span>
+            <span style="font-family:'Syne',sans-serif;font-size:12px;color:#666;">${count}×</span>
+          </div>
+          <div style="height:5px;background:#ede9e0;border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:${(count/max*100).toFixed(0)}%;background:#0f2f7a;border-radius:3px;"></div>
+          </div>
+        </div>`).join('')
+    : '<div class="no-data">Aucune consommation sur 30 jours.</div>';
+}
+
+// ── JOURNAL ──
+function renderJournal() {
+  const d = loadSuivi();
+  const list = d.entries.slice(0,40);
+  document.getElementById('log-list').innerHTML = list.length
+    ? list.map(e=>`
+        <div class="log-entry">
+          <div class="log-dot ${INT_CLASSES[e.intensity]}"></div>
+          <div class="log-info">
+            <div class="log-sub-label">${e.date} · ${INT_LABELS[e.intensity]}${e.cost > 0 ? ` · <span style="color:#b05800;font-weight:700;">${e.cost.toFixed(2)}€</span>` : ''}</div>
+            <div class="log-name">${e.sub}</div>
+            ${e.note?`<div class="log-note">${e.note}</div>`:''}
+          </div>
+          <button class="btn-del" onclick="deleteEntry(${e.id})">✕</button>
+        </div>`).join('')
+    : '<div class="no-data">Aucune entrée. Commence à journaliser aujourd\'hui.</div>';
+}
+
+// ── COÛTS ──
+function renderCouts() {
+  const d = loadSuivi();
+  const entries = d.entries.filter(e => e.intensity > 0);
+  const now = new Date();
+
+  function periodEntries(days) {
+    const cutoff = new Date(now);
+    cutoff.setDate(cutoff.getDate() - days);
+    return entries.filter(e => new Date(e.date + 'T12:00:00') >= cutoff);
+  }
+
+  const w7 = periodEntries(7), w30 = periodEntries(30), w90 = periodEntries(90);
+  function totalCost(arr) { return arr.reduce((a,e) => a + (e.cost||0), 0); }
+
+  const cost7 = totalCost(w7), cost30 = totalCost(w30);
+  const cost90 = totalCost(w90), costAll = totalCost(entries);
+  const yearProj = cost30 * 12;
+
+  const bySub = {};
+  w30.forEach(e => {
+    if (!bySub[e.sub]) bySub[e.sub] = {count:0, cost:0};
+    bySub[e.sub].count++;
+    bySub[e.sub].cost += e.cost||0;
+  });
+  const subList = Object.entries(bySub).sort((a,b) => b[1].cost - a[1].cost);
+  const maxSubCost = subList.length ? (subList[0][1].cost || 1) : 1;
+
+  const opp = [
+    {label:'Restaurant (2 pers.)', cost:60},
+    {label:'Concert', cost:45},
+    {label:'Abonnement gym / mois', cost:35},
+    {label:'Formation en ligne', cost:29},
+    {label:'Livres', cost:15},
+    {label:"Plein d'essence", cost:80}
+  ];
+
+  function card(val, lbl, col) {
+    return '<div style="background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:14px;text-align:center;">'
+      + '<div style="font-family:\'Syne\',sans-serif;font-size:22px;font-weight:800;color:' + col + ';">' + val.toFixed(0) + '€</div>'
+      + '<div style="font-size:10px;color:#666;margin-top:2px;text-transform:uppercase;letter-spacing:.06em;">' + lbl + '</div>'
+      + '</div>';
+  }
+
+  let html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">';
+  html += card(cost7,   '7 derniers jours',    '#b05800');
+  html += card(cost30,  '30 derniers jours',   '#d4001a');
+  html += card(cost90,  '90 derniers jours',   '#0f2f7a');
+  html += card(costAll, 'Total journalisé',    '#0d0d0d');
+  html += '</div>';
+
+  if (yearProj > 0) {
+    html += '<div style="background:rgba(212,0,26,.07);border:1.5px solid rgba(212,0,26,.2);border-radius:4px;padding:14px;margin-bottom:16px;">'
+      + '<div style="font-family:\'Syne\',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#d4001a;margin-bottom:6px;">📊 Projection annuelle</div>'
+      + '<div style="font-family:\'Syne\',sans-serif;font-size:28px;font-weight:800;color:#d4001a;">' + yearProj.toFixed(0) + '€ / an</div>'
+      + '<div style="font-size:12px;color:#666;margin-top:4px;">Basé sur tes 30 derniers jours · ' + (yearProj/12).toFixed(0) + '€/mois</div>'
+      + '</div>';
+  } else {
+    html += '<div style="background:#f7f5f0;border:1.5px solid #e0dbd0;border-radius:4px;padding:14px;margin-bottom:16px;font-size:13px;color:#888;text-align:center;">Ajoute des coûts à tes entrées pour voir les projections.</div>';
+  }
+
+  if (subList.length) {
+    html += '<div style="font-family:\'Syne\',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#666;margin-bottom:8px;">Par substance — 30 jours</div>';
+    subList.forEach(function(item) {
+      const sub = item[0], data = item[1];
+      const pct = Math.round(data.cost / maxSubCost * 100);
+      const avg = data.count > 0 ? (data.cost / data.count).toFixed(0) : 0;
+      html += '<div style="background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:12px;margin-bottom:6px;">'
+        + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
+        + '<span style="font-family:\'Syne\',sans-serif;font-size:13px;font-weight:700;">' + sub + '</span>'
+        + '<span style="display:flex;gap:10px;align-items:center;">'
+        + '<span style="font-size:11px;color:#666;">' + data.count + ' prise' + (data.count>1?'s':'') + '</span>'
+        + '<span style="font-family:\'Syne\',sans-serif;font-size:14px;font-weight:800;color:#b05800;">' + data.cost.toFixed(0) + '€</span>'
+        + '</span></div>'
+        + '<div style="height:5px;background:#ede9e0;border-radius:3px;overflow:hidden;">'
+        + '<div style="height:100%;width:' + pct + '%;background:#b05800;border-radius:3px;"></div></div>'
+        + (avg > 0 ? '<div style="font-size:10px;color:#aaa;margin-top:4px;">Moy. ' + avg + '€/prise</div>' : '')
+        + '</div>';
+    });
+  }
+
+  if (yearProj > 0) {
+    html += '<div style="font-family:\'Syne\',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#666;margin:16px 0 8px;">💡 Avec ' + yearProj.toFixed(0) + '€/an tu pourrais avoir</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;">';
+    opp.forEach(function(o) {
+      const times = (yearProj / o.cost).toFixed(1);
+      html += '<div style="background:#fff;border:1.5px solid #e0dbd0;border-radius:4px;padding:10px 12px;">'
+        + '<div style="font-family:\'Syne\',sans-serif;font-size:18px;font-weight:800;color:#0f2f7a;">' + times + '×</div>'
+        + '<div style="font-size:11px;color:#666;margin-top:2px;line-height:1.4;">' + o.label + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div style="background:#f7f5f0;border:1px solid #e0dbd0;border-radius:4px;padding:12px;font-size:11px;color:#888;line-height:1.6;">'
+    + 'ℹ️ Seules les entrées avec un coût renseigné sont comptabilisées. Pense à indiquer le coût à chaque saisie.'
+    + '</div>';
+
+  document.getElementById('couts-content').innerHTML = html;
+}
+// ── OBJECTIFS ──
+const GOAL_TYPES = {
+  clean_streak:{label:'Jours sobres consécutifs',unit:'jours'},
+  reduce_sub:{label:'Réduire',unit:'prises/semaine max'},
+  max_per_week:{label:'Max prises/semaine',unit:'prises'},
+  no_heavy:{label:'Aucune séance intensive',unit:'semaines'}
+};
+
+window.addGoal = () => {
+  const type = document.getElementById('goal-type').value;
+  const target = parseInt(document.getElementById('goal-target').value);
+  const sub = document.getElementById('goal-sub').value.trim();
+  if (!target||target<1) return alert('Indique une cible valide.');
+  const d = loadSuivi();
+  d.goals = d.goals||[];
+  d.goals.push({id:Date.now(),type,target,sub,created:new Date().toISOString().split('T')[0]});
+  saveSuivi(d);
+  document.getElementById('goal-target').value='';
+  document.getElementById('goal-sub').value='';
+  renderGoals();
+};
+
+window.deleteGoal = id => {
+  const d = loadSuivi();
+  d.goals=(d.goals||[]).filter(g=>g.id!==id);
+  saveSuivi(d);
+  renderGoals();
+};
+
+function computeGoalProgress(goal, entries) {
+  if (goal.type==='clean_streak') {
+    let s=0;
+    for(let k=0;k<365;k++){const e=entries.filter(x=>x.date===getDateStr(k));if(e.length&&Math.max(...e.map(x=>x.intensity))===0)s++;else if(e.length)break;else break;}
+    return {current:s,pct:Math.min(100,Math.round(s/goal.target*100))};
+  }
+  if (goal.type==='no_heavy') {
+    let w=0;
+    for(let i=0;i<52;i++){const wE=Array.from({length:7},(_,d)=>getDateStr(i*7+d)).flatMap(ds=>entries.filter(e=>e.date===ds));if(wE.some(e=>e.intensity===3))break;if(wE.length)w++;}
+    return {current:w,pct:Math.min(100,Math.round(w/goal.target*100))};
+  }
+  const thisWeek=Array.from({length:7},(_,d)=>getDateStr(d)).flatMap(ds=>entries.filter(e=>e.date===ds&&e.intensity>0));
+  const rel=goal.sub?thisWeek.filter(e=>e.sub.toLowerCase().includes(goal.sub.toLowerCase())):thisWeek;
+  return {current:rel.length,pct:Math.min(100,Math.round(Math.max(0,(goal.target-rel.length)/goal.target*100)))};
+}
+
+function renderGoals() {
+  const d = loadSuivi();
+  const goals = d.goals||[];
+  document.getElementById('goals-list').innerHTML = goals.length
+    ? goals.map(g=>{
+        const p=computeGoalProgress(g,d.entries);
+        const gt=GOAL_TYPES[g.type];
+        const col=p.pct>=100?'#1a6640':p.pct>=50?'#0f2f7a':'#b05800';
+        const lbl=g.type==='reduce_sub'?`${gt.label} ${g.sub}`:gt.label;
+        return `<div class="goal-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;">${lbl}</span>
+            <span style="font-family:'Syne',sans-serif;font-size:13px;color:${col};">${p.pct}%</span>
+          </div>
+          <div class="goal-bar"><div class="goal-fill" style="width:${p.pct}%;background:${col};"></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <div style="font-size:11px;color:#666;">Cible : ${g.target} ${gt.unit} · Actuel : ${p.current}</div>
+            <button style="background:none;border:none;color:#aaa;font-size:13px;cursor:pointer;" onclick="deleteGoal(${g.id})">✕</button>
+          </div>
+        </div>`;}).join('')
+    : '<div class="no-data">Aucun objectif. Crée-en un ci-dessus.</div>';
+
+  const tips = [
+    {icon:'⏰',name:'Différer de 15 minutes',desc:'Quand l\'envie survient, passe à autre chose 15 min. Le craving passe souvent sans action.'},
+    {icon:'📝',name:'Tenir ce journal',desc:'Journaliser sa consommation réduit la fréquence de 18% en moyenne.'},
+    {icon:'🔄',name:'Remplacer le rituel',desc:'L\'heure habituelle déclenche la prise. Remplacer le rituel casse la boucle.'},
+    {icon:'📞',name:'Contact de crise',desc:'Identifier une personne à appeler avant de consommer. Verbaliser réduit souvent le passage à l\'acte.'},
+    {icon:'🧩',name:'Tetris 3 min',desc:'Protocole Oxford 2015 : 3 min de Tetris réduisent le craving de 24%.'},
+    {icon:'💊',name:'Espacement thérapeutique',desc:'MDMA : min 3 mois entre prises. Psychédéliques : 4–6 semaines. Le cerveau a besoin de récupérer.'}
+  ];
+  document.getElementById('reduction-tips').innerHTML = tips.map(t=>`
+    <div class="tip-row">
+      <div class="tip-icon">${t.icon}</div>
+      <div><div class="tip-name">${t.name}</div><div class="tip-desc">${t.desc}</div></div>
+    </div>`).join('');
+}
+
+// ── DAY MODAL ──
+window.openDayModal = dateStr => {
+  const d = loadSuivi();
+  const dayE = d.entries.filter(e => e.date === dateStr);
+  const dateObj = new Date(dateStr + 'T12:00:00');
+  const dateLabel = dateObj.toLocaleDateString('fr-FR', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const maxInt = dayE.length ? Math.max(...dayE.map(e=>e.intensity)) : -1;
+  const titleColor = maxInt >= 0 ? INT_HEX[maxInt] : '#888';
+  const titleText = maxInt >= 0 ? INT_LABELS[maxInt] : 'Pas d\'entrée';
+
+  let body = '';
+  if (!dayE.length) {
+    body = `
+      <div class="modal-empty">📭<br>Aucune information enregistrée pour ce jour.</div>
+      <button class="modal-add-btn" onclick="goToJournal('${dateStr}')">✏️ Ajouter une entrée pour ce jour</button>`;
+  } else {
+    body = dayE.map(e=>`
+      <div class="modal-entry">
+        <div class="modal-dot ${INT_CLASSES[e.intensity]}"></div>
+        <div style="flex:1;">
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#0d0d0d;">${e.sub}</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:1px;">
+            <span style="font-size:10px;color:#888;font-family:'Syne',sans-serif;text-transform:uppercase;letter-spacing:.06em;">${INT_LABELS[e.intensity]}</span>
+            ${e.cost > 0 ? `<span style="font-size:11px;color:#b05800;font-family:'Syne',sans-serif;font-weight:700;">${e.cost.toFixed(2)}€</span>` : ''}
+          </div>
+          ${e.note?`<div style="font-size:12px;color:#555;margin-top:3px;">${e.note}</div>`:''}
+        </div>
+        <button onclick="deleteEntry(${e.id});closeDayModal();" style="background:none;border:none;color:#bbb;font-size:15px;cursor:pointer;padding:4px 6px;">✕</button>
+      </div>`).join('');
+  }
+
+  const m = document.createElement('div');
+  m.className = 'modal-overlay';
+  m.id = 'day-modal';
+  m.innerHTML = `
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-date-lbl">${dateLabel}</div>
+      <div class="modal-title" style="color:${titleColor};">${titleText}</div>
+      ${body}
+      <button class="modal-close-btn" onclick="closeDayModal()">Fermer</button>
+    </div>`;
+  m.addEventListener('click', closeDayModal);
+  document.body.appendChild(m);
+};
+
+window.closeDayModal = () => {
+  const m = document.getElementById('day-modal');
+  if (m) { m.style.opacity='0'; setTimeout(()=>m.remove(), 150); }
+};
+
+window.goToJournal = dateStr => {
+  closeDayModal();
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('[data-tab="journal"]').classList.add('active');
+  document.getElementById('tab-journal').classList.add('active');
+  const inp = document.getElementById('log-date');
+  if (inp) {
+    inp.value = dateStr;
+    setTimeout(()=>{
+      inp.scrollIntoView({behavior:'smooth',block:'center'});
+      inp.style.borderColor='#0f2f7a';
+      inp.style.boxShadow='0 0 0 3px rgba(15,47,122,.15)';
+      setTimeout(()=>{inp.style.borderColor='';inp.style.boxShadow='';},2000);
+    },100);
+  }
+};
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDayModal(); });
+
+// ── INIT ──
+function renderAll() {
+  renderDashboard();
+  renderJournal();
+  renderCouts();
+  renderGoals();
+}
+
+renderAll();
+</script>
+
+<nav class="bottom-nav">
+  <a class="bn-item" data-href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a class="bn-item" data-href="fiches.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Exercices</span></a>
+  <a class="bn-item" data-href="psychochecker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 11m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Substances</span></a>
+  <a class="bn-item active" data-href="suivi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 7L13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span>Suivi</span></a>
+  <a class="bn-item" data-href="rdr.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>RDR</span></a>
+</nav>
+<script>
+(function(){
+  try{
+    var d=JSON.parse(localStorage.getItem('ctc_v6'));
+    if(d&&d.user&&d.user.name){
+      var p='?name='+encodeURIComponent(d.user.name)+'&region='+(d.user.region||'BE')+(d.user.age?'&age='+d.user.age:'');
+      document.querySelectorAll('.bn-item[data-href]').forEach(function(a){a.href=a.dataset.href+p;});
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
