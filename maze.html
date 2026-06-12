@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="only light"/>
+<meta name="supported-color-schemes" content="light"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MyDope Off · Gyro Labyrinthe</title>
+<meta name="theme-color" content="#F8FAFC"/>
+<link rel="manifest" href="manifest.json"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0d0d0d; --ink2:#2a2a2a; --ink3:#666;
+  --red:#d4001a; --blue:#0f2f7a; --purple:#6a1060;
+  --cream:#f7f5f0; --cream2:#ede9e0;
+  --white:#ffffff; --border:#e0dbd0;
+  color-scheme:light only;
+  forced-color-adjust:none;
+  --fa:'Manrope',sans-serif; --fb:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:#f7f5f0 !important;color:#0d0d0d !important;font-family:var(--fb);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;}
+
+.page{padding:24px 20px calc(64px + env(safe-area-inset-bottom) + 24px);min-height:100vh;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.btn-back{background:none;border:1.5px solid var(--border);border-radius:4px;padding:8px 14px;font-family:var(--fa);font-size:12px;color:var(--ink3);cursor:pointer;}
+.btn-back:active{background:var(--cream2);}
+.tag{font-family:var(--fa);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);}
+.title{font-family:var(--fa);font-weight:800;font-size:32px;line-height:1;margin-bottom:6px;}
+.title span{color:var(--purple);}
+.subtitle{font-size:13px;color:var(--ink3);line-height:1.5;margin-bottom:16px;}
+
+.science-box{background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--ink3);line-height:1.6;border-left:3px solid var(--purple);}
+.science-box strong{color:var(--purple);}
+
+.stats-row{display:flex;gap:8px;margin-bottom:16px;}
+.stat-card{flex:1;background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:10px;text-align:center;}
+.stat-val{font-family:var(--fa);font-size:20px;font-weight:800;color:var(--purple);}
+.stat-lbl{font-size:9px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+
+canvas{display:block;margin:0 auto;touch-action:none;border:2px solid var(--border);border-radius:4px;}
+
+.debug-bar{font-size:9px;color:var(--ink3);margin-top:8px;background:rgba(0,0,0,.04);padding:4px 8px;border-radius:4px;font-family:monospace;text-align:center;}
+
+.btn-primary{width:100%;padding:16px;font-family:var(--fa);font-size:15px;font-weight:700;background:var(--ink);color:var(--white);border:none;border-radius:4px;cursor:pointer;margin-top:12px;}
+.btn-primary:active{background:var(--ink2);}
+.btn-outline{width:100%;padding:14px;font-family:var(--fa);font-size:14px;background:transparent;border:1.5px solid var(--border);border-radius:4px;color:var(--ink3);cursor:pointer;margin-top:8px;}
+.btn-outline:active{background:var(--cream2);}
+
+.screen{display:none;}
+.screen.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.level-badge{display:inline-block;font-family:var(--fa);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;background:rgba(106,16,96,.08);color:var(--purple);border:1px solid rgba(106,16,96,.2);border-radius:2px;margin-bottom:12px;}
+
+.result-icon{font-size:52px;text-align:center;margin-bottom:12px;}
+.result-title{font-family:var(--fa);font-size:28px;font-weight:800;text-align:center;margin-bottom:8px;}
+.result-sub{font-size:14px;color:var(--ink3);text-align:center;line-height:1.6;margin-bottom:20px;}
+.score-list{background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:12px;margin-bottom:16px;}
+.score-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--cream2);font-size:13px;}
+.score-row:last-child{border-bottom:none;}
+
+/* Arrow controls fallback */
+.arrow-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;max-width:200px;margin:12px auto 0;}
+.arr-btn{background:var(--white);border:1.5px solid var(--border);border-radius:12px;transition:transform .08s,background .12s,border-color .12s;padding:14px;font-size:20px;cursor:pointer;text-align:center;touch-action:manipulation;user-select:none;-webkit-user-select:none;}
+.arr-btn:active{background:var(--primary-lt,#EFF4FF);border-color:var(--primary,#2563EB);color:var(--primary,#2563EB);transform:scale(.94);}
+.arrow-hint{font-size:10px;color:var(--ink3);text-align:center;margin-top:8px;}
+</style>
+<style id="lucide-override">
+:root{
+  --bg:#F8FAFC;--surface:#fff;--surface2:#F8FAFC;--card:#fff;--soft:#EFF4FF;
+  --primary:#2563EB;--primary-dk:#1D4ED8;--primary-lt:rgba(37,99,235,.10);
+  --teal:#14B8A6;--teal-lt:rgba(20,184,166,.12);
+  --danger:#DC2626;--danger-lt:rgba(220,38,38,.08);
+  --warn:#F59E0B;--warn-lt:rgba(245,158,11,.10);
+  --success:#16A34A;--success-lt:rgba(22,163,74,.10);
+  --ink:#0F172A;--ink2:#334155;--ink3:#64748B;--muted:#64748B;--line:#E2E8F0;--line-2:#CBD5E1;
+  --shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --shadow-md:0 8px 24px rgba(15,23,42,.08);--r:16px;--r-sm:12px;
+  --cream:#F8FAFC;--cream2:#EFF4FF;--white:#fff;
+  --red:#DC2626;--blue:#2563EB;--blue-50:#EFF4FF;--purple:#2563EB;--green:#16A34A;--orange:#F59E0B;
+  --fa:'Manrope',sans-serif;--fb:'Inter',sans-serif;--disp:'Manrope',sans-serif;--body:'Inter',sans-serif;
+}
+html,body{background:#F8FAFC;color:#0F172A;font-family:'Inter',sans-serif;}
+.topbar{background:#fff;border-bottom:1px solid #E2E8F0;box-shadow:0 1px 2px rgba(15,23,42,.04);}
+.topbar-title,.topbar-title *{font-family:'Manrope',sans-serif;color:#0F172A;font-weight:800;letter-spacing:-.01em;}
+.topbar-title span{color:#2563EB;}
+.btn-back{background:#EFF4FF;border:1px solid #E2E8F0;border-radius:10px;color:#2563EB;font-family:'Manrope',sans-serif;font-weight:600;padding:8px 13px;font-size:12px;cursor:pointer;}
+.tabs{background:#fff;border-bottom:1px solid #E2E8F0;}
+.tab-btn{font-family:'Manrope',sans-serif;font-weight:600;color:#64748B;}
+.tab-btn.active{color:#2563EB;border-bottom-color:#2563EB;}
+.section-label{font-family:'Manrope',sans-serif;color:#64748B;letter-spacing:.12em;text-transform:uppercase;font-size:10px;font-weight:700;}
+.card,.fiche,.protocol-card,.sub-card,.q-card,.result-section,.mission-card,.harm-card,.rdr-item,
+.donation-wrap,.no-data,.tip-row,.stat-card,.chart-wrap,.test-card,.goal-card{
+  background:#fff;border-color:#E2E8F0;border-radius:16px;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+.btn-primary,.btn-log{background:#2563EB;border-radius:12px;}
+.streak-banner{background:linear-gradient(135deg,#2563EB,#1D4ED8);border-radius:18px;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:64px;background:#fff;border-top:1px solid #E2E8F0;display:flex;z-index:9999;box-shadow:0 -2px 16px rgba(15,23,42,.05);padding-bottom:env(safe-area-inset-bottom);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:#94A3B8;padding:8px 4px;transition:color .15s;}
+.bn-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;}
+.bn-item span{font-family:'Manrope',sans-serif;font-weight:600;font-size:9.5px;}
+.bn-item.active,.bn-item.on{color:#2563EB;}
+.bn-item.active svg{stroke-width:2.4;}
+input,select,textarea{background:#fff;color:#0F172A;}
+</style>
+<style id="dm-kill">
+:root{color-scheme:only light !important;}
+html{color-scheme:only light !important;background:#ffffff !important;}
+@media (prefers-color-scheme:dark){
+  html,body{background:#F8FAFC !important;color:#16161d !important;}
+  input,select,textarea,button{background-color:#ffffff !important;color:#16161d !important;}
+}
+input,select,textarea{background:#ffffff !important;color:#16161d !important;-webkit-appearance:none;appearance:none;}
+input::placeholder,textarea::placeholder{color:#b9b9c6 !important;}
+</style>
+</head>
+<body>
+<div class="page"> <div class="topbar"> <button class="btn-back" onclick="goBack()">← Retour</button> <span class="tag">CRACK THE CODE · V6</span> </div> <!-- SCREEN: INTRO --> <div id="screen-intro" class="screen active"> <h1 class="title">Gyro<br><span>Labyrinthe</span></h1> <p class="subtitle">3 niveaux · Incline le téléphone pour déplacer la bille jusqu'à la cible.</p> <div class="science-box"> <strong> Cervelet & Pariétal</strong> — Coordonner l'équilibre physique et la navigation spatiale active des circuits cognitifs distincts du circuit de la récompense. Idéal pour couper un craving.
+    </div> <div style="font-size:48px;text-align:center;margin:24px 0;"></div> <div style="background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:14px;margin-bottom:20px;font-size:12px;line-height:1.7;color:var(--ink3);"> • Incline le téléphone = la bille bouge<br> • Touche un mur = <strong style="color:var(--red);">+1 seconde de pénalité</strong><br> • Atteins la cible rouge le plus vite possible<br> • Score max : 5/5 par niveau
+    </div> <div id="perm-error" style="display:none;color:var(--red);font-size:13px;text-align:center;margin-bottom:12px;"> Permission gyroscope refusée. Utilise les flèches à la place.</div> <button class="btn-primary" onclick="requestGyro()"> Activer le gyroscope</button> <button class="btn-outline" onclick="startWithArrows()"> Utiliser les flèches</button> </div> <!-- SCREEN: READY --> <div id="screen-ready" class="screen"> <div class="level-badge" id="level-badge">Niveau 1 / 12</div> <h2 style="font-family:var(--fa);font-size:22px;margin-bottom:6px;">Prêt pour la manche ?</h2> <p style="font-size:13px;color:var(--ink3);margin-bottom:16px;">La bille apparaît en haut à gauche. La cible rouge est en bas à droite.</p> <canvas id="maze-canvas"></canvas> <div class="debug-bar" id="debug-bar">Gyro en attente…</div> <button class="btn-primary" onclick="startPlaying()"> Démarrer la manche</button> <button class="btn-outline" onclick="resetToIntro()">Abandonner</button> </div> <!-- SCREEN: PLAYING --> <div id="screen-playing" class="screen"> <div class="stats-row"> <div class="stat-card"><div class="stat-val" id="play-level">1/12</div><div class="stat-lbl">Niveau</div></div> <div class="stat-card"><div class="stat-val" id="play-time">0s</div><div class="stat-lbl">Temps</div></div> <div class="stat-card"><div class="stat-val" id="play-penalty">0</div><div class="stat-lbl">Pénalités</div></div> <div class="stat-card"><div class="stat-val" id="play-score">—</div><div class="stat-lbl">Score</div></div> </div> <canvas id="maze-canvas-play"></canvas> <div class="debug-bar" id="debug-bar-play">Gyro actif</div> <div class="arrow-controls" id="arrow-controls" style="display:none;"> <div></div> <button class="arr-btn" ontouchstart="arrowDown('up')" ontouchend="arrowUp('up')" onmousedown="arrowDown('up')" onmouseup="arrowUp('up')">↑</button> <div></div> <button class="arr-btn" ontouchstart="arrowDown('left')" ontouchend="arrowUp('left')" onmousedown="arrowDown('left')" onmouseup="arrowUp('left')">←</button> <button class="arr-btn" ontouchstart="arrowDown('down')" ontouchend="arrowUp('down')" onmousedown="arrowDown('down')" onmouseup="arrowUp('down')">↓</button> <button class="arr-btn" ontouchstart="arrowDown('right')" ontouchend="arrowUp('right')" onmousedown="arrowDown('right')" onmouseup="arrowUp('right')">→</button> </div> <div class="arrow-hint" id="arrow-hint" style="display:none;">Maintiens pour déplacer la bille</div> <button class="btn-outline" style="margin-top:12px;" onclick="resetToIntro()">✕ Abandonner</button> </div> <!-- SCREEN: WIN LEVEL --> <div id="screen-win" class="screen"> <div class="result-icon">✓</div> <div class="result-title">Manche <span id="win-level">1</span> réussie !</div> <div class="result-sub" id="win-sub">Score : 4/5</div> <button class="btn-primary" id="btn-next-level" onclick="nextLevel()">Niveau suivant →</button> <button class="btn-outline" onclick="resetToIntro()">Recommencer depuis le début</button> </div> <!-- SCREEN: FINISHED --> <div id="screen-finished" class="screen"> <div class="result-icon"></div> <div class="result-title">Labyrinthe complété !</div> <div class="result-sub">Tu as activé cervelet, cortex pariétal et système vestibulaire.</div> <div class="score-list" id="score-list"></div> <button class="btn-primary" onclick="resetToIntro()">Rejouer</button> <button class="btn-outline" onclick="goBack()">Retour à l'accueil</button> </div>
+</div> <script>
+const params = new URLSearchParams(location.search);
+const userName = params.get('name') || '';
+const userRegion = params.get('region') || 'BE';
+function goBack(){ location.href = (window.LUCIDE?LUCIDE.link('index.html'):'index.html'); }
+
+// ===== MAZE ENGINE =====
+/* ── Génération procédurale : 12 niveaux, difficulté graduelle ──
+   Grille de murs sur un espace de 360. La bille démarre toujours dans
+   une case ouverte (coin haut-gauche dégagé), la cible dans le coin opposé. */
+const FIELD = 360, BORDER = 20, WT = 8; // bord & épaisseur des murs
+function rngFor(seed){ let s=seed>>>0; return ()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+
+function genLevel(idx){
+  // difficulté : nombre de murs internes croît avec le niveau
+  const rnd = rngFor(1000+idx*97);
+  const inner = FIELD - BORDER*2;            // zone jouable
+  const cols = 3 + Math.min(5, Math.floor(idx/2)); // 3 → 8 colonnes de segments
+  const cell = inner / cols;
+  const density = Math.min(0.62, 0.30 + idx*0.027);
+  const walls = [
+    {x:BORDER,y:BORDER,w:inner,h:WT},
+    {x:BORDER,y:FIELD-BORDER-WT,w:inner,h:WT},
+    {x:BORDER,y:BORDER,w:WT,h:inner},
+    {x:FIELD-BORDER-WT,y:BORDER,w:WT,h:inner}
+  ];
+  // zones protégées : départ (haut-gauche) et arrivée (bas-droite)
+  const safe = (gx,gy)=> (gx<=0&&gy<=0) || (gx>=cols-1&&gy>=cols-1);
+  for(let gy=0; gy<cols; gy++){
+    for(let gx=0; gx<cols; gx++){
+      if(safe(gx,gy)) continue;
+      if(rnd() > density) continue;
+      const cx = BORDER + gx*cell, cy = BORDER + gy*cell;
+      // segment horizontal ou vertical, longueur ~ 0.55–0.9 d'une cellule
+      const horiz = rnd() < 0.5;
+      const len = cell * (0.55 + rnd()*0.35);
+      if(horiz) walls.push({x:cx + (cell-len)/2, y:cy + cell/2, w:len, h:WT});
+      else      walls.push({x:cx + cell/2, y:cy + (cell-len)/2, w:WT, h:len});
+    }
+  }
+  // départ : centre de la 1re cellule (dégagé) ; cible : centre de la dernière
+  const start = { x: BORDER + cell*0.5, y: BORDER + cell*0.5 };
+  const target = { x: FIELD - BORDER - cell*0.5, y: FIELD - BORDER - cell*0.5,
+                   radius: Math.max(11, 15 - idx*0.3) };
+  return { walls, start, target };
+}
+
+const LEVELS = Array.from({length:12}, (_,i)=>genLevel(i));
+
+let currentScreen = 'intro';
+let levelIndex = 0;
+let levelScores = [];
+let gameRunning = false;
+let useGyro = false;
+let useArrows = false;
+
+// Physics
+const ballRadius = 11;
+const damping = 0.975;
+const accelFactor = 0.7;
+const maxVel = 9;
+let ballX, ballY, velX, velY;
+let tiltGamma = 0, tiltBeta = 0;
+let arrowState = {up:false,down:false,left:false,right:false};
+let penaltyCount = 0;
+let startTime = null;
+let timeElapsed = 0;
+let timerInterval = null;
+let animFrame = null;
+let flashWalls = {};
+let scaledWalls = [];
+let scaledTarget = {};
+let canvasEl = null, canvasCtx = null;
+let lastTs = 0;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  currentScreen = id;
+}
+
+function getCanvasSize() {
+  return Math.min(360, window.innerWidth - 40);
+}
+
+function scaleLevel(idx) {
+  const lvl = LEVELS[idx];
+  const size = getCanvasSize();
+  const sc = size / 360;
+  scaledWalls = lvl.walls.map(w => ({ x:w.x*sc, y:w.y*sc, w:w.w*sc, h:w.h*sc }));
+  scaledTarget = { x:lvl.target.x*sc, y:lvl.target.y*sc, r:lvl.target.radius*sc };
+  ballX = lvl.start.x * sc;
+  ballY = lvl.start.y * sc;
+  // filet de sécurité : si le départ chevauche un mur, on repousse la bille
+  const r = ballRadius;
+  scaledWalls.forEach(w=>{
+    if(ballX+r>w.x && ballX-r<w.x+w.w && ballY+r>w.y && ballY-r<w.y+w.h){
+      ballX = w.x + w.w + r + 2; ballY = w.y + w.h + r + 2;
+    }
+  });
+  velX = 0; velY = 0;
+  penaltyCount = 0;
+  flashWalls = {};
+}
+
+function drawMaze(ctx, size, status) {
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = '#f7f5f0';
+  ctx.fillRect(0, 0, size, size);
+
+  const now = Date.now();
+
+  // Walls
+  for (let i = 0; i < scaledWalls.length; i++) {
+    const w = scaledWalls[i];
+    const flashing = flashWalls[i] && (now - flashWalls[i] < 300);
+    ctx.fillStyle = flashing ? '#d4001a' : '#0f2f7a';
+    ctx.fillRect(w.x, w.y, w.w, w.h);
+  }
+
+  // Target
+  ctx.beginPath();
+  ctx.arc(scaledTarget.x, scaledTarget.y, scaledTarget.r, 0, Math.PI*2);
+  ctx.fillStyle = '#d4001a';
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = `bold ${Math.round(scaledTarget.r)}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('', scaledTarget.x, scaledTarget.y);
+
+  // Ball
+  ctx.beginPath();
+  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
+  ctx.fillStyle = '#6a1060';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(ballX - 3, ballY - 3, 4, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fill();
+
+  // Timer overlay
+  if (status === 'playing' && startTime) {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    ctx.font = 'bold 13px Syne, sans-serif';
+    ctx.fillStyle = '#0d0d0d';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'top';
+    ctx.fillText(`${elapsed}s`, size - 10, 8);
+    ctx.fillStyle = '#d4001a';
+    ctx.fillText(` ${penaltyCount}`, size - 10, 24);
+  }
+}
+
+function circleRectCollide(cx, cy, r, rect, idx) {
+  const clX = Math.max(rect.x, Math.min(cx, rect.x + rect.w));
+  const clY = Math.max(rect.y, Math.min(cy, rect.y + rect.h));
+  const dx = cx - clX, dy = cy - clY;
+  if (dx*dx + dy*dy < r*r) {
+    const angle = Math.atan2(dy, dx);
+    const overlap = r - Math.sqrt(dx*dx + dy*dy);
+    return { hit: true, angle, overlap };
+  }
+  return { hit: false };
+}
+
+function resolveCollisions(x, y) {
+  let nx = x, ny = y;
+  for (let iter = 0; iter < 6; iter++) {
+    let any = false;
+    for (let i = 0; i < scaledWalls.length; i++) {
+      const res = circleRectCollide(nx, ny, ballRadius, scaledWalls[i], i);
+      if (res.hit) {
+        any = true;
+        nx += Math.cos(res.angle) * (res.overlap + 0.5);
+        ny += Math.sin(res.angle) * (res.overlap + 0.5);
+        // Penalty
+        const now = Date.now();
+        if (!flashWalls[i] || now - flashWalls[i] > 600) {
+          flashWalls[i] = now;
+          penaltyCount++;
+          if (startTime) startTime -= 1000; // +1s penalty
+          updatePlayStats();
+        }
+        velX *= -0.3; velY *= -0.3;
+      }
+    }
+    if (!any) break;
+  }
+  return { nx, ny };
+}
+
+function checkWin() {
+  const dx = ballX - scaledTarget.x, dy = ballY - scaledTarget.y;
+  return Math.hypot(dx, dy) < ballRadius + scaledTarget.r - 4;
+}
+
+function updatePlayStats() {
+  document.getElementById('play-level').textContent = (levelIndex+1)+'/'+LEVELS.length;
+  const elapsed = startTime ? Math.floor((Date.now() - startTime) / 1000) : 0;
+  document.getElementById('play-time').textContent = elapsed + 's';
+  document.getElementById('play-penalty').textContent = penaltyCount;
+}
+
+function computeScore() {
+  const elapsed = startTime ? Math.floor((Date.now() - startTime) / 1000) : 99;
+  const s = Math.max(1, 5 - Math.floor(elapsed / 8) - Math.floor(penaltyCount / 2));
+  return Math.min(5, Math.max(1, s));
+}
+
+function gameLoop(ts) {
+  if (!gameRunning) return;
+  if (lastTs === 0) lastTs = ts;
+  const dt = Math.min(50, ts - lastTs) / 16;
+  lastTs = ts;
+
+  // Acceleration
+  let ax = 0, ay = 0;
+  if (useGyro) { ax = tiltGamma * accelFactor; ay = tiltBeta * accelFactor; }
+  if (useArrows) {
+    if (arrowState.left) ax = -accelFactor * 0.8;
+    if (arrowState.right) ax = accelFactor * 0.8;
+    if (arrowState.up) ay = -accelFactor * 0.8;
+    if (arrowState.down) ay = accelFactor * 0.8;
+  }
+
+  velX = Math.min(maxVel, Math.max(-maxVel, (velX + ax * dt) * damping));
+  velY = Math.min(maxVel, Math.max(-maxVel, (velY + ay * dt) * damping));
+
+  const proposed = { nx: ballX + velX * dt, ny: ballY + velY * dt };
+  const { nx, ny } = resolveCollisions(proposed.nx, proposed.ny);
+  ballX = nx; ballY = ny;
+
+  drawMaze(canvasCtx, canvasEl.width, 'playing');
+
+  if (canvasEl === document.getElementById('maze-canvas-play') && startTime) {
+    updatePlayStats();
+  }
+
+  if (checkWin()) {
+    winLevel();
+    return;
+  }
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+function winLevel() {
+  gameRunning = false;
+  lastTs = 0;
+  if (animFrame) cancelAnimationFrame(animFrame);
+  if (timerInterval) clearInterval(timerInterval);
+  const s = computeScore();
+  levelScores[levelIndex] = s;
+  document.getElementById('win-level').textContent = levelIndex + 1;
+  document.getElementById('win-sub').textContent = `Score : ${s}/5 · Pénalités : ${penaltyCount} · Temps : ~${Math.floor((Date.now()-startTime)/1000)}s`;
+  const btnNext = document.getElementById('btn-next-level');
+  if (levelIndex + 1 < LEVELS.length) {
+    btnNext.textContent = `Niveau ${levelIndex+2} →`;
+    btnNext.style.display = '';
+  } else {
+    btnNext.style.display = 'none';
+  }
+  showScreen('win');
+  // Show finish button
+  if (levelIndex + 1 >= LEVELS.length) {
+    document.getElementById('btn-next-level').textContent = 'Voir le score final';
+    document.getElementById('btn-next-level').style.display = '';
+    document.getElementById('btn-next-level').onclick = showFinished;
+  }
+}
+
+function nextLevel() {
+  if (levelIndex + 1 >= LEVELS.length) { showFinished(); return; }
+  levelIndex++;
+  setupReadyScreen();
+  showScreen('ready');
+}
+
+function showFinished() {
+  const total = levelScores.reduce((a,b) => a+b, 0);
+  const max = LEVELS.length * 5;
+  let html = '';
+  levelScores.forEach((s, i) => {
+    const stars = ''.repeat(s) + ''.repeat(5-s);
+    html += `<div class="score-row"><span>Niveau ${i+1}</span><span>${stars} ${s}/5</span></div>`;
+  });
+  html += `<div class="score-row" style="font-weight:700;"><span>Total</span><span>${total}/${max}</span></div>`;
+  document.getElementById('score-list').innerHTML = html;
+  showScreen('finished');
+
+  // Save
+  try {
+    const KEY = 'ctc_v6';
+    const d = JSON.parse(localStorage.getItem(KEY)) || {};
+    const sessions = d.sessions || [];
+    sessions.push({ type: 'ex', name: 'Gyro Labyrinthe', score: total, date: Date.now() });
+    d.sessions = sessions;
+    d.score = (d.score || 0) + total;
+    localStorage.setItem(KEY, JSON.stringify(d));
+  } catch(e) {}
+}
+
+function setupReadyScreen() {
+  scaleLevel(levelIndex);
+  const size = getCanvasSize();
+  const c = document.getElementById('maze-canvas');
+  c.width = size; c.height = size;
+  const ctx = c.getContext('2d');
+  drawMaze(ctx, size, 'ready');
+  document.getElementById('level-badge').textContent = `Niveau ${levelIndex+1} / ${LEVELS.length}`;
+}
+
+function startPlaying() {
+  scaleLevel(levelIndex);
+  const size = getCanvasSize();
+  canvasEl = document.getElementById('maze-canvas-play');
+  canvasEl.width = size; canvasEl.height = size;
+  canvasCtx = canvasEl.getContext('2d');
+  document.getElementById('play-level').textContent = (levelIndex+1)+'/'+LEVELS.length;
+  document.getElementById('play-time').textContent = '0s';
+  document.getElementById('play-penalty').textContent = '0';
+  document.getElementById('play-score').textContent = '—';
+  if (useArrows) {
+    document.getElementById('arrow-controls').style.display = 'grid';
+    document.getElementById('arrow-hint').style.display = 'block';
+  }
+  showScreen('playing');
+  gameRunning = true;
+  lastTs = 0;
+  startTime = Date.now();
+  timerInterval = setInterval(updatePlayStats, 500);
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+function requestGyro() {
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(state => {
+      if (state === 'granted') {
+        activateGyro();
+      } else {
+        document.getElementById('perm-error').style.display = 'block';
+      }
+    }).catch(() => {
+      document.getElementById('perm-error').style.display = 'block';
+    });
+  } else {
+    activateGyro();
+  }
+}
+
+function activateGyro() {
+  useGyro = true;
+  window.addEventListener('deviceorientation', handleOrientation);
+  setupReadyScreen();
+  showScreen('ready');
+}
+
+function startWithArrows() {
+  useArrows = true;
+  useGyro = false;
+  setupReadyScreen();
+  showScreen('ready');
+}
+
+function handleOrientation(e) {
+  const maxTilt = 40;
+  tiltGamma = Math.min(1, Math.max(-1, (e.gamma || 0) / maxTilt));
+  tiltBeta = Math.min(1, Math.max(-1, (e.beta || 0) / maxTilt));
+  const dbg = document.getElementById('debug-bar-play');
+  if (dbg) dbg.textContent = `γ:${(e.gamma||0).toFixed(0)}° β:${(e.beta||0).toFixed(0)}°`;
+}
+
+// Arrow touch controls
+function arrowDown(dir) { arrowState[dir] = true; }
+function arrowUp(dir) { arrowState[dir] = false; }
+
+// Keyboard fallback
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') arrowState.left = true;
+  if (e.key === 'ArrowRight') arrowState.right = true;
+  if (e.key === 'ArrowUp') arrowState.up = true;
+  if (e.key === 'ArrowDown') arrowState.down = true;
+});
+document.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft') arrowState.left = false;
+  if (e.key === 'ArrowRight') arrowState.right = false;
+  if (e.key === 'ArrowUp') arrowState.up = false;
+  if (e.key === 'ArrowDown') arrowState.down = false;
+});
+
+function resetToIntro() {
+  gameRunning = false;
+  lastTs = 0;
+  if (animFrame) cancelAnimationFrame(animFrame);
+  if (timerInterval) clearInterval(timerInterval);
+  window.removeEventListener('deviceorientation', handleOrientation);
+  levelIndex = 0;
+  levelScores = [];
+  useGyro = false;
+  useArrows = false;
+  arrowState = {up:false,down:false,left:false,right:false};
+  tiltGamma = 0; tiltBeta = 0;
+  showScreen('intro');
+}
+</script> <nav class="bottom-nav"><a class="bn-item" data-href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a><a class="bn-item" data-href="suivi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7L13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span>Suivi</span></a><a class="bn-item" data-href="psychochecker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 11m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Substances</span></a><a class="bn-item active" data-href="fiches.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Protocoles</span></a><a class="bn-item" data-href="rdr.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>RDR</span></a></nav>
+<script>
+(function(){
+  try{
+    var d=JSON.parse(localStorage.getItem('ctc_v6'));
+    if(d&&d.user&&d.user.name){
+      var p='?name='+encodeURIComponent(d.user.name)+'&region='+(d.user.region||'BE')+(d.user.age?'&age='+d.user.age:'');
+      document.querySelectorAll('.bn-item[data-href]').forEach(function(a){a.href=a.dataset.href+p;});
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

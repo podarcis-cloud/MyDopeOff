@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="color-scheme" content="light"/>
+<meta name="theme-color" content="#F8FAFC"/>
+<title>MyDope Off — Tetris anti-craving</title>
+<link rel="manifest" href="manifest.json"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style id="lucide-core">
+/* ============================================================
+   LUCIDE — Design system (source unique)
+   Clarté · neutralité scientifique · light uniquement
+   ============================================================ */
+
+600;700;800&family=Inter:wght@400;450;500;600&display=swap');
+
+:root{
+  /* — Couleurs de marque — */
+  --blue:#2563EB;     --blue-700:#1D4ED8;  --blue-50:#EFF4FF;  --blue-100:#DCE6FF;
+  --ink:#0F172A;      --ink-2:#334155;     --muted:#64748B;
+  --teal:#14B8A6;     --teal-50:#E6FAF7;
+
+  /* — Surfaces — */
+  --bg:#F8FAFC;       --card:#FFFFFF;      --soft:#F1F5F9;
+  --line:#E2E8F0;     --line-2:#CBD5E1;
+
+  /* — Fonctionnel — */
+  --green:#16A34A;    --green-50:#E9F8EF;
+  --amber:#F59E0B;    --amber-50:#FEF6E7;
+  --red:#DC2626;      --red-50:#FCEBEC;
+
+  /* — Forme — */
+  --r:18px; --r-sm:13px; --r-xs:10px;
+  --sh:0 1px 2px rgba(15,23,42,.04), 0 2px 6px rgba(15,23,42,.05);
+  --sh-md:0 8px 24px rgba(15,23,42,.09);
+  --sh-up:0 -6px 22px rgba(15,23,42,.07);
+
+  /* — Type — */
+  --disp:'Manrope', system-ui, sans-serif;
+  --body:'Inter', system-ui, sans-serif;
+
+  --nav-h:64px;
+  --maxw:480px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{background:var(--bg);}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--ink);
+  max-width:var(--maxw);
+  margin:0 auto;
+  min-height:100svh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  line-height:1.5;
+}
+input,select,textarea,button{font-family:inherit;color:var(--ink);}
+input,select,textarea{background:var(--card);-webkit-appearance:none;appearance:none;}
+::placeholder{color:#94A3B8;}
+a{color:inherit;text-decoration:none;}
+svg{display:block;}
+
+/* — Typographie utilitaire — */
+.h1{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em;line-height:1.1;}
+.h2{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.015em;line-height:1.2;}
+.h3{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-.01em;}
+.eyebrow{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);}
+.lede{color:var(--muted);font-size:14.5px;line-height:1.55;}
+.muted{color:var(--muted);}
+.small{font-size:12.5px;}
+
+/* ── Marque / logo ─────────────────────────────────── */
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .mark{width:34px;height:34px;flex:0 0 auto;}
+.brand .name{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:.02em;}
+.brand .name b{color:var(--blue);font-weight:800;}
+
+/* ── Topbar ────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  height:54px;padding:0 16px;
+  background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .tb-title{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;}
+.topbar .tb-side{min-width:80px;display:flex;align-items:center;}
+.topbar .tb-side.right{justify-content:flex-end;}
+.btn-back{
+  display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding:0 13px 0 10px;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);cursor:pointer;
+}
+.btn-back:active{background:var(--soft);}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none;}
+
+/* ── Boutons ───────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;height:52px;padding:0 18px;
+  font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;
+  border:none;border-radius:var(--r-sm);cursor:pointer;transition:transform .06s, filter .15s;
+}
+.btn:active{transform:scale(.985);}
+.btn svg{width:19px;height:19px;stroke:currentColor;stroke-width:2;fill:none;}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.28);}
+.btn-primary:active{background:var(--blue-700);}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(20,184,166,.25);}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh);}
+.btn-ghost:active{background:var(--soft);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-sm{height:42px;font-size:13.5px;border-radius:11px;}
+.btn:disabled{opacity:.4;pointer-events:none;}
+
+/* ── Cartes ────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);}
+.card-pad{padding:16px;}
+
+/* ── Champs ────────────────────────────────────────── */
+.field{margin-bottom:14px;}
+.field > label{display:block;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.02em;color:var(--ink-2);margin-bottom:7px;}
+.input,.select{
+  width:100%;height:50px;padding:0 15px;
+  font-size:16px;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-sm);outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+textarea.input{height:auto;min-height:50px;padding:13px 15px;line-height:1.5;resize:vertical;}
+.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 3.5px var(--blue-50);}
+.select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%2364748B' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;cursor:pointer;
+}
+
+/* ── Segments (onglets pilule) ─────────────────────── */
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:14px;}
+.seg button{
+  flex:1;height:38px;border:none;background:transparent;border-radius:10px;cursor:pointer;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--muted);transition:color .15s;
+}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh);}
+
+/* ── Badges familles ───────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;
+  font-family:var(--disp);font-weight:600;font-size:11.5px;letter-spacing:.01em;white-space:nowrap;}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+.b-opioide{background:#FCEBEC;color:#B91C1C;}
+.b-stimulant{background:#FEF6E7;color:#B45309;}
+.b-depresseur{background:#EAF2FF;color:#1D4ED8;}
+.b-psychedelique{background:#F3ECFE;color:#7C3AED;}
+.b-dissociatif{background:#E6FAF7;color:#0F766E;}
+.b-cannabinoide{background:#E9F8EF;color:#15803D;}
+.b-empathogene{background:#FDEEF6;color:#BE185D;}
+.b-nootropique{background:#EAF6FF;color:#0369A1;}
+
+/* — Pastilles d'intensité / risque — */
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+.lv-0{background:var(--green);}  .tx-0{color:var(--green);}
+.lv-1{background:#5FB98C;}        .tx-1{color:#3F9E72;}
+.lv-2{background:var(--amber);}  .tx-2{color:#B45309;}
+.lv-3{background:var(--red);}    .tx-3{color:var(--red);}
+
+/* ── Bottom nav ────────────────────────────────────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:var(--maxw);height:var(--nav-h);
+  display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);box-shadow:var(--sh-up);z-index:80;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#94A3B8;}
+.bn-item svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.9;fill:none;transition:stroke-width .15s;}
+.bn-item span{font-family:var(--disp);font-weight:600;font-size:9.5px;letter-spacing:.01em;}
+.bn-item.on{color:var(--blue);}
+.bn-item.on svg{stroke-width:2.4;}
+.has-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));}
+
+/* ── Feuille modale (bottom sheet) ─────────────────── */
+.sheet-bg{position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.42);
+  backdrop-filter:blur(2px);display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;transition:opacity .18s;}
+.sheet-bg.on{opacity:1;}
+.sheet{width:100%;max-width:var(--maxw);background:var(--card);
+  border-radius:24px 24px 0 0;padding:8px 18px calc(26px + env(safe-area-inset-bottom));
+  box-shadow:var(--sh-md);transform:translateY(24px);transition:transform .22s cubic-bezier(.22,1,.36,1);
+  max-height:90svh;overflow-y:auto;}
+.sheet-bg.on .sheet{transform:translateY(0);}
+.sheet-grip{width:38px;height:4px;border-radius:2px;background:var(--line-2);margin:8px auto 16px;}
+
+/* ── Divers ────────────────────────────────────────── */
+.empty{text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;
+  padding:30px 18px;background:var(--card);border:1px dashed var(--line-2);border-radius:var(--r);}
+.divider{height:1px;background:var(--line);border:none;margin:16px 0;}
+.row{display:flex;align-items:center;gap:10px;}
+.tag-num{font-family:var(--disp);font-weight:700;font-size:12px;color:var(--blue);
+  background:var(--blue-50);border-radius:8px;padding:3px 8px;}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+</style>
+<style>
+html,body{overscroll-behavior:none;touch-action:manipulation;}
+body{padding-bottom:18px;}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid var(--line,#E2E8F0);position:sticky;top:0;z-index:10;}
+.topbar .ttl{font-family:var(--disp);font-weight:800;font-size:14px;}
+.btn-back{background:var(--blue-50,#EFF4FF);border:1px solid var(--line,#E2E8F0);border-radius:10px;color:var(--blue,#2563EB);font-family:var(--disp);font-weight:600;padding:8px 13px;font-size:12px;cursor:pointer;}
+.wrap{padding:12px 16px 0;max-width:var(--maxw,480px);margin:0 auto;}
+.hud{display:flex;gap:8px;margin-bottom:10px;}
+.hud .box{flex:1;background:#fff;border:1px solid var(--line,#E2E8F0);border-radius:12px;padding:8px 6px;text-align:center;box-shadow:var(--sh,0 1px 3px rgba(15,23,42,.06));}
+.hud .k{font-family:var(--disp);font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#64748B);}
+.hud .v{font-family:var(--disp);font-size:18px;font-weight:800;color:var(--ink,#0F172A);}
+.craving{background:#fff;border:1px solid var(--line,#E2E8F0);border-radius:12px;padding:10px 12px;margin-bottom:10px;box-shadow:var(--sh,0 1px 3px rgba(15,23,42,.06));}
+.craving .top{display:flex;justify-content:space-between;font-size:11px;font-family:var(--disp);font-weight:700;color:var(--muted,#64748B);margin-bottom:6px;}
+.craving .bar{height:8px;border-radius:5px;background:#E2E8F0;overflow:hidden;}
+.craving .bar i{display:block;height:100%;background:linear-gradient(90deg,#2563EB,#14B8A6);transition:width .4s;}
+.stage{position:relative;display:flex;justify-content:center;}
+canvas{background:#EEF2F9;border:1px solid var(--line,#E2E8F0);border-radius:14px;box-shadow:var(--sh,0 1px 3px rgba(15,23,42,.06));touch-action:none;}
+.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:rgba(248,250,252,.94);backdrop-filter:blur(3px);color:var(--ink,#0F172A);border-radius:14px;text-align:center;padding:26px;}
+.overlay.on{display:flex;}
+.overlay h2{font-family:var(--disp);font-size:22px;font-weight:800;}
+.overlay p{font-size:13px;color:var(--muted,#64748B);max-width:250px;line-height:1.5;}
+.ov-btn{border:none;border-radius:13px;background:var(--blue,#2563EB);color:#fff;font-family:var(--disp);font-weight:700;font-size:15px;cursor:pointer;padding:13px 22px;}
+.ov-btn.alt{background:var(--blue-50,#EFF4FF);color:var(--blue,#2563EB);}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0 4px;}
+.ctrl{height:56px;border-radius:13px;background:#fff;border:1px solid var(--line,#E2E8F0);box-shadow:var(--sh,0 1px 3px rgba(15,23,42,.06));display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink,#0F172A);transition:transform .07s,background .12s,border-color .12s;user-select:none;-webkit-user-select:none;touch-action:manipulation;}
+.ctrl:active{transform:scale(.93);background:var(--blue-50,#EFF4FF);border-color:var(--blue,#2563EB);color:var(--blue,#2563EB);}
+.ctrl svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.ctrl.wide{grid-column:span 2;}
+.hint{text-align:center;font-size:11px;color:var(--muted,#64748B);margin-top:4px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="btn-back" onclick="goBack()">← Retour</button>
+  <span class="ttl">Tetris anti-craving</span>
+</div>
+
+<div class="wrap">
+  <div class="hud">
+    <div class="box"><div class="k">Score</div><div class="v" id="stat-score">0</div></div>
+    <div class="box"><div class="k">Lignes</div><div class="v" id="stat-lines">0</div></div>
+    <div class="box"><div class="k">Niveau</div><div class="v" id="stat-level">1</div></div>
+    <div class="box"><div class="k">Temps</div><div class="v" id="stat-time">3:00</div></div>
+  </div>
+
+  <div class="craving">
+    <div class="top"><span>Intensité de l'envie</span><span id="craving-pct">100%</span></div>
+    <div class="bar"><i id="craving-fill" style="width:100%"></i></div>
+  </div>
+
+  <div class="stage">
+    <canvas id="board" width="250" height="500"></canvas>
+    <div class="overlay on" id="overlay">
+      <h2 id="ov-title">Prêt ?</h2>
+      <p id="ov-text">Complète des lignes pendant 3 minutes. Chaque palier de 10 lignes accélère la chute. L'objectif n'est pas le score : c'est d'occuper ton esprit.</p>
+      <button class="ov-btn" id="ov-btn" onclick="startGame()">Commencer</button>
+      <button class="ov-btn alt" id="ov-btn2" style="display:none;" onclick="goBack()">Retour</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl" id="btn-left"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="ctrl" id="btn-rotate"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"/></svg></button>
+    <button class="ctrl" id="btn-soft"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button>
+    <button class="ctrl" id="btn-right"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="ctrl wide" id="btn-hard"><svg viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg></button>
+    <button class="ctrl wide" id="btn-pause"><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+  </div>
+  <div class="hint">Glisse sur la grille : ← → déplacer · tap = pivoter · ↓ chute rapide</div>
+</div>
+
+<script>
+/* MyDope Off — socle commun (nav, profil, logo) */
+window.LUCIDE = (function () {
+
+  const KEY = 'ctc_v6';
+
+  function user() {
+    try { return (JSON.parse(localStorage.getItem(KEY)) || {}).user || null; }
+    catch (e) { return null; }
+  }
+
+  function qs() {
+    const u = user();
+    if (!u || !u.name) return '';
+    return '?name=' + encodeURIComponent(u.name) + '&region=' + (u.region || 'BE') + (u.age ? '&age=' + u.age : '');
+  }
+
+  function link(href) {
+    const q = qs();
+    if (!q) return href;
+    const i = href.indexOf('#');
+    return i === -1 ? href + q : href.slice(0, i) + q + href.slice(i);
+  }
+
+  /* Logo MyDope Off : symbole "power / off" — couper la boucle. */
+  function logoSVG(size, mono) {
+    size = size || 32;
+    const ring = mono ? '#fff' : '#2563EB';
+    const bar  = mono ? '#fff' : '#0F172A';
+    return '<svg viewBox="0 0 48 48" width="' + size + '" height="' + size + '" fill="none" aria-label="MyDope Off">' +
+      '<path d="M15.2 13.6a14 14 0 1 0 17.6 0" stroke="' + ring + '" stroke-width="5" stroke-linecap="round"/>' +
+      '<line x1="24" y1="6" x2="24" y2="22" stroke="' + bar + '" stroke-width="5" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  /* Icône d'app : tuile bleue dégradée + symbole power blanc */
+  function appIcon(size) {
+    size = size || 56;
+    return '<span style="display:inline-flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:' + Math.round(size * .28) + 'px;background:linear-gradient(140deg,#2563EB,#1D4ED8);box-shadow:0 6px 18px rgba(37,99,235,.28);">' +
+      logoSVG(Math.round(size * .56), true) + '</span>';
+  }
+
+  /* Marque texte simple — pas de logo SVG */
+  function wordmark() {
+    return '<span style="font-family:var(--disp,Manrope,sans-serif);font-weight:800;letter-spacing:-.02em;color:#0F172A;white-space:nowrap;">MyDope <b style="color:#2563EB;font-weight:800;">Off</b></span>';
+  }
+
+  /* Navigation — ordre : Accueil, Suivi, Substances, Protocoles, RDR */
+  const NAV = [
+    { k: 'index', href: 'index.html', label: 'Accueil',
+      icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+    { k: 'suivi', href: 'suivi.html', label: 'Suivi conso',
+      icon: '<path d="M22 7L13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>' },
+    { k: 'psychochecker', href: 'psychochecker.html', label: 'Substances',
+      icon: '<path d="M11 11m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>' },
+    { k: 'fiches', href: 'fiches.html', label: 'Protocoles',
+      icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>' },
+    { k: 'rdr', href: 'rdr.html', label: 'RDR',
+      icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' }
+  ];
+
+  function renderNav(active) {
+    return '<nav class="bottom-nav">' + NAV.map(n =>
+      '<a class="bn-item' + (n.k === active ? ' active on' : '') + '" href="' + link(n.href) + '">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + n.icon + '</svg>' +
+      '<span>' + n.label + '</span></a>').join('') + '</nav>';
+  }
+
+  function init(opts) {
+    opts = opts || {};
+
+    document.querySelectorAll('[data-logo]').forEach(el => {
+      el.innerHTML = logoSVG(parseInt(el.getAttribute('data-logo')) || 32, el.hasAttribute('data-mono'));
+    });
+    document.querySelectorAll('[data-appicon]').forEach(el => {
+      el.innerHTML = appIcon(parseInt(el.getAttribute('data-appicon')) || 56);
+    });
+    document.querySelectorAll('[data-wordmark]').forEach(el => { el.innerHTML = wordmark(); });
+
+    const nav = document.querySelector('[data-nav]');
+    if (nav) nav.outerHTML = renderNav(opts.page || '');
+
+    document.querySelectorAll('[data-go]').forEach(a => {
+      a.setAttribute('href', link(a.getAttribute('data-go')));
+    });
+
+    document.querySelectorAll('[data-back]').forEach(b => {
+      b.addEventListener('click', () => { location.href = link('index.html'); });
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  }
+
+  return { user, qs, link, logoSVG, appIcon, wordmark, renderNav, init };
+})();
+
+
+
+
+</script>
+<script>
+function goBack(){ location.href = (window.LUCIDE?LUCIDE.link('index.html'):'index.html'); }
+
+const COLS=10, ROWS=20;
+const cv=document.getElementById('board'), ctx=cv.getContext('2d');
+const CELL=cv.width/COLS;
+const PIECES=[
+  [[1,1,1,1]],            // I
+  [[1,1],[1,1]],          // O
+  [[0,1,0],[1,1,1]],      // T
+  [[0,1,1],[1,1,0]],      // S
+  [[1,1,0],[0,1,1]],      // Z
+  [[1,0,0],[1,1,1]],      // J
+  [[0,0,1],[1,1,1]]       // L
+];
+const COLORS=['#2563EB','#F59E0B','#14B8A6','#16A34A','#DC2626','#1D4ED8','#B45309'];
+
+let board, piece, pieceX, pieceY, pieceType;
+let score=0, lines=0, level=1, startLevel=1;
+let running=false, paused=false, dropTimer=null, secTimer=null, secondsLeft=180;
+let dropInterval=800;
+
+function newBoard(){ return Array.from({length:ROWS},()=>Array(COLS).fill(0)); }
+function speedFor(lv){ return Math.max(110, 800 - (lv-1)*65); }
+
+function spawn(){
+  const t=Math.floor(Math.random()*PIECES.length);
+  piece=PIECES[t].map(r=>r.slice()); pieceType=t;
+  pieceX=Math.floor((COLS-piece[0].length)/2); pieceY=0;
+  if(!valid(piece,pieceX,pieceY)){ endGame(true); }
+}
+function valid(shape,ox,oy){
+  for(let r=0;r<shape.length;r++)for(let c=0;c<shape[r].length;c++){
+    if(!shape[r][c])continue;
+    const nx=ox+c, ny=oy+r;
+    if(nx<0||nx>=COLS||ny>=ROWS)return false;
+    if(ny>=0&&board[ny][nx])return false;
+  }
+  return true;
+}
+function rotate(){
+  if(!running||paused)return;
+  const rot=piece[0].map((_,i)=>piece.map(row=>row[i]).reverse());
+  if(valid(rot,pieceX,pieceY))piece=rot;
+  else if(valid(rot,pieceX-1,pieceY)){piece=rot;pieceX--;}
+  else if(valid(rot,pieceX+1,pieceY)){piece=rot;pieceX++;}
+  draw();
+}
+function move(dir){ if(!running||paused)return; if(valid(piece,pieceX+dir,pieceY))pieceX+=dir; draw(); }
+function softDrop(){ if(!running||paused)return; if(valid(piece,pieceX,pieceY+1)){pieceY++;score++;updateStats();} else lock(); draw(); }
+function hardDrop(){ if(!running||paused)return; while(valid(piece,pieceX,pieceY+1)){pieceY++;score+=2;} lock(); }
+function lock(){
+  for(let r=0;r<piece.length;r++)for(let c=0;c<piece[r].length;c++)
+    if(piece[r][c]&&pieceY+r>=0)board[pieceY+r][pieceX+c]=pieceType+1;
+  clearLines(); spawn(); updateStats(); draw();
+}
+function clearLines(){
+  let cleared=0;
+  for(let r=ROWS-1;r>=0;r--){ if(board[r].every(c=>c)){ board.splice(r,1); board.unshift(Array(COLS).fill(0)); cleared++; r++; } }
+  if(cleared){
+    score+=[0,100,300,500,800][cleared]*level;
+    lines+=cleared;
+    const nl=startLevel+Math.floor(lines/10);
+    if(nl!==level){ level=nl; dropInterval=speedFor(level); restartDrop(); flashLevel(); }
+    updateCraving();
+  }
+}
+function flashLevel(){
+  const el=document.getElementById('stat-level');
+  el.style.transition='transform .15s'; el.style.transform='scale(1.4)'; el.style.color='var(--teal,#14B8A6)';
+  setTimeout(()=>{el.style.transform='';el.style.color='';},220);
+}
+function updateStats(){
+  document.getElementById('stat-score').textContent=score;
+  document.getElementById('stat-lines').textContent=lines;
+  document.getElementById('stat-level').textContent=level;
+}
+function updateCraving(){
+  const pct=Math.max(0,100-Math.min(100,lines*4));
+  document.getElementById('craving-fill').style.width=pct+'%';
+  document.getElementById('craving-pct').textContent=pct+'%';
+}
+function draw(){
+  ctx.fillStyle='#EEF2F9'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.strokeStyle='rgba(15,23,42,.06)';
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)ctx.strokeRect(c*CELL,r*CELL,CELL,CELL);
+  if(!board)return;
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(board[r][c])dcell(c,r,COLORS[board[r][c]-1]);
+  if(running&&piece){
+    let gy=pieceY; while(valid(piece,pieceX,gy+1))gy++;
+    if(gy!==pieceY)for(let r=0;r<piece.length;r++)for(let c=0;c<piece[r].length;c++)
+      if(piece[r][c]){ctx.globalAlpha=.18;dcell(pieceX+c,gy+r,COLORS[pieceType]);ctx.globalAlpha=1;}
+    for(let r=0;r<piece.length;r++)for(let c=0;c<piece[r].length;c++)
+      if(piece[r][c]&&pieceY+r>=0)dcell(pieceX+c,pieceY+r,COLORS[pieceType]);
+  }
+}
+function dcell(c,r,col){
+  ctx.fillStyle=col; ctx.fillRect(c*CELL+1,r*CELL+1,CELL-2,CELL-2);
+  ctx.fillStyle='rgba(255,255,255,.45)'; ctx.fillRect(c*CELL+2,r*CELL+2,CELL-4,3);
+}
+function restartDrop(){
+  if(dropTimer)clearInterval(dropTimer);
+  dropTimer=setInterval(()=>{ if(!running||paused)return;
+    if(valid(piece,pieceX,pieceY+1))pieceY++; else lock(); draw();
+  },dropInterval);
+}
+function startTimer(){
+  if(secTimer)clearInterval(secTimer);
+  updateTime();
+  secTimer=setInterval(()=>{ if(paused)return; secondsLeft--; updateTime(); if(secondsLeft<=0)finishSession(); },1000);
+}
+function updateTime(){
+  const m=Math.floor(secondsLeft/60), s=secondsLeft%60;
+  document.getElementById('stat-time').textContent=m+':'+String(s).padStart(2,'0');
+}
+function beginRound(){
+  board=newBoard(); running=true; paused=false;
+  dropInterval=speedFor(level); updateStats(); updateCraving();
+  spawn(); draw(); restartDrop(); startTimer();
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById('ov-btn2').style.display='none';
+}
+function startGame(){ score=0; lines=0; level=1; startLevel=1; secondsLeft=180; beginRound(); }
+function nextLevel(){ startLevel=level+1; level=startLevel; secondsLeft=180; beginRound(); }
+function togglePause(){
+  if(!running)return;
+  paused=!paused;
+  const ov=document.getElementById('overlay');
+  if(paused){ setOverlay('Pause','Reprends quand tu veux.','Reprendre',togglePause,true); }
+  else ov.classList.remove('on');
+}
+function setOverlay(title,text,btnLabel,btnFn,hideBack){
+  document.getElementById('ov-title').textContent=title;
+  document.getElementById('ov-text').textContent=text;
+  const b=document.getElementById('ov-btn'); b.textContent=btnLabel; b.onclick=btnFn;
+  document.getElementById('ov-btn2').style.display=hideBack?'none':'block';
+  document.getElementById('overlay').classList.add('on');
+}
+function finishSession(){
+  running=false; clearInterval(dropTimer); clearInterval(secTimer);
+  saveSession();
+  const msg=lines>=20?'Belle session — l\u2019envie est souvent bien retombée.':lines>=10?'Bon travail, continue à ton rythme.':'Peu importe le score : tu as occupé ton esprit.';
+  setOverlay('3 minutes tenues', msg+' Niveau suivant = chute plus rapide.', 'Niveau suivant', nextLevel, false);
+}
+function endGame(){
+  running=false; clearInterval(dropTimer); clearInterval(secTimer);
+  saveSession();
+  setOverlay('Grille pleine', 'Peu importe le score — tu as détourné l\u2019envie. On relance ?', 'Recommencer', startGame, false);
+}
+function saveSession(){
+  try{
+    const k='ctc_v6_suivi'; const d=JSON.parse(localStorage.getItem(k))||{entries:[],goals:[]};
+    d.sessions=d.sessions||[]; d.sessions.push({type:'tetris',score,lines,level,date:Date.now()});
+    localStorage.setItem(k,JSON.stringify(d));
+  }catch(e){}
+}
+
+/* boutons : maintien = répétition */
+function hold(id,fn,rep){
+  const el=document.getElementById(id); let iv=null,to=null;
+  const start=e=>{ e.preventDefault(); fn();
+    if(rep){ to=setTimeout(()=>{ iv=setInterval(fn,70); },220); } };
+  const stop=()=>{ clearTimeout(to); clearInterval(iv); };
+  el.addEventListener('pointerdown',start);
+  el.addEventListener('pointerup',stop);
+  el.addEventListener('pointerleave',stop);
+  el.addEventListener('pointercancel',stop);
+}
+hold('btn-left',()=>move(-1),true);
+hold('btn-right',()=>move(1),true);
+hold('btn-soft',softDrop,true);
+document.getElementById('btn-rotate').addEventListener('pointerdown',e=>{e.preventDefault();rotate();});
+document.getElementById('btn-hard').addEventListener('pointerdown',e=>{e.preventDefault();hardDrop();});
+document.getElementById('btn-pause').addEventListener('pointerdown',e=>{e.preventDefault();togglePause();});
+
+/* swipe sur le canvas */
+let sx,sy,st,moved;
+cv.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st=Date.now();moved=false;});
+cv.addEventListener('pointermove',e=>{
+  if(!running||paused)return;
+  const dx=e.clientX-sx;
+  if(Math.abs(dx)>=CELL){ move(dx>0?1:-1); sx=e.clientX; moved=true; }
+});
+cv.addEventListener('pointerup',e=>{
+  if(!running||paused)return;
+  const dx=e.clientX-sx, dy=e.clientY-sy, dt=Date.now()-st;
+  if(!moved&&Math.abs(dx)<12&&Math.abs(dy)<12&&dt<260){ rotate(); return; }
+  if(dy>40&&Math.abs(dy)>Math.abs(dx)){ hardDrop(); }
+});
+
+document.addEventListener('keydown',e=>{
+  const m={ArrowLeft:()=>move(-1),ArrowRight:()=>move(1),ArrowDown:softDrop,ArrowUp:rotate,' ':hardDrop,p:togglePause};
+  if(m[e.key]){ e.preventDefault(); m[e.key](); }
+});
+
+draw();
+LUCIDE.init({page:'fiches'});
+</script>
+</body>
+</html>
