@@ -1,0 +1,27 @@
+{
+  "name": "MyDope Off — Réduction des risques",
+  "short_name": "MyDope Off",
+  "description": "Comprendre les substances, mesurer sa consommation, couper la boucle. Outil de réduction des risques, 100% local.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#F8FAFC",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='44' fill='%232563EB'/%3E%3Cpath d='M68 64a40 40 0 1 0 56 0' fill='none' stroke='white' stroke-width='14' stroke-linecap='round'/%3E%3Cline x1='96' y1='40' x2='96' y2='96' stroke='white' stroke-width='14' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%232563EB'/%3E%3Cpath d='M181 171a106 106 0 1 0 150 0' fill='none' stroke='white' stroke-width='38' stroke-linecap='round'/%3E%3Cline x1='256' y1='107' x2='256' y2='256' stroke='white' stroke-width='38' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["health", "medical", "education"],
+  "lang": "fr"
+}

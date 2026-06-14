@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="only light"/>
+<meta name="supported-color-schemes" content="light"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MyDope Off · Fiches & Protocoles</title>
+<meta name="theme-color" content="#F8FAFC"/>
+<link rel="manifest" href="manifest.json"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0d0d;--ink2:#2a2a2a;--ink3:#666;
+  --red:#d4001a;--blue:#0f2f7a;--purple:#6a1060;--green:#1a6640;
+  --cream:#f7f5f0;--cream2:#ede9e0;
+  --white:#ffffff;--border:#e0dbd0;
+  color-scheme:light only;
+  forced-color-adjust:none;
+  --fa:'Manrope',sans-serif;--fb:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:#f7f5f0 !important;color:#0d0d0d !important;font-family:var(--fb);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid var(--border);background:var(--white);}
+.btn-back{background:none;border:1.5px solid var(--border);border-radius:4px;padding:8px 14px;font-family:var(--fa);font-size:12px;color:var(--ink3);cursor:pointer;}
+.btn-back:active{background:var(--cream2);}
+.topbar-tag{font-family:var(--fa);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);}
+
+.page{padding:20px 20px 80px;}
+.section-title{font-family:var(--fa);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;margin-top:20px;}
+.section-title:first-child{margin-top:0;}
+
+/* TABS */
+.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid var(--border);}
+.tab-btn{background:none;border:none;padding:10px 14px;font-family:var(--fa);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;flex:1;text-align:center;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* EXERCISE CARDS */
+.ex-card{background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s,transform .15s;display:flex;align-items:center;gap:12px;}
+.ex-card:active{transform:scale(.98);}
+.ex-card.crisis{border-left:3px solid var(--red);}
+.ex-card.daily{border-left:3px solid var(--blue);}
+.ex-card.plasticity{border-left:3px solid var(--purple);}
+.ex-icon{font-size:28px;flex-shrink:0;}
+.ex-info{flex:1;}
+.ex-name{font-family:var(--fa);font-size:14px;font-weight:700;margin-bottom:2px;}
+.ex-tagline{font-size:11px;color:var(--ink3);line-height:1.4;}
+.ex-meta{display:flex;gap:6px;margin-top:4px;}
+.ex-badge{font-size:9px;font-family:var(--fa);padding:2px 6px;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;}
+.ex-badge.crisis{background:rgba(212,0,26,.08);color:var(--red);border:1px solid rgba(212,0,26,.2);}
+.ex-badge.daily{background:rgba(15,47,122,.08);color:var(--blue);border:1px solid rgba(15,47,122,.2);}
+.ex-badge.plasticity{background:rgba(106,16,96,.08);color:var(--purple);border:1px solid rgba(106,16,96,.2);}
+.ex-duration{font-size:10px;color:var(--ink3);}
+.ex-arrow{color:var(--ink3);font-size:14px;flex-shrink:0;}
+
+/* EXERCISE DETAIL */
+.ex-detail{background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:20px;margin-bottom:12px;}
+.ex-detail-icon{font-size:48px;text-align:center;margin-bottom:12px;}
+.ex-detail-name{font-family:var(--fa);font-weight:800;font-size:22px;margin-bottom:4px;}
+.ex-detail-tagline{font-size:13px;color:var(--ink3);margin-bottom:16px;}
+.info-block{background:var(--cream);border-radius:4px;padding:12px;margin-bottom:10px;}
+.info-block-label{font-family:var(--fa);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
+.info-block-val{font-size:13px;line-height:1.6;color:var(--ink2);}
+.info-block.science{border-left:3px solid var(--blue);}
+.info-block.science .info-block-label{color:var(--blue);}
+
+/* TIMER */
+.timer-wrap{text-align:center;padding:20px 0;}
+.timer-circle{width:120px;height:120px;margin:0 auto 16px;position:relative;}
+.timer-svg{transform:rotate(-90deg);}
+.timer-track{fill:none;stroke:var(--cream2);stroke-width:8;}
+.timer-fill{fill:none;stroke:var(--red);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .5s ease;}
+.timer-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.timer-secs{font-family:var(--fa);font-size:24px;font-weight:800;color:var(--ink);}
+.timer-label{font-size:10px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;}
+.timer-message{font-family:var(--fa);font-size:16px;font-weight:700;color:var(--ink);min-height:24px;text-align:center;margin-bottom:16px;}
+
+/* QUESTIONNAIRES */
+.q-card{background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s;}
+.q-card:active{transform:scale(.98);}
+.q-icon{font-size:28px;}
+.q-info{flex:1;}
+.q-name{font-family:var(--fa);font-size:14px;font-weight:700;margin-bottom:2px;}
+.q-desc{font-size:11px;color:var(--ink3);}
+.q-arrow{color:var(--ink3);}
+
+/* QUESTIONNAIRE DETAIL */
+.q-question{font-family:var(--fa);font-weight:700;font-size:15px;margin-bottom:12px;line-height:1.4;}
+.q-option{display:block;width:100%;text-align:left;background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:12px 14px;font-family:var(--fb);font-size:14px;cursor:pointer;margin-bottom:6px;transition:border-color .15s,background .15s;}
+.q-option:active,.q-option.selected{border-color:var(--blue);background:rgba(15,47,122,.05);}
+.q-progress{display:flex;gap:4px;margin-bottom:16px;}
+.q-dot{flex:1;height:4px;border-radius:2px;background:var(--cream2);}
+.q-dot.done{background:var(--blue);}
+.q-result{text-align:center;padding:24px 0;}
+.q-result-label{font-family:var(--fa);font-size:22px;font-weight:800;margin-bottom:8px;}
+.q-result-score{font-size:14px;color:var(--ink3);margin-bottom:20px;}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:16px;font-family:var(--fa);font-size:15px;font-weight:700;background:var(--ink);color:var(--white);border:none;border-radius:4px;cursor:pointer;margin-bottom:8px;}
+.btn-primary:active{background:var(--ink2);}
+.btn-outline{width:100%;padding:14px;font-family:var(--fa);font-size:14px;background:transparent;border:1.5px solid var(--border);border-radius:4px;color:var(--ink3);cursor:pointer;margin-bottom:8px;}
+.btn-outline:active{background:var(--cream2);}
+.btn-sm{display:inline-block;padding:8px 16px;font-family:var(--fa);font-size:12px;background:none;border:1.5px solid var(--border);border-radius:4px;color:var(--ink3);cursor:pointer;margin-right:6px;margin-bottom:6px;}
+.btn-sm:active,.btn-sm.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+/* SCREEN manager */
+.screen{display:none;}
+.screen.active{display:block;}
+</style>
+<style id="lucide-override">
+:root{
+  --bg:#F8FAFC;--surface:#fff;--surface2:#F8FAFC;--card:#fff;--soft:#EFF4FF;
+  --primary:#2563EB;--primary-dk:#1D4ED8;--primary-lt:rgba(37,99,235,.10);
+  --teal:#14B8A6;--teal-lt:rgba(20,184,166,.12);
+  --danger:#DC2626;--danger-lt:rgba(220,38,38,.08);
+  --warn:#F59E0B;--warn-lt:rgba(245,158,11,.10);
+  --success:#16A34A;--success-lt:rgba(22,163,74,.10);
+  --ink:#0F172A;--ink2:#334155;--ink3:#64748B;--muted:#64748B;--line:#E2E8F0;--line-2:#CBD5E1;
+  --shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --shadow-md:0 8px 24px rgba(15,23,42,.08);--r:16px;--r-sm:12px;
+  --cream:#F8FAFC;--cream2:#EFF4FF;--white:#fff;
+  --red:#DC2626;--blue:#2563EB;--blue-50:#EFF4FF;--purple:#2563EB;--green:#16A34A;--orange:#F59E0B;
+  --fa:'Manrope',sans-serif;--fb:'Inter',sans-serif;--disp:'Manrope',sans-serif;--body:'Inter',sans-serif;
+}
+html,body{background:#F8FAFC;color:#0F172A;font-family:'Inter',sans-serif;}
+.topbar{background:#fff;border-bottom:1px solid #E2E8F0;box-shadow:0 1px 2px rgba(15,23,42,.04);}
+.topbar-title,.topbar-title *{font-family:'Manrope',sans-serif;color:#0F172A;font-weight:800;letter-spacing:-.01em;}
+.topbar-title span{color:#2563EB;}
+.btn-back{background:#EFF4FF;border:1px solid #E2E8F0;border-radius:10px;color:#2563EB;font-family:'Manrope',sans-serif;font-weight:600;padding:8px 13px;font-size:12px;cursor:pointer;}
+.tabs{background:#fff;border-bottom:1px solid #E2E8F0;}
+.tab-btn{font-family:'Manrope',sans-serif;font-weight:600;color:#64748B;}
+.tab-btn.active{color:#2563EB;border-bottom-color:#2563EB;}
+.section-label{font-family:'Manrope',sans-serif;color:#64748B;letter-spacing:.12em;text-transform:uppercase;font-size:10px;font-weight:700;}
+.card,.fiche,.protocol-card,.sub-card,.q-card,.result-section,.mission-card,.harm-card,.rdr-item,
+.donation-wrap,.no-data,.tip-row,.stat-card,.chart-wrap,.test-card,.goal-card{
+  background:#fff;border-color:#E2E8F0;border-radius:16px;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+.btn-primary,.btn-log{background:#2563EB;border-radius:12px;}
+.streak-banner{background:linear-gradient(135deg,#2563EB,#1D4ED8);border-radius:18px;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:64px;background:#fff;border-top:1px solid #E2E8F0;display:flex;z-index:9999;box-shadow:0 -2px 16px rgba(15,23,42,.05);padding-bottom:env(safe-area-inset-bottom);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:#94A3B8;padding:8px 4px;transition:color .15s;}
+.bn-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;}
+.bn-item span{font-family:'Manrope',sans-serif;font-weight:600;font-size:9.5px;}
+.bn-item.active,.bn-item.on{color:#2563EB;}
+.bn-item.active svg{stroke-width:2.4;}
+input,select,textarea{background:#fff;color:#0F172A;}
+</style>
+<style id="dm-kill">
+:root{color-scheme:only light !important;}
+html{color-scheme:only light !important;background:#ffffff !important;}
+@media (prefers-color-scheme:dark){
+  html,body{background:#F8FAFC !important;color:#16161d !important;}
+  input,select,textarea,button{background-color:#ffffff !important;color:#16161d !important;}
+}
+input,select,textarea{background:#ffffff !important;color:#16161d !important;-webkit-appearance:none;appearance:none;}
+input::placeholder,textarea::placeholder{color:#b9b9c6 !important;}
+</style>
+</head>
+<body> <div class="topbar"> <button class="btn-back" id="global-back">← Retour</button> <span class="topbar-tag" id="topbar-tag">FICHES & PROTOCOLES</span>
+</div> <!-- SCREEN: HUB -->
+<div id="screen-hub" class="screen active"> <div class="page"> <div class="tabs"> <button class="tab-btn active" data-tab="exercises"> Exercices</button> <button class="tab-btn" data-tab="questionnaires"> Bilans</button> </div> <!-- TAB EXERCISES --> <div class="tab-panel active" id="tab-exercises"> <div class="section-label" style="margin-top:4px;"> Jeux cognitifs — Anti-craving</div> <div style="margin-bottom:12px;" id="games-grid"> <a id="link-tetris" href="tetris.html" style="text-decoration:none;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#2563EB,#1D4ED8);border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(37,99,235,.28);transition:transform .15s;margin-bottom:10px;" ontouchstart="this.style.transform='scale(.98)'" ontouchend="this.style.transform=''"> <div style="width:70px;align-self:stretch;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:rgba(255,255,255,.12);"> <svg viewBox="0 0 24 24" width="30" height="30" fill="#fff"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1" opacity=".7"/><rect x="3" y="13" width="8" height="8" rx="1" opacity=".7"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg> </div> <div style="padding:14px 16px 14px 0;color:#fff;"> <div style="font-family:'Manrope',sans-serif;font-size:16px;font-weight:800;margin-bottom:2px;">Tetris anti-craving</div> <div style="font-size:11.5px;font-weight:700;opacity:.92;margin-bottom:2px;">Recommandé maintenant · 3 min</div> <div style="font-size:11px;opacity:.8;">Paradigme Oxford 2015 — occupe la mémoire visuospatiale et réduit l'envie</div> </div> </a> <a id="link-maze" href="maze.html" style="text-decoration:none;display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.06);transition:transform .15s;" ontouchstart="this.style.transform='scale(.98)'" ontouchend="this.style.transform=''"> <div style="background:linear-gradient(135deg,#14B8A6,#0D9488);width:70px;align-self:stretch;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"> <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg> </div> <div style="padding:13px 14px 13px 0;"> <div style="font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;color:#0F172A;margin-bottom:2px;">Labyrinthe gyroscope</div> <div style="font-size:11px;color:#0D9488;font-family:'Manrope',sans-serif;font-weight:700;margin-bottom:2px;">Anti-craving visuospatial · 12 niveaux</div> <div style="font-size:11px;color:#64748B;">Détourne l'imagerie mentale de l'envie</div> </div> </a> </div> <script> (function(){
+        try{
+          var d=JSON.parse(localStorage.getItem('ctc_v6'));
+          if(d&&d.user&&d.user.name){
+            var p='?name='+encodeURIComponent(d.user.name)+'&region='+(d.user.region||'BE')+(d.user.age?'&age='+d.user.age:'');
+            document.getElementById('link-tetris').href='tetris.html'+p;
+            document.getElementById('link-maze').href='maze.html'+p;
+          }
+        }catch(e){}
+      })();
+      </script> <div class="section-title">Crise / craving immédiat</div> <div id="ex-crisis-list"></div> <div class="section-title">Quotidien</div> <div id="ex-daily-list"></div> <div class="section-title">Plasticité cérébrale</div> <div id="ex-plasticity-list"></div> </div> <!-- TAB QUESTIONNAIRES --> <div class="tab-panel" id="tab-questionnaires"> <div class="section-title">Outils validés</div> <div id="q-list"></div> <div style="margin-top:20px;background:var(--white);border:1.5px solid var(--border);border-radius:4px;padding:14px;"> <div class="section-title" style="margin-top:0;">Historique</div> <div id="q-history" style="font-size:12px;color:var(--ink3);line-height:1.8;"></div> </div> </div> </div>
+</div> <!-- SCREEN: EXERCISE DETAIL -->
+<div id="screen-ex" class="screen"> <div class="page"> <div id="ex-detail-content"></div> </div>
+</div> <!-- SCREEN: QUESTIONNAIRE -->
+<div id="screen-q" class="screen"> <div class="page"> <div id="q-detail-content"></div> </div>
+</div> <script>
+// ===== URL PARAMS =====
+const params = new URLSearchParams(location.search);
+const userName = params.get('name') || '';
+const userRegion = params.get('region') || 'BE';
+
+const KEY = 'ctc_v6';
+function loadData() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function saveData(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){} }
+
+// ===== NAVIGATION =====
+let currentScreen = 'hub';
+let hubTab = 'exercises';
+let activeTimerInterval = null;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  currentScreen = id;
+}
+
+document.getElementById('global-back').onclick = () => {
+  if (currentScreen === 'hub') {
+    location.href = `index.html${userName ? '?name='+encodeURIComponent(userName)+'&region='+userRegion : ''}`;
+  } else {
+    if (activeTimerInterval) clearInterval(activeTimerInterval);
+    showScreen('hub');
+    document.getElementById('topbar-tag').textContent = 'FICHES & PROTOCOLES';
+  }
+};
+
+// ===== TABS =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    hubTab = btn.dataset.tab;
+    document.getElementById('tab-' + hubTab).classList.add('active');
+
+  };
+});
+
+// Arrivée depuis l'accueil avec #bilan -> ouvrir directement l'onglet Bilans
+if (location.hash === '#bilan') {
+  const qb = document.querySelector('.tab-btn[data-tab="questionnaires"]');
+  if (qb) qb.onclick();
+}
+
+// ===== EXERCISES =====
+const EXERCISES = [
+  {id:"tetris_mental",name:"Effet Tetris Mental",emoji:"",type:"crisis",duration:90,tagline:"Oxford 2015 : 3 min de Tetris réduisent les cravings de 24%.",zone:"Hippocampe · Interférence visuospatiale",instruction:"Visualise des formes qui tombent dans ta tête. Fais-les tourner mentalement. Ton hippocampe est trop occupé pour alimenter l'envie.",science:"Le traitement visuospatial court-circuite les images mentales liées au désir.",messages:["Visualise. Fais pivoter.","La pièce en L va là...","Ton hippocampe est occupé.","Ligne complète. Craving réduit."]},
+  {id:"wu_tang",name:"Méthode Wu-Tang",emoji:"",type:"crisis",duration:60,tagline:"C.R.E.A.M. — Craving Rules Everything Around Me.",zone:"Cortex préfrontal dorsolatéral",instruction:"Cite les 9 membres du Wu-Tang Clan par ordre alphabétique. Sinon : présidents français, capitales d'Europe.",science:"La mémoire déclarative et le craving utilisent les mêmes ressources.",messages:["RZA... GZA... Method Man...","Ghostface, Raekwon...","U-God, Masta Killa...","Craving neutralisé."]},
+  {id:"ice_cube",name:"Protocole Glaçon",emoji:"",type:"crisis",duration:120,tagline:"Sensation physique intense vs désir chimique.",zone:"Cortex somatosensoriel · Insula",instruction:"Tiens un glaçon dans ta paume non-dominante. Concentre-toi sur la sensation de froid.",science:"Le froid intense active l'insula et le nerf vague.",messages:["Tiens bon.","Froid ? Bien. Nerf vague activé.","L'engourdissement remplace le manque.","Continue."]},
+  {id:"surf",name:"Surf l'Envie",emoji:"",type:"crisis",duration:150,tagline:"Le craving est une vague. Ne te noie pas dedans.",zone:"Cortex préfrontal · Insula",instruction:"Assieds-toi. Observe le craving arriver, monter, puis redescendre. Ne le combats pas.",science:"L'urge surfing (Marlatt 1985) réduit l'intensité des cravings.",messages:["Laisse l'envie arriver.","Observe sans juger.","La vague monte... puis redescend.","Elle passe toujours."]},
+  {id:"box_breathing",name:"Respiration Carrée",emoji:"",type:"crisis",duration:180,tagline:"La technique des Navy SEAL.",zone:"Nerf vague · Cortex préfrontal",instruction:"Inspire 4s, retiens 4s, expire 4s, retiens 4s. Répète 6 cycles.",science:"Réduit le cortisol de 15% en 5 minutes.",messages:["Inspire... 2... 3... 4...","Retiens... 2... 3... 4...","Expire... 2... 3... 4...","Rétention... Cortex en ligne."]},
+  {id:"mirror",name:"Neurones Miroirs",emoji:"",type:"daily",duration:120,tagline:"Ton cerveau ne fait pas la différence entre faire et imaginer faire.",zone:"Cortex prémoteur · Neurones miroirs",instruction:"Visualise-toi en train de faire une activité que tu aimes vraiment. Rends la scène hyper détaillée.",science:"Les neurones miroirs activent les mêmes circuits que l'action réelle.",messages:["Ferme les yeux...","Rends la scène réelle.","Circuit de récompense activé.","Continue à visualiser."]},
+  {id:"autopilot",name:"Hack l'Autopilote",emoji:"⊙",type:"daily",duration:60,tagline:"80% de tes actions sont automatiques. L'addiction en est une.",zone:"Ganglions de la base · Cortex préfrontal",instruction:"Fais UN truc différemment aujourd'hui (autre chemin, brossage avec l'autre main).",science:"La nouveauté force le cortex préfrontal à reprendre le contrôle.",messages:["Quel truc tu vas changer ?","Fais-le différemment.","Nouvelle connexion neuronale.","Autopilote hacké."]},
+  {id:"letter",name:"Lettre au Futur Toi",emoji:"",type:"daily",duration:180,tagline:"Ton futur toi a des opinions arrêtées sur tes choix.",zone:"Cortex préfrontal médian",instruction:"Écris une lettre à toi-même dans 5 ans. Sois honnête.",science:"Les personnes en addiction voient leur futur soi comme un étranger. Cette lettre réduit la distance.",messages:["'Cher moi dans 5 ans...'","Sois honnête.","Ce que tu as surmonté...","Quelle version veux-tu être ?"]},
+  {id:"gratitude_punk",name:"Gratitude Punk",emoji:"",type:"daily",duration:90,tagline:"La gratitude, c'est de la sérotonine gratuite.",zone:"Cortex préfrontal médian · Système limbique",instruction:"Écris 3 trucs ultra-concrets qui ont été moins nuls qu'escompté.",science:"3 minutes de gratitude concrète activent le cortex préfrontal médian.",messages:["1 truc concret.","2e truc. Même trivial.","3e truc. Sérotonine en route.","Trois ! Cortex activé."]},
+  {id:"menu_dopamine",name:"Menu Dopamine",emoji:"",type:"daily",duration:120,tagline:"Ton cerveau est un gourmet.",zone:"Noyau accumbens",instruction:"Construis ton Menu Dopamine : entrées (1–5 min), plats (20–60 min), desserts (rares).",science:"Le noyau accumbens ne distingue pas les sources de dopamine.",messages:["Entrées : vite et gratuit.","Plats : effort → vraie satisfaction.","Desserts : ce qui vaut le coup.","Menu créé."]},
+  {id:"dual_task",name:"Dual Task Challenge",emoji:"",type:"plasticity",duration:90,tagline:"Deux tâches incompatibles simultanément.",zone:"Cortex préfrontal · Réseau frontopariétal",instruction:"Touche alternativement ton nez et ton oreille opposée tout en comptant à rebours de 100 en pas de 3.",science:"Le dual-tasking renforce les connexions calleuses interhémisphériques.",messages:["Nez... oreille... nez...","100, 97, 94...","Nouvelles connexions.","Réseau frontopariétal activé."]},
+  {id:"non_dominant",name:"Main Rebelle",emoji:"",type:"plasticity",duration:90,tagline:"Réveille l'hémisphère qui dort.",zone:"Cortex moteur",instruction:"Écris ton prénom 10 fois avec ta main non-dominante. Puis dessine un carré et un cercle en même temps.",science:"Force la plasticité synaptique.",messages:["Écris. Maladroit ? Normal.","Carré d'un côté, cercle de l'autre...","Nouvelles cartes motrices.","Hémisphère réveillé."]},
+  {id:"5_senses",name:"Scan 5 Sens",emoji:"",type:"plasticity",duration:120,tagline:"Ancrage sensoriel total.",zone:"Cortex insulaire",instruction:"Nomme 5 choses que tu vois, 4 que tu entends, 3 que tu touches, 2 que tu sens, 1 que tu goûtes.",science:"Désactive le réseau du mode par défaut.",messages:["5 choses que tu VOIS...","4 choses que tu ENTENDS...","3 choses que tu TOUCHES...","2 odeurs. 1 goût."]},
+  {id:"cross_lateral",name:"Marche Croisée",emoji:"",type:"plasticity",duration:60,tagline:"Brain Gym redoutable.",zone:"Corps calleux",instruction:"Lève le genou droit, touche-le avec ta main gauche. Alterne. 40 répétitions lentes, puis les yeux fermés.",science:"Force la coopération interhémisphérique.",messages:["Genou droit, main gauche.","Genou gauche, main droite.","Les yeux fermés maintenant.","Corps calleux renforcé."]},
+  {id:"memory_palace",name:"Palais de Mémoire",emoji:"",type:"plasticity",duration:150,tagline:"La technique des champions de mémoire.",zone:"Hippocampe",instruction:"Choisis un lieu connu. Place mentalement 5 mots : CALME – FORCE – DEMAIN – CHOIX – LIBERTÉ.",science:"Renforce l'hippocampe. Augmentation de matière grise après 6 semaines.",messages:["Place le premier mot...","Continue le parcours...","Hippocampe activé.","5 mots. Retrouve-les."]},
+  {id:"reverse_counting",name:"Décompte Inversé",emoji:"",type:"plasticity",duration:120,tagline:"Charge cognitive anti-rumination.",zone:"Cortex préfrontal dorsolatéral · DLPFC",instruction:"Compte à rebours depuis 300 en soustrayant 7 à chaque fois. À voix haute. Sans t'arrêter.",science:"Active le DLPFC, la zone anti-craving et anti-rumination par excellence.",messages:["300, 293, 286...","Continue. Ne t'arrête pas.","DLPFC en pleine charge.","Objectif : 30 soustraction."]},
+  {id:"tongue_map",name:"Carte Mentale Express",emoji:"",type:"plasticity",duration:90,tagline:"Visualisation spatiale rapide.",zone:"Gyrus angulaire · Cortex pariétal",instruction:"Ferme les yeux. Visualise le plan de ton appartement. Compte toutes les fenêtres. Puis les prises électriques.",science:"Active le cortex pariétal et renforce la représentation spatiale.",messages:["Visualise le plan...","Fenêtres : compte-les.","Prises électriques...","Carte mentale complète."]},
+  {id:"color_word",name:"Stroop Challenge",emoji:"",type:"plasticity",duration:60,tagline:"L'exercice classique de contrôle cognitif.",zone:"Cortex cingulaire antérieur",instruction:"Dis la COULEUR de l'encre, pas le mot. ROUGE écrit en bleu → dis 'bleu'. Fais-le 30 fois vite.",science:"L'effet Stroop active le cortex cingulaire antérieur — nœud du contrôle inhibiteur.",messages:["Dis la COULEUR, pas le mot.","Vas plus vite.","Contrôle inhibiteur activé.","30 fois. Tu y es presque."]},
+  {id:"backward_alphabet",name:"Alphabet à l'Envers",emoji:"",type:"plasticity",duration:90,tagline:"Mémoire de travail à fond.",zone:"Cortex préfrontal · Boucle phonologique",instruction:"Récite l'alphabet à l'envers : Z, Y, X, W… Le plus vite possible. Puis fais-le en ne disant qu'une lettre sur deux.",science:"Charge maximale la boucle phonologique de la mémoire de travail.",messages:["Z, Y, X, W...","Continue, sans hésiter.","Mémoire de travail sous charge.","Une lettre sur deux maintenant."]},
+  {id:"rhythmic_tapping",name:"Polymétrie Cérébrale",emoji:"",type:"plasticity",duration:90,tagline:"Synchronisation interhémisphérique.",zone:"Ganglions de la base · Cervelet · Cortex moteur",instruction:"Tape 3 fois avec la main droite et 2 fois avec la gauche en même temps. Maintiens le rythme 90 secondes.",science:"La polymétrie coordonne ganglions de la base, cervelet et cortex moteur simultanément.",messages:["Main droite : 1-2-3.","Main gauche : 1-2.","Ensemble maintenant...","Cervelet et ganglions liés."]}];
+
+function renderExercises() {
+  const crisis = EXERCISES.filter(e => e.type === 'crisis');
+  const daily = EXERCISES.filter(e => e.type === 'daily');
+  const plasticity = EXERCISES.filter(e => e.type === 'plasticity');
+  document.getElementById('ex-crisis-list').innerHTML = crisis.map(exCard).join('');
+  document.getElementById('ex-daily-list').innerHTML = daily.map(exCard).join('');
+  document.getElementById('ex-plasticity-list').innerHTML = plasticity.map(exCard).join('');
+}
+
+function exCard(ex) {
+  return `<div class="ex-card ${ex.type}" onclick="openExercise('${ex.id}')"> <div class="ex-icon">${ex.emoji}</div> <div class="ex-info"> <div class="ex-name">${ex.name}</div> <div class="ex-tagline">${ex.tagline}</div> <div class="ex-meta"> <span class="ex-badge ${ex.type}">${ex.type === 'crisis' ? 'Crise' : ex.type === 'daily' ? 'Quotidien' : 'Plasticité'}</span> <span class="ex-duration">${ex.duration}s</span> </div> </div> <div class="ex-arrow">→</div> </div>`;
+}
+
+window.openExercise = (id) => {
+  const ex = EXERCISES.find(e => e.id === id);
+  if (!ex) return;
+  document.getElementById('topbar-tag').textContent = ex.name.toUpperCase();
+  const circum = 2 * Math.PI * 52;
+  document.getElementById('ex-detail-content').innerHTML = `
+    <div class="ex-detail"> <div class="ex-detail-icon">${ex.emoji}</div> <div class="ex-detail-name">${ex.name}</div> <div class="ex-detail-tagline">${ex.tagline}</div> <div class="info-block"> <div class="info-block-label"> Zone ciblée</div> <div class="info-block-val">${ex.zone}</div> </div> <div class="info-block"> <div class="info-block-label"> Instructions</div> <div class="info-block-val">${ex.instruction}</div> </div> <div class="info-block science"> <div class="info-block-label"> Science</div> <div class="info-block-val">${ex.science}</div> </div> </div> <div class="timer-wrap"> <div class="timer-circle"> <svg class="timer-svg" width="120" height="120" viewBox="0 0 120 120"> <circle class="timer-track" cx="60" cy="60" r="52"/> <circle class="timer-fill" id="timer-fill" cx="60" cy="60" r="52"
+            stroke-dasharray="${circum}" stroke-dashoffset="${circum}"/> </svg> <div class="timer-text"> <div class="timer-secs" id="timer-secs">${ex.duration}</div> <div class="timer-label">sec</div> </div> </div> <div class="timer-message" id="timer-msg">${ex.messages[0]}</div> <button class="btn-primary" id="timer-start" onclick="startTimer(${ex.duration},'${ex.id}')"> Démarrer</button> <button class="btn-outline" onclick="document.getElementById('global-back').click()">← Retour</button> </div> `;
+  showScreen('ex');
+};
+
+let timerRunning = false;
+window.startTimer = (duration, exId) => {
+  if (timerRunning) return;
+  timerRunning = true;
+  const ex = EXERCISES.find(e => e.id === exId);
+  const circum = 2 * Math.PI * 52;
+  let remaining = duration;
+  let elapsed = 0;
+  const fill = document.getElementById('timer-fill');
+  const secsEl = document.getElementById('timer-secs');
+  const msgEl = document.getElementById('timer-msg');
+  const btn = document.getElementById('timer-start');
+  btn.textContent = 'En cours…';
+  btn.style.opacity = '.5';
+  btn.style.pointerEvents = 'none';
+  const msgInterval = Math.floor(duration / ex.messages.length);
+  activeTimerInterval = setInterval(() => {
+    remaining--;
+    elapsed++;
+    secsEl.textContent = remaining;
+    const progress = elapsed / duration;
+    fill.style.strokeDashoffset = circum * (1 - progress);
+    const msgIdx = Math.min(ex.messages.length - 1, Math.floor(elapsed / msgInterval));
+    msgEl.textContent = ex.messages[msgIdx];
+    if (remaining <= 0) {
+      clearInterval(activeTimerInterval);
+      timerRunning = false;
+      secsEl.textContent = '✓';
+      msgEl.textContent = '✓ Exercice terminé !';
+      btn.textContent = '← Retour';
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'all';
+      btn.onclick = () => document.getElementById('global-back').click();
+      // Save
+      const d = loadData();
+      const sessions = d.sessions || [];
+      sessions.push({ type:'ex', name: ex.name, date: Date.now() });
+      d.sessions = sessions;
+      d.score = (d.score || 0) + 2;
+      saveData(d);
+    }
+  }, 1000);
+};
+
+// ===== QUESTIONNAIRES =====
+const QS = [
+  {id:"craving",name:"Bilan Craving",icon:"",desc:"Intensité, fréquence, résistance",color:"var(--red)",questions:[
+    {q:"Intensité moyenne du craving cette semaine ?",opts:["0–2 Quasi absent","3–4 Léger","5–6 Modéré","7–8 Fort","9–10 Très fort"],scores:[1,2,3,4,5]},
+    {q:"Fréquence des épisodes ?",opts:["Rare","Quelques fois","Quotidien","Plusieurs fois/j","Quasi permanent"],scores:[1,2,3,4,5]},
+    {q:"Tu as résisté à des envies ?",opts:["Toujours","Souvent","Environ la moitié","Rarement","Jamais"],scores:[5,4,3,2,1]}
+  ],interp:s=>s<=5?{label:"Semaine stable",color:"var(--blue)"}:s<=9?{label:"Semaine difficile",color:"#b05800"}:{label:"Semaine intense",color:"var(--red)"}},
+  {id:"audit",name:"AUDIT-C Alcool",icon:"",desc:"Questionnaire de référence OMS",color:"var(--blue)",questions:[
+    {q:"Fréquence de consommation ?",opts:["Jamais","1x/mois ou moins","2–4x/mois","2–3x/semaine","4x+/semaine"],scores:[0,1,2,3,4]},
+    {q:"Verres standard par occasion ?",opts:["1–2","3–4","5–6","7–9","10+"],scores:[0,1,2,3,4]},
+    {q:"Fréquence de 6 verres+ ?",opts:["Jamais","Moins d'1x/mois","1x/mois","1x/semaine","Presque chaque jour"],scores:[0,1,2,3,4]}
+  ],interp:s=>s<=2?{label:"Faible risque",color:"var(--green)"}:s<=5?{label:"Risque modéré",color:"#b05800"}:{label:"Risque élevé",color:"var(--red)"}},
+  {id:"wellbeing",name:"Bien-être WHO-5",icon:"",desc:"Outil validé de l'OMS",color:"var(--purple)",questions:[
+    {q:"De bonne humeur la plupart du temps ?",opts:["Jamais","Rarement","Parfois","Souvent","Tout le temps"],scores:[0,1,2,3,4]},
+    {q:"Calme et serein(e) ?",opts:["Jamais","Rarement","Parfois","Souvent","Tout le temps"],scores:[0,1,2,3,4]},
+    {q:"Actif(ve) et plein(e) d'énergie ?",opts:["Jamais","Rarement","Parfois","Souvent","Tout le temps"],scores:[0,1,2,3,4]},
+    {q:"Réveil reposé et rafraîchi(e) ?",opts:["Jamais","Rarement","Parfois","Souvent","Tout le temps"],scores:[0,1,2,3,4]},
+    {q:"Vie quotidienne remplie d'intérêt ?",opts:["Jamais","Rarement","Parfois","Souvent","Tout le temps"],scores:[0,1,2,3,4]}
+  ],interp:s=>s<=8?{label:"Détresse possible",color:"var(--red)"}:s<=14?{label:"Bien-être moyen",color:"#b05800"}:{label:"Bien-être satisfaisant",color:"var(--green)"}}
+];
+
+function renderQuestionnaires() {
+  document.getElementById('q-list').innerHTML = QS.map(q => `
+    <div class="q-card" onclick="openQ('${q.id}')"> <div class="q-icon">${q.icon}</div> <div class="q-info"> <div class="q-name">${q.name}</div> <div class="q-desc">${q.desc}</div> </div> <div class="q-arrow" style="color:${q.color}">→</div> </div> `).join('');
+  renderQHistory();
+}
+
+function renderQHistory() {
+  const d = loadData();
+  const qs = (d.sessions || []).filter(s => s.type === 'q').slice(-5).reverse();
+  const el = document.getElementById('q-history');
+  if (!qs.length) { el.textContent = 'Aucun bilan enregistré.'; return; }
+  el.innerHTML = qs.map(s => {
+    const date = new Date(s.date).toLocaleDateString('fr-FR');
+    return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--cream2);"> <span>${s.name}</span><span style="color:${s.color || 'var(--ink3)'};">${s.label} · ${date}</span> </div>`;
+  }).join('');
+}
+
+let qState = { q: null, idx: 0, answers: [] };
+window.openQ = (id) => {
+  const q = QS.find(x => x.id === id);
+  qState = { q, idx: 0, answers: [] };
+  document.getElementById('topbar-tag').textContent = q.name.toUpperCase();
+  renderQStep();
+  showScreen('q');
+};
+
+function renderQStep() {
+  const { q, idx, answers } = qState;
+  const step = q.questions[idx];
+  const dots = q.questions.map((_, i) => `<div class="q-dot${i < idx ? ' done' : ''}"></div>`).join('');
+  document.getElementById('q-detail-content').innerHTML = `
+    <div style="margin-bottom:16px;"> <div class="q-progress">${dots}</div> <div style="font-size:11px;color:var(--ink3);margin-bottom:12px;">${idx+1} / ${q.questions.length}</div> <div class="q-question">${step.q}</div> ${step.opts.map((opt, i) => `
+        <button class="q-option" onclick="answerQ(${i})">${opt}</button> `).join('')}
+    </div> <button class="btn-outline" onclick="document.getElementById('global-back').click()">← Annuler</button> `;
+}
+
+window.answerQ = (optIdx) => {
+  const { q } = qState;
+  const step = q.questions[qState.idx];
+  qState.answers.push(step.scores[optIdx]);
+  qState.idx++;
+  if (qState.idx >= q.questions.length) {
+    showQResult();
+  } else {
+    renderQStep();
+  }
+};
+
+function showQResult() {
+  const { q, answers } = qState;
+  const total = answers.reduce((a, b) => a + b, 0);
+  const interp = q.interp(total);
+  document.getElementById('q-detail-content').innerHTML = `
+    <div class="ex-detail"> <div class="ex-detail-icon">${q.icon}</div> <div class="ex-detail-name">${q.name}</div> </div> <div class="q-result"> <div class="q-result-label" style="color:${interp.color}">${interp.label}</div> <div class="q-result-score">Score : ${total} / ${answers.length * 4}</div> <div style="margin-bottom:24px;font-size:13px;color:var(--ink3);line-height:1.6;"> Ce score est une indication. Parle-en à un professionnel de santé si nécessaire.
+      </div> <button class="btn-primary" onclick="document.getElementById('global-back').click()">← Retour</button> </div> `;
+  // Save
+  const d = loadData();
+  const sessions = d.sessions || [];
+  sessions.push({ type:'q', name: q.name, date: Date.now(), label: interp.label, color: interp.color, score: total });
+  d.sessions = sessions;
+  saveData(d);
+}
+
+// ===== INIT =====
+renderExercises();
+renderQuestionnaires();
+</script> <nav class="bottom-nav"><a class="bn-item" data-href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a><a class="bn-item" data-href="suivi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7L13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span>Suivi</span></a><a class="bn-item" data-href="psychochecker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 11m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Substances</span></a><a class="bn-item active" data-href="fiches.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Protocoles</span></a><a class="bn-item" data-href="rdr.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>RDR</span></a></nav>
+<script>
+(function(){
+  try{
+    var d=JSON.parse(localStorage.getItem('ctc_v6'));
+    if(d&&d.user&&d.user.name){
+      var p='?name='+encodeURIComponent(d.user.name)+'&region='+(d.user.region||'BE')+(d.user.age?'&age='+d.user.age:'');
+      document.querySelectorAll('.bn-item[data-href]').forEach(function(a){a.href=a.dataset.href+p;});
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

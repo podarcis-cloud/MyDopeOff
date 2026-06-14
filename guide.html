@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="light"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+
+<meta name="theme-color" content="#F8FAFC"/>
+<title>MyDope Off — Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style id="lucide-core">
+/* ============================================================
+   LUCIDE — Design system (source unique)
+   Clarté · neutralité scientifique · light uniquement
+   ============================================================ */
+
+:root{
+  color-scheme: light only;
+
+  /* — Couleurs de marque — */
+  --blue:#2563EB;     --blue-700:#1D4ED8;  --blue-50:#EFF4FF;  --blue-100:#DCE6FF;
+  --ink:#0F172A;      --ink-2:#334155;     --muted:#64748B;
+  --teal:#14B8A6;     --teal-50:#E6FAF7;
+
+  /* — Surfaces — */
+  --bg:#F8FAFC;       --card:#FFFFFF;      --soft:#F1F5F9;
+  --line:#E2E8F0;     --line-2:#CBD5E1;
+
+  /* — Fonctionnel — */
+  --green:#16A34A;    --green-50:#E9F8EF;
+  --amber:#F59E0B;    --amber-50:#FEF6E7;
+  --red:#DC2626;      --red-50:#FCEBEC;
+
+  /* — Forme — */
+  --r:18px; --r-sm:13px; --r-xs:10px;
+  --sh:0 1px 2px rgba(15,23,42,.04), 0 2px 6px rgba(15,23,42,.05);
+  --sh-md:0 8px 24px rgba(15,23,42,.09);
+  --sh-up:0 -6px 22px rgba(15,23,42,.07);
+
+  /* — Type — */
+  --disp:'Manrope', system-ui, sans-serif;
+  --body:'Inter', system-ui, sans-serif;
+
+  --nav-h:64px;
+  --maxw:480px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{color-scheme:light only;background:var(--bg);}
+@media (prefers-color-scheme:dark){
+  html,body{background:var(--bg);color:var(--ink);}
+}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--ink);
+  max-width:var(--maxw);
+  margin:0 auto;
+  min-height:100svh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  line-height:1.5;
+}
+input,select,textarea,button{font-family:inherit;color:var(--ink);}
+input,select,textarea{background:var(--card);-webkit-appearance:none;appearance:none;}
+::placeholder{color:#94A3B8;}
+a{color:inherit;text-decoration:none;}
+svg{display:block;}
+
+/* — Typographie utilitaire — */
+.h1{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em;line-height:1.1;}
+.h2{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.015em;line-height:1.2;}
+.h3{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-.01em;}
+.eyebrow{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);}
+.lede{color:var(--muted);font-size:14.5px;line-height:1.55;}
+.muted{color:var(--muted);}
+.small{font-size:12.5px;}
+
+/* ── Marque / logo ─────────────────────────────────── */
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .mark{width:34px;height:34px;flex:0 0 auto;}
+.brand .name{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:.02em;}
+.brand .name b{color:var(--blue);font-weight:800;}
+
+/* ── Topbar ────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  height:54px;padding:0 16px;
+  background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .tb-title{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;}
+.topbar .tb-side{min-width:80px;display:flex;align-items:center;}
+.topbar .tb-side.right{justify-content:flex-end;}
+.btn-back{
+  display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding:0 13px 0 10px;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);cursor:pointer;
+}
+.btn-back:active{background:var(--soft);}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none;}
+
+/* ── Boutons ───────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;height:52px;padding:0 18px;
+  font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;
+  border:none;border-radius:var(--r-sm);cursor:pointer;transition:transform .06s, filter .15s;
+}
+.btn:active{transform:scale(.985);}
+.btn svg{width:19px;height:19px;stroke:currentColor;stroke-width:2;fill:none;}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.28);}
+.btn-primary:active{background:var(--blue-700);}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(20,184,166,.25);}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh);}
+.btn-ghost:active{background:var(--soft);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-sm{height:42px;font-size:13.5px;border-radius:11px;}
+.btn:disabled{opacity:.4;pointer-events:none;}
+
+/* ── Cartes ────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);}
+.card-pad{padding:16px;}
+
+/* ── Champs ────────────────────────────────────────── */
+.field{margin-bottom:14px;}
+.field > label{display:block;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.02em;color:var(--ink-2);margin-bottom:7px;}
+.input,.select{
+  width:100%;height:50px;padding:0 15px;
+  font-size:16px;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-sm);outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+textarea.input{height:auto;min-height:50px;padding:13px 15px;line-height:1.5;resize:vertical;}
+.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 3.5px var(--blue-50);}
+.select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%2364748B' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;cursor:pointer;
+}
+
+/* ── Segments (onglets pilule) ─────────────────────── */
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:14px;}
+.seg button{
+  flex:1;height:38px;border:none;background:transparent;border-radius:10px;cursor:pointer;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--muted);transition:color .15s;
+}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh);}
+
+/* ── Badges familles ───────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;
+  font-family:var(--disp);font-weight:600;font-size:11.5px;letter-spacing:.01em;white-space:nowrap;}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+.b-opioide{background:#FCEBEC;color:#B91C1C;}
+.b-stimulant{background:#FEF6E7;color:#B45309;}
+.b-depresseur{background:#EAF2FF;color:#1D4ED8;}
+.b-psychedelique{background:#F3ECFE;color:#7C3AED;}
+.b-dissociatif{background:#E6FAF7;color:#0F766E;}
+.b-cannabinoide{background:#E9F8EF;color:#15803D;}
+.b-empathogene{background:#FDEEF6;color:#BE185D;}
+.b-nootropique{background:#EAF6FF;color:#0369A1;}
+
+/* — Pastilles d'intensité / risque — */
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+.lv-0{background:var(--green);}  .tx-0{color:var(--green);}
+.lv-1{background:#5FB98C;}        .tx-1{color:#3F9E72;}
+.lv-2{background:var(--amber);}  .tx-2{color:#B45309;}
+.lv-3{background:var(--red);}    .tx-3{color:var(--red);}
+
+/* ── Bottom nav ────────────────────────────────────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:var(--maxw);height:var(--nav-h);
+  display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);box-shadow:var(--sh-up);z-index:80;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#94A3B8;}
+.bn-item svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.9;fill:none;transition:stroke-width .15s;}
+.bn-item span{font-family:var(--disp);font-weight:600;font-size:9.5px;letter-spacing:.01em;}
+.bn-item.on{color:var(--blue);}
+.bn-item.on svg{stroke-width:2.4;}
+.has-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));}
+
+/* ── Feuille modale (bottom sheet) ─────────────────── */
+.sheet-bg{position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.42);
+  backdrop-filter:blur(2px);display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;transition:opacity .18s;}
+.sheet-bg.on{opacity:1;}
+.sheet{width:100%;max-width:var(--maxw);background:var(--card);
+  border-radius:24px 24px 0 0;padding:8px 18px calc(26px + env(safe-area-inset-bottom));
+  box-shadow:var(--sh-md);transform:translateY(24px);transition:transform .22s cubic-bezier(.22,1,.36,1);
+  max-height:90svh;overflow-y:auto;}
+.sheet-bg.on .sheet{transform:translateY(0);}
+.sheet-grip{width:38px;height:4px;border-radius:2px;background:var(--line-2);margin:8px auto 16px;}
+
+/* ── Divers ────────────────────────────────────────── */
+.empty{text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;
+  padding:30px 18px;background:var(--card);border:1px dashed var(--line-2);border-radius:var(--r);}
+.divider{height:1px;background:var(--line);border:none;margin:16px 0;}
+.row{display:flex;align-items:center;gap:10px;}
+.tag-num{font-family:var(--disp);font-weight:700;font-size:12px;color:var(--blue);
+  background:var(--blue-50);border-radius:8px;padding:3px 8px;}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+</style>
+<style>
+  .lx-item{background:var(--card,#fff);border:1px solid var(--line,#E2E8F0);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:var(--sh,0 1px 3px rgba(15,23,42,.05));}
+  .lx-item summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--disp,Manrope,sans-serif);font-weight:700;font-size:14px;color:var(--ink,#0F172A);}
+  .lx-item summary::-webkit-details-marker{display:none;}
+  .lx-item summary .chev{flex:0 0 auto;width:18px;height:18px;transition:transform .2s;color:var(--blue,#2563EB);}
+  .lx-item[open] summary .chev{transform:rotate(90deg);}
+  .lx-item .lx-body{padding:0 15px 14px;font-size:13.5px;line-height:1.6;color:var(--ink-2,#334155);}
+  .lx-item .lx-tag{display:inline-block;font-family:var(--disp,Manrope,sans-serif);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue,#2563EB);background:var(--blue-50,#EFF4FF);padding:2px 7px;border-radius:6px;margin-left:8px;}
+  .lx-search{width:100%;padding:11px 14px;border:1.5px solid var(--line,#E2E8F0);border-radius:11px;font-size:15px;font-family:var(--body,Inter,sans-serif);margin-bottom:12px;background:#fff;color:var(--ink,#0F172A);}
+  .lx-search:focus{outline:none;border-color:var(--blue,#2563EB);}
+  .lx-empty{color:var(--muted,#64748B);font-size:13px;padding:8px 2px;}
+</style>
+<style>
+  .wrap{padding:18px 18px 28px;}
+  .hero{margin-bottom:22px;}
+  .hero .logo{width:54px;height:54px;border-radius:16px;background:var(--blue-50);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+  .hero p{color:var(--muted);font-size:14.5px;line-height:1.6;margin-top:6px;}
+  .sec{margin-bottom:24px;}
+  .sec > .eyebrow{margin-bottom:10px;}
+  .step{display:flex;gap:13px;margin-bottom:11px;}
+  .step .n{font-family:var(--disp);font-weight:800;font-size:13px;color:#fff;background:var(--blue);
+    width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .step .b{font-family:var(--disp);font-weight:700;font-size:14.5px;margin-bottom:2px;}
+  .step .d{font-size:13px;color:var(--muted);line-height:1.55;}
+  .space{display:flex;gap:13px;align-items:flex-start;padding:14px;margin-bottom:10px;}
+  .space .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .space .ic svg{width:21px;height:21px;stroke-width:2;fill:none;}
+  .space .t{font-family:var(--disp);font-weight:700;font-size:15px;}
+  .space .d{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:2px;}
+  .note-card{background:var(--blue-50);border:1px solid var(--blue-100);border-radius:var(--r-sm);padding:14px;font-size:13px;color:var(--ink-2);line-height:1.6;}
+  .warn-card{background:var(--amber-50);border:1px solid #F6DFA8;border-radius:var(--r-sm);padding:14px;font-size:13px;color:#92560A;line-height:1.6;}
+  .mtx-mini{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .mtx-mini:last-child{border-bottom:none;}
+  .mtx-mini .ml{font-family:var(--disp);font-weight:600;font-size:13.5px;}
+  .mtx-mini .ms{font-size:12px;color:var(--muted);}
+  .i-blue{background:var(--blue-50);} .i-blue svg{stroke:var(--blue);}
+  .i-teal{background:var(--teal-50);} .i-teal svg{stroke:var(--teal);}
+  .i-amber{background:var(--amber-50);} .i-amber svg{stroke:#B45309;}
+  .i-red{background:var(--red-50);} .i-red svg{stroke:var(--red);}
+</style>
+</head>
+<body data-page="">
+
+<header class="topbar">
+  <div class="tb-side"><button class="btn-back" data-back><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>Accueil</button></div>
+  <div class="tb-title">Guide</div>
+  <div class="tb-side right"></div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="logo" data-logo="34"></div>
+    <h1 class="h1">Bien utiliser MyDope Off</h1>
+    <p>MyDope Off rassemble des informations scientifiques et des outils pour comprendre les substances et réduire les risques. Tout fonctionne hors-ligne et reste sur ton téléphone.</p>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">Les cinq espaces</div>
+    <div class="card space">
+      <div class="ic i-blue"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12ZM20 20l-5.4-5.4"/></svg></div>
+      <div><div class="t">Substances</div><div class="d">270 fiches détaillées et le vérificateur d'interactions. Cherche une substance pour voir risques, durée et précautions.</div></div>
+    </div>
+    <div class="card space">
+      <div class="ic i-teal"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12h-4l-3 8-4-16-3 8H3"/></svg></div>
+      <div><div class="t">Exercices</div><div class="d">Des tâches visuelles courtes (labyrinthe, etc.) qui aident à faire retomber une envie pressante en quelques minutes.</div></div>
+    </div>
+    <div class="card space">
+      <div class="ic i-amber"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5.5-5.5 3.5 3.5L21 6M21 6h-4M21 6v4"/></svg></div>
+      <div><div class="t">Suivi</div><div class="d">Ton journal, tes coûts, tes objectifs, et la durée de détection estimée par test.</div></div>
+    </div>
+    <div class="card space">
+      <div class="ic i-red"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-3.7 7-9.3V5.6L12 3 5 5.6v6.1C5 17.3 12 21 12 21Z"/></svg></div>
+      <div><div class="t">RDR</div><div class="d">Réduction des risques : numéros d'urgence, centres et bonnes pratiques.</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">Tenir ton journal en 3 gestes</div>
+    <div class="card card-pad">
+      <div class="step"><div class="n">1</div><div><div class="b">Ajouter une entrée</div><div class="d">Dans <b>Suivi › Journal</b>, touche « Ajouter une entrée ». Renseigne la substance, l'intensité, et un coût ou une note si tu veux.</div></div></div>
+      <div class="step"><div class="n">2</div><div><div class="b">Plusieurs entrées le même jour</div><div class="d">Sur une journée déjà présente, touche « Ajouter à ce jour ». Tu peux empiler autant d'entrées que nécessaire sur la même date.</div></div></div>
+      <div class="step"><div class="n">3</div><div><div class="b">Modifier ou supprimer</div><div class="d">Touche une entrée pour la rouvrir et la corriger, ou la croix pour la supprimer. Depuis le calendrier, touche un jour pour l'éditer directement.</div></div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">Comprendre la détection</div>
+    <p class="lede" style="margin-bottom:12px;">Quand tu choisis une substance, MyDope Off estime la fenêtre de détection selon trois types de test :</p>
+    <div class="card card-pad" style="margin-bottom:12px;">
+      <div class="mtx-mini"><span class="dot lv-1"></span><div><div class="ml">Salive</div><div class="ms">Test oral rapide — fenêtre courte, reflète l'usage récent.</div></div></div>
+      <div class="mtx-mini"><span class="dot lv-2"></span><div><div class="ml">Urine</div><div class="ms">Le plus répandu — fenêtre la plus longue, surtout en usage régulier.</div></div></div>
+      <div class="mtx-mini"><span class="dot lv-3"></span><div><div class="ml">Sang</div><div class="ms">Fenêtre la plus courte — mais la plus précise sur le moment.</div></div></div>
+    </div>
+    <div class="warn-card">Ces durées sont des <b>estimations</b> (usage unique, métabolisme moyen). Elles ne garantissent pas un résultat de test et ne sont pas un avis médical ou juridique.</div>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">Contrôles routiers</div>
+    <p class="lede" style="margin-bottom:12px;">Une page dédiée explique comment se déroulent les contrôles alcool et stupéfiants au volant, les seuils légaux (France, Belgique), et pourquoi la seule façon fiable de les passer est de ne pas conduire après avoir consommé.</p>
+    <a class="card card-pad" data-go="controles.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
+      <div style="width:38px;height:38px;border-radius:11px;background:var(--blue-50,#EFF4FF);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17l1.5-5h9L18 17M7 12l1-4h8l1 4M6.5 17v2M17.5 17v2"/></svg></div>
+      <div><div style="font-family:var(--disp);font-weight:800;font-size:14px;">Alcool, stupéfiants et conduite</div><div style="font-size:12px;color:var(--muted,#64748B);">Déroulé, seuils, sanctions, comment vraiment l'éviter</div></div>
+    </a>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">Lexique réduction des risques</div>
+    <p class="lede" style="margin-bottom:12px;">Les termes scientifiques et le jargon que tu croises dans l'app et autour du sujet, expliqués simplement. Touche un mot pour dérouler.</p>
+    <input class="lx-search" id="lx-search" type="text" placeholder="Rechercher un terme…" autocomplete="off"/>
+    <div id="lexique"></div>
+    <div class="warn-card" style="margin-top:12px;">Ce lexique est pédagogique et simplifié. Il ne remplace pas un avis médical.</div>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">Tes données</div>
+    <div class="note-card">MyDope Off n'a pas de compte ni de serveur. Tout ce que tu saisis est stocké <b>uniquement sur cet appareil</b>. Si tu effaces les données du navigateur ou désinstalles l'app, le journal est perdu.</div>
+  </div>
+
+  <a class="btn btn-primary" data-go="soutenir.html" href="#">Soutenir le projet</a>
+</div>
+
+<div data-nav></div>
+<script>
+/* ============================================================
+   LUCIDE — Socle partagé (navigation, profil, logo)
+   ============================================================ */
+window.LUCIDE = (function () {
+
+  const KEY = 'ctc_v6';
+  const LANG_KEY = 'mydopeoff_lang';
+  const LANGS = ['fr', 'en', 'es', 'de'];
+  const LANG_NAMES = { fr: 'Français', en: 'English', es: 'Español', de: 'Deutsch' };
+
+  /* ============================================================
+     I18N — dictionnaire du "cadre" (UI partagée).
+     Pour traduire le contenu (fiches) plus tard : remplir
+     window.LUCIDE_FICHES_I18N (voir docs en bas) — aucune
+     modification d'architecture nécessaire.
+     ============================================================ */
+  const DICT = {
+    // Navigation
+    'nav.home':        { fr: 'Accueil',      en: 'Home',        es: 'Inicio',       de: 'Start' },
+    'nav.tracking':    { fr: 'Suivi conso',  en: 'Tracking',    es: 'Seguimiento',  de: 'Tracking' },
+    'nav.substances':  { fr: 'Substances',   en: 'Substances',  es: 'Sustancias',   de: 'Substanzen' },
+    'nav.protocols':   { fr: 'Protocoles',   en: 'Protocols',   es: 'Protocolos',   de: 'Protokolle' },
+    'nav.rdr':         { fr: 'RDR',          en: 'Harm red.',   es: 'RdD',          de: 'Risiko' },
+    // Commun
+    'common.back':     { fr: 'Accueil',      en: 'Home',        es: 'Inicio',       de: 'Start' },
+    'common.back_prev':{ fr: 'Retour',       en: 'Back',        es: 'Atrás',        de: 'Zurück' },
+    'common.close':    { fr: 'Fermer',       en: 'Close',       es: 'Cerrar',       de: 'Schließen' },
+    'common.save':     { fr: 'Enregistrer',  en: 'Save',        es: 'Guardar',      de: 'Speichern' },
+    'common.cancel':   { fr: 'Annuler',      en: 'Cancel',      es: 'Cancelar',     de: 'Abbrechen' },
+    'common.add':      { fr: 'Ajouter',      en: 'Add',         es: 'Añadir',       de: 'Hinzufügen' },
+    'common.delete':   { fr: 'Supprimer',    en: 'Delete',      es: 'Eliminar',     de: 'Löschen' },
+    'common.search':   { fr: 'Rechercher…',  en: 'Search…',     es: 'Buscar…',      de: 'Suchen…' },
+    'common.language': { fr: 'Langue',       en: 'Language',    es: 'Idioma',       de: 'Sprache' },
+    // Accueil
+    'home.intro':      { fr: "Ici, tu n'es pas un dossier : tu gardes les commandes. MyDope Off t'aide à comprendre les substances, mesurer ta consommation et couper la boucle quand tu le décides — sans jugement, sans compte, tout reste sur ton appareil.",
+                         en: "Here you're not a case file — you stay in control. MyDope Off helps you understand substances, track your use and break the loop when you decide — no judgement, no account, everything stays on your device.",
+                         es: "Aquí no eres un expediente: tú tienes el control. MyDope Off te ayuda a entender las sustancias, medir tu consumo y romper el ciclo cuando tú decidas — sin juicios, sin cuenta, todo se queda en tu dispositivo.",
+                         de: "Hier bist du keine Akte — du behältst die Kontrolle. MyDope Off hilft dir, Substanzen zu verstehen, deinen Konsum zu erfassen und den Kreislauf zu durchbrechen, wenn du willst — ohne Urteil, ohne Konto, alles bleibt auf deinem Gerät." },
+    'home.spaces':     { fr: 'Les 5 espaces', en: 'The 5 spaces', es: 'Los 5 espacios', de: 'Die 5 Bereiche' },
+    'home.welcome':    { fr: 'Bienvenue',    en: 'Welcome',     es: 'Bienvenido',   de: 'Willkommen' },
+    'home.welcome_sub':{ fr: 'Commence par tenir ton journal dans Suivi conso.',
+                         en: 'Start by keeping your journal in Tracking.',
+                         es: 'Empieza llevando tu diario en Seguimiento.',
+                         de: 'Beginne mit deinem Tagebuch im Tracking.' },
+    'home.tile_track': { fr: 'Journal, coûts, détection, objectifs',
+                         en: 'Journal, costs, detection, goals',
+                         es: 'Diario, costes, detección, objetivos',
+                         de: 'Tagebuch, Kosten, Nachweis, Ziele' },
+    'home.tile_subs':  { fr: '270 fiches, interactions, risques',
+                         en: '270 substances, interactions, risks',
+                         es: '270 fichas, interacciones, riesgos',
+                         de: '270 Substanzen, Wechselwirkungen, Risiken' },
+    'home.tile_proto': { fr: 'Exercices et jeux anti-craving',
+                         en: 'Anti-craving exercises and games',
+                         es: 'Ejercicios y juegos anti-craving',
+                         de: 'Anti-Craving-Übungen und -Spiele' },
+    'home.tile_rdr':   { fr: 'Urgences, centres, conseils',
+                         en: 'Emergencies, centres, advice',
+                         es: 'Urgencias, centros, consejos',
+                         de: 'Notfälle, Zentren, Ratschläge' },
+    'home.edit_info':  { fr: 'Modifier mes infos', en: 'Edit my info', es: 'Editar mis datos', de: 'Meine Daten ändern' },
+    'home.support':    { fr: 'Soutenir le projet', en: 'Support the project', es: 'Apoyar el proyecto', de: 'Projekt unterstützen' },
+    'home.guide_link': { fr: 'Guide d\'utilisation', en: 'User guide', es: 'Guía de uso', de: 'Anleitung' },
+    // Suivi
+    'track.title':     { fr: 'Suivi conso',  en: 'Tracking',    es: 'Seguimiento',  de: 'Tracking' },
+    'track.tab_board': { fr: 'Tableau',      en: 'Board',       es: 'Tablero',      de: 'Übersicht' },
+    'track.tab_journal':{ fr: 'Journal',     en: 'Journal',     es: 'Diario',       de: 'Tagebuch' },
+    'track.tab_costs': { fr: 'Coûts',        en: 'Costs',       es: 'Costes',       de: 'Kosten' },
+    'track.tab_goals': { fr: 'Objectifs',    en: 'Goals',       es: 'Objetivos',    de: 'Ziele' },
+    // RDR / interactions génériques
+    'inter.title':     { fr: "Vérificateur d'interactions", en: 'Interaction checker', es: 'Verificador de interacciones', de: 'Wechselwirkungs-Check' },
+    'inter.analyze':   { fr: 'Analyser les interactions', en: 'Check interactions', es: 'Analizar interacciones', de: 'Wechselwirkungen prüfen' }
+  };
+
+  function lang() {
+    let l = null;
+    try { l = localStorage.getItem(LANG_KEY); } catch (e) {}
+    if (l && LANGS.indexOf(l) !== -1) return l;
+    const nav = (navigator.language || 'fr').slice(0, 2).toLowerCase();
+    return LANGS.indexOf(nav) !== -1 ? nav : 'fr';
+  }
+
+  function setLang(l) {
+    if (LANGS.indexOf(l) === -1) return;
+    try { localStorage.setItem(LANG_KEY, l); } catch (e) {}
+    applyI18n();
+    document.documentElement.setAttribute('lang', l);
+    // notifier les pages qui ont du contenu dynamique à re-rendre
+    document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: l } }));
+  }
+
+  function t(keyOrObj, vars) {
+    const l = lang();
+    let s;
+    if (keyOrObj && typeof keyOrObj === 'object') {
+      // objet {fr,en,es,de} fourni directement
+      s = keyOrObj[l] || keyOrObj.fr || '';
+    } else {
+      const entry = DICT[keyOrObj];
+      s = entry ? (entry[l] || entry.fr) : keyOrObj;
+    }
+    if (vars) Object.keys(vars).forEach(k => { s = s.replace('{' + k + '}', vars[k]); });
+    return s;
+  }
+
+  /* Traduit tous les éléments porteurs d'attributs i18n */
+  function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (DICT[k]) el.textContent = t(k);
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const k = el.getAttribute('data-i18n-html');
+      if (DICT[k]) el.innerHTML = t(k);
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const k = el.getAttribute('data-i18n-ph');
+      if (DICT[k]) el.setAttribute('placeholder', t(k));
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const k = el.getAttribute('data-i18n-aria');
+      if (DICT[k]) el.setAttribute('aria-label', t(k));
+    });
+    // re-render nav (libellés traduits)
+    const navEl = document.querySelector('.bottom-nav');
+    if (navEl && navEl.getAttribute('data-page') !== null) {
+      navEl.outerHTML = renderNav(navEl.getAttribute('data-page') || '');
+    }
+  }
+
+  /* Sélecteur de langue : remplit tout [data-langselect] */
+  function renderLangSelect() {
+    document.querySelectorAll('[data-langselect]').forEach(host => {
+      const cur = lang();
+      host.innerHTML = '<div class="lang-select" style="display:inline-flex;gap:4px;background:var(--soft,#F1F5F9);padding:4px;border-radius:11px;">' +
+        LANGS.map(l => '<button type="button" data-setlang="' + l + '" style="border:none;cursor:pointer;font-family:var(--disp,Manrope,sans-serif);font-weight:700;font-size:12px;padding:6px 11px;border-radius:8px;background:' +
+          (l === cur ? '#fff' : 'transparent') + ';color:' + (l === cur ? '#2563EB' : '#64748B') +
+          (l === cur ? ';box-shadow:0 1px 3px rgba(15,23,42,.08)' : '') + ';">' + l.toUpperCase() + '</button>').join('') +
+        '</div>';
+      host.querySelectorAll('[data-setlang]').forEach(b => {
+        b.addEventListener('click', () => { setLang(b.getAttribute('data-setlang')); renderLangSelect(); });
+      });
+    });
+  }
+
+  function user() {
+    try { return (JSON.parse(localStorage.getItem(KEY)) || {}).user || null; }
+    catch (e) { return null; }
+  }
+
+  function qs() {
+    const u = user();
+    if (!u || !u.name) return '';
+    return '?name=' + encodeURIComponent(u.name) + '&region=' + (u.region || 'BE') + (u.age ? '&age=' + u.age : '');
+  }
+
+  function link(href) {
+    const q = qs();
+    if (!q) return href;
+    const i = href.indexOf('#');
+    return i === -1 ? href + q : href.slice(0, i) + q + href.slice(i);
+  }
+
+  function logoSVG(size, mono) {
+    size = size || 32;
+    const ring = mono ? '#fff' : '#2563EB';
+    const bar  = mono ? '#fff' : '#0F172A';
+    return '<svg viewBox="0 0 48 48" width="' + size + '" height="' + size + '" fill="none" aria-label="MyDope Off">' +
+      '<path d="M15.2 13.6a14 14 0 1 0 17.6 0" stroke="' + ring + '" stroke-width="5" stroke-linecap="round"/>' +
+      '<line x1="24" y1="6" x2="24" y2="22" stroke="' + bar + '" stroke-width="5" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  function appIcon(size) {
+    size = size || 56;
+    return '<span style="display:inline-flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:' + Math.round(size * .28) + 'px;background:linear-gradient(140deg,#2563EB,#1D4ED8);box-shadow:0 6px 18px rgba(37,99,235,.28);">' +
+      logoSVG(Math.round(size * .56), true) + '</span>';
+  }
+
+  function wordmark() {
+    return '<span style="font-family:var(--disp,Manrope,sans-serif);font-weight:800;letter-spacing:-.02em;color:#0F172A;white-space:nowrap;">MyDope <b style="color:#2563EB;font-weight:800;">Off</b></span>';
+  }
+
+  /* Navigation — libellés via clés i18n */
+  const NAV = [
+    { k: 'index', href: 'index.html', tkey: 'nav.home',
+      icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+    { k: 'suivi', href: 'suivi.html', tkey: 'nav.tracking',
+      icon: '<path d="M22 7L13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>' },
+    { k: 'psychochecker', href: 'psychochecker.html', tkey: 'nav.substances',
+      icon: '<path d="M11 11m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>' },
+    { k: 'fiches', href: 'fiches.html', tkey: 'nav.protocols',
+      icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>' },
+    { k: 'rdr', href: 'rdr.html', tkey: 'nav.rdr',
+      icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' }
+  ];
+
+  function renderNav(active) {
+    return '<nav class="bottom-nav" data-page="' + (active || '') + '">' + NAV.map(n =>
+      '<a class="bn-item' + (n.k === active ? ' active on' : '') + '" href="' + link(n.href) + '">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + n.icon + '</svg>' +
+      '<span>' + t(n.tkey) + '</span></a>').join('') + '</nav>';
+  }
+
+  function init(opts) {
+    opts = opts || {};
+    document.documentElement.setAttribute('lang', lang());
+
+    document.querySelectorAll('[data-logo]').forEach(el => {
+      el.innerHTML = logoSVG(parseInt(el.getAttribute('data-logo')) || 32, el.hasAttribute('data-mono'));
+    });
+    document.querySelectorAll('[data-appicon]').forEach(el => {
+      el.innerHTML = appIcon(parseInt(el.getAttribute('data-appicon')) || 56);
+    });
+    document.querySelectorAll('[data-wordmark]').forEach(el => { el.innerHTML = wordmark(); });
+
+    const nav = document.querySelector('[data-nav]');
+    if (nav) nav.outerHTML = renderNav(opts.page || '');
+
+    document.querySelectorAll('[data-go]').forEach(a => {
+      a.setAttribute('href', link(a.getAttribute('data-go')));
+    });
+
+    document.querySelectorAll('[data-back]').forEach(b => {
+      b.addEventListener('click', () => {
+        if (window.history.length > 1 && document.referrer && document.referrer.indexOf(location.origin) === 0) {
+          window.history.back();
+        } else {
+          location.href = link('index.html');
+        }
+      });
+    });
+
+    applyI18n();
+    renderLangSelect();
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  }
+
+  return { user, qs, link, logoSVG, appIcon, wordmark, renderNav, init,
+           t, lang, setLang, applyI18n, renderLangSelect, LANGS, LANG_NAMES, DICT };
+})();
+
+
+
+
+
+
+
+
+</script>
+<script>
+/* ===== LEXIQUE RDR ===== */
+const LEXIQUE = [
+  ["Réduction des risques (RDR)","approche","Ensemble de pratiques visant à diminuer les dommages liés à un usage de drogues sans forcément exiger l'arrêt : tester son produit, ne pas être seul·e, doser, espacer. On part de la personne là où elle en est."],
+  ["Agoniste","pharmacologie","Molécule qui active un récepteur du corps pour produire un effet (ex. un opioïde agoniste des récepteurs mu produit l'analgésie et l'euphorie). Un agoniste « complet » active à fond, un « partiel » seulement en partie."],
+  ["Antagoniste","pharmacologie","Molécule qui bloque un récepteur sans l'activer. La naloxone est un antagoniste des opioïdes : elle déloge l'opioïde et stoppe l'overdose."],
+  ["Récepteur","pharmacologie","Serrure biologique sur les cellules. Les substances agissent comme des clés qui ouvrent (agonistes) ou bloquent (antagonistes) ces serrures (ex. récepteurs 5-HT2A pour les psychédéliques, mu pour les opioïdes, GABA pour les sédatifs)."],
+  ["Demi-vie","pharmacologie","Temps que met le corps à éliminer la moitié d'une substance. Une demi-vie longue = effets et risques d'accumulation prolongés (important pour le redose et les interactions)."],
+  ["Onset","durée","Délai avant l'apparition des premiers effets après la prise. Une montée lente pousse parfois à reprendre trop tôt (« redose »), d'où des surdoses."],
+  ["Plateau","durée","Phase où les effets sont à leur maximum et stables, avant la descente."],
+  ["Biodisponibilité","pharmacologie","Fraction de la dose qui atteint réellement la circulation selon la voie (avaler, sniffer, fumer, injecter). Une même dose n'a pas le même effet selon la voie."],
+  ["Tolérance","usage","Besoin d'augmenter la dose pour retrouver le même effet, car le corps s'adapte. La tolérance croisée touche des substances de la même famille."],
+  ["Dépendance","usage","État où l'arrêt provoque un manque physique (sevrage) et/ou psychique (craving). Différente de l'addiction, qui inclut la perte de contrôle malgré les conséquences."],
+  ["Craving","usage","Envie irrépressible de consommer. Les exercices courts de l'app visent à occuper l'esprit le temps qu'une vague de craving redescende."],
+  ["Sevrage","usage","Ensemble des symptômes à l'arrêt d'une substance dont on est dépendant. Pour l'alcool et les benzodiazépines, le sevrage brutal peut être dangereux (convulsions) et doit être encadré."],
+  ["Redose","usage","Reprendre une dose pendant que la précédente agit encore. Source fréquente de surdose, surtout quand la montée est lente (on croit que « ça ne marche pas »)."],
+  ["Surdose / overdose","risque","Dose qui dépasse ce que le corps tolère. Pour les opioïdes, elle se traduit par une dépression respiratoire (la respiration ralentit puis s'arrête)."],
+  ["Dépression respiratoire","risque","Ralentissement dangereux de la respiration, principal mécanisme de décès par opioïdes et par mélanges de dépresseurs (alcool + benzo + opioïde)."],
+  ["Naloxone","RDR","Antidote des opioïdes (spray nasal ou injection) qui inverse temporairement une overdose. N'agit pas sur les non-opioïdes (xylazine, benzos). À garder à portée si on est concerné."],
+  ["Dépresseur","famille","Substance qui ralentit le système nerveux (alcool, benzodiazépines, GHB, opioïdes). Cumuler deux dépresseurs additionne le risque respiratoire."],
+  ["Stimulant","famille","Substance qui accélère le système nerveux (cocaïne, amphétamines, cathinones). Risques cardiovasculaires, hyperthermie, redose compulsif."],
+  ["Opioïde","famille","Substance agissant sur les récepteurs opioïdes (héroïne, morphine, fentanyl, nitazènes). Analgésie et euphorie, mais dépression respiratoire mortelle en cas de surdose."],
+  ["Psychédélique","famille","Substance modifiant la perception via les récepteurs 5-HT2A (LSD, psilocybine, mescaline, 2C-B). Risque surtout psychologique (bad trip) et d'interactions."],
+  ["Dissociatif","famille","Substance qui « déconnecte » le corps et l'esprit (kétamine, MXE, PCP). Risque de chutes, de fausses routes en cas de vomissement, et de cystite à usage répété."],
+  ["Empathogène / entactogène","famille","Substance qui amplifie l'empathie et le lien (MDMA et apparentés). Risques : hyperthermie, déshydratation, contre-coup sérotoninergique."],
+  ["Cathinone","famille","Stimulants de synthèse dérivés de la cathinone du khat (méphédrone, MDPV, alpha-PVP). Souvent vendus sous le nom « sels de bain ». Redose compulsif, charge cardiaque."],
+  ["Cannabinoïde de synthèse","famille","Molécules imitant le THC mais souvent bien plus puissantes et dangereuses (« noids » type ADB-, MDMB-). Réparties inégalement sur l'herbe : dosage imprévisible."],
+  ["Delirant / anticholinergique","famille","Substances provoquant un vrai délire confus et dangereux (datura, belladone, forte dose de certains antihistaminiques). Très différentes des psychédéliques, et toxiques."],
+  ["IMAO","pharmacologie","Inhibiteur de la monoamine oxydase : bloque une enzyme qui dégrade la sérotonine et d'autres messagers. Présent dans l'ayahuasca. Interactions potentiellement mortelles (MDMA, certains stimulants, antidépresseurs, tyramine)."],
+  ["ISRS / IRSNa","médicament","Antidépresseurs courants (fluoxétine, sertraline, venlafaxine…) qui augmentent la sérotonine. Atténuent souvent les effets de la MDMA et exposent au syndrome sérotoninergique avec d'autres sérotoninergiques."],
+  ["Syndrome sérotoninergique","risque","Excès dangereux de sérotonine (agitation, tremblements, fièvre, rigidité, parfois mortel). Survient en cumulant des substances sérotoninergiques, surtout avec un IMAO."],
+  ["Speedball","risque","Mélange d'un stimulant et d'un opioïde. Le stimulant masque la dépression respiratoire de l'opioïde : la surdose frappe quand le stimulant retombe."],
+  ["Cocaéthylène","risque","Substance cardiotoxique formée quand cocaïne et alcool sont pris ensemble. Plus durable et plus dur pour le cœur que la cocaïne seule."],
+  ["Tranq","produit","Surnom de la xylazine, sédatif vétérinaire qui contamine le fentanyl. La naloxone ne lève pas sa sédation et elle provoque des plaies nécrotiques."],
+  ["Lean / purple drank","produit","Sirop codéine + prométhazine mélangé à du soda. Dépression respiratoire potentialisée, surtout avec alcool ou benzos."],
+  ["Nitazène","produit","Famille d'opioïdes de synthèse très puissants (iso-, méto-, protonitazène), parfois plus que le fentanyl. Marge dose/overdose minuscule."],
+  ["Fenêtre de détection","test","Durée pendant laquelle une substance reste repérable par un test (salive, urine, sang). Varie selon la substance, la dose, la fréquence et le métabolisme."],
+  ["Métabolite","pharmacologie","Produit de transformation d'une substance par le corps. Certains tests détectent les métabolites bien après la disparition des effets."],
+  ["Adultérant / produit de coupe","risque","Substance ajoutée pour augmenter le volume ou l'effet d'une drogue. Parfois plus dangereuse que le produit attendu (ex. fentanyl dans l'héroïne, lévamisole dans la cocaïne)."],
+  ["Analyse de produit (drug checking)","RDR","Faire tester la composition réelle de son produit (bandelettes, services spécialisés). La seule façon de savoir ce qu'on a vraiment entre les mains."],
+  ["Sitter","RDR","Personne sobre et de confiance qui veille sur quelqu'un sous l'effet d'une substance, surtout pour les psychédéliques et dissociatifs."],
+  ["Set and setting","RDR","L'état d'esprit (set) et l'environnement (setting) dans lesquels on consomme. Déterminants majeurs de la qualité et de la sécurité d'une expérience psychédélique."],
+  ["Bad trip","risque","Expérience psychédélique difficile (angoisse, panique, paranoïa). Atténuée par un bon set and setting, un sitter, et le fait de ne pas lutter contre."],
+  ["RC (research chemical)","produit","« Produit de recherche » : nouvelle molécule de synthèse vendue pour contourner la loi, souvent mal connue, aux risques peu documentés."],
+  ["NPS","produit","Nouvelles substances psychoactives : terme officiel pour la vague de molécules récentes (cathinones, cannabinoïdes de synthèse, nitazènes…) apparaissant plus vite que les législations."],
+  ["Vasoconstriction","risque","Resserrement des vaisseaux sanguins (fréquent avec certains stimulants et psychédéliques type DOx). À forte dose ou usage répété, risque pour les extrémités et le cœur."],
+  ["Hyperthermie","risque","Montée dangereuse de la température corporelle, fréquente avec MDMA et stimulants, aggravée par la danse, la chaleur et le manque d'eau. Peut être mortelle."],
+];
+
+(function(){
+  const box=document.getElementById('lexique');
+  const search=document.getElementById('lx-search');
+  if(!box) return;
+  function render(q){
+    q=(q||'').trim().toLowerCase();
+    const items=LEXIQUE.filter(([t,,d])=> !q || t.toLowerCase().includes(q) || d.toLowerCase().includes(q))
+      .sort((a,b)=>a[0].localeCompare(b[0],'fr'));
+    if(!items.length){ box.innerHTML='<div class="lx-empty">Aucun terme ne correspond.</div>'; return; }
+    box.innerHTML=items.map(([t,tag,d])=>
+      '<details class="lx-item"><summary><span>'+t+'<span class="lx-tag">'+tag+'</span></span>'+
+      '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>'+
+      '<div class="lx-body">'+d+'</div></details>').join('');
+  }
+  render('');
+  if(search) search.addEventListener('input',()=>render(search.value));
+})();
+</script>
+<script>LUCIDE.init({page:''});</script>
+</body>
+</html>

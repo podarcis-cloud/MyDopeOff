@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="light"/>
+<meta name="theme-color" content="#F8FAFC"/>
+<title>MyDope Off — Mes informations</title>
+<link rel="manifest" href="manifest.json"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style id="lucide-core">
+/* ============================================================
+   LUCIDE — Design system (source unique)
+   Clarté · neutralité scientifique · light uniquement
+   ============================================================ */
+
+:root{
+  color-scheme: light only;
+
+  /* — Couleurs de marque — */
+  --blue:#2563EB;     --blue-700:#1D4ED8;  --blue-50:#EFF4FF;  --blue-100:#DCE6FF;
+  --ink:#0F172A;      --ink-2:#334155;     --muted:#64748B;
+  --teal:#14B8A6;     --teal-50:#E6FAF7;
+
+  /* — Surfaces — */
+  --bg:#F8FAFC;       --card:#FFFFFF;      --soft:#F1F5F9;
+  --line:#E2E8F0;     --line-2:#CBD5E1;
+
+  /* — Fonctionnel — */
+  --green:#16A34A;    --green-50:#E9F8EF;
+  --amber:#F59E0B;    --amber-50:#FEF6E7;
+  --red:#DC2626;      --red-50:#FCEBEC;
+
+  /* — Forme — */
+  --r:18px; --r-sm:13px; --r-xs:10px;
+  --sh:0 1px 2px rgba(15,23,42,.04), 0 2px 6px rgba(15,23,42,.05);
+  --sh-md:0 8px 24px rgba(15,23,42,.09);
+  --sh-up:0 -6px 22px rgba(15,23,42,.07);
+
+  /* — Type — */
+  --disp:'Manrope', system-ui, sans-serif;
+  --body:'Inter', system-ui, sans-serif;
+
+  --nav-h:64px;
+  --maxw:480px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{color-scheme:light only;background:var(--bg);}
+@media (prefers-color-scheme:dark){
+  html,body{background:var(--bg);color:var(--ink);}
+}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--ink);
+  max-width:var(--maxw);
+  margin:0 auto;
+  min-height:100svh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  line-height:1.5;
+}
+input,select,textarea,button{font-family:inherit;color:var(--ink);}
+input,select,textarea{background:var(--card);-webkit-appearance:none;appearance:none;}
+::placeholder{color:#94A3B8;}
+a{color:inherit;text-decoration:none;}
+svg{display:block;}
+
+/* — Typographie utilitaire — */
+.h1{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.02em;line-height:1.1;}
+.h2{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.015em;line-height:1.2;}
+.h3{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-.01em;}
+.eyebrow{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);}
+.lede{color:var(--muted);font-size:14.5px;line-height:1.55;}
+.muted{color:var(--muted);}
+.small{font-size:12.5px;}
+
+/* ── Marque / logo ─────────────────────────────────── */
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .mark{width:34px;height:34px;flex:0 0 auto;}
+.brand .name{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:.02em;}
+.brand .name b{color:var(--blue);font-weight:800;}
+
+/* ── Topbar ────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  height:54px;padding:0 16px;
+  background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .tb-title{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;}
+.topbar .tb-side{min-width:80px;display:flex;align-items:center;}
+.topbar .tb-side.right{justify-content:flex-end;}
+.btn-back{
+  display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding:0 13px 0 10px;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);cursor:pointer;
+}
+.btn-back:active{background:var(--soft);}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none;}
+
+/* ── Boutons ───────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;height:52px;padding:0 18px;
+  font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em;
+  border:none;border-radius:var(--r-sm);cursor:pointer;transition:transform .06s, filter .15s;
+}
+.btn:active{transform:scale(.985);}
+.btn svg{width:19px;height:19px;stroke:currentColor;stroke-width:2;fill:none;}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.28);}
+.btn-primary:active{background:var(--blue-700);}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(20,184,166,.25);}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh);}
+.btn-ghost:active{background:var(--soft);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-sm{height:42px;font-size:13.5px;border-radius:11px;}
+.btn:disabled{opacity:.4;pointer-events:none;}
+
+/* ── Cartes ────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);}
+.card-pad{padding:16px;}
+
+/* ── Champs ────────────────────────────────────────── */
+.field{margin-bottom:14px;}
+.field > label{display:block;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.02em;color:var(--ink-2);margin-bottom:7px;}
+.input,.select{
+  width:100%;height:50px;padding:0 15px;
+  font-size:16px;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-sm);outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+textarea.input{height:auto;min-height:50px;padding:13px 15px;line-height:1.5;resize:vertical;}
+.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 3.5px var(--blue-50);}
+.select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%2364748B' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;cursor:pointer;
+}
+
+/* ── Segments (onglets pilule) ─────────────────────── */
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:14px;}
+.seg button{
+  flex:1;height:38px;border:none;background:transparent;border-radius:10px;cursor:pointer;
+  font-family:var(--disp);font-weight:600;font-size:13px;color:var(--muted);transition:color .15s;
+}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh);}
+
+/* ── Badges familles ───────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;
+  font-family:var(--disp);font-weight:600;font-size:11.5px;letter-spacing:.01em;white-space:nowrap;}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+.b-opioide{background:#FCEBEC;color:#B91C1C;}
+.b-stimulant{background:#FEF6E7;color:#B45309;}
+.b-depresseur{background:#EAF2FF;color:#1D4ED8;}
+.b-psychedelique{background:#F3ECFE;color:#7C3AED;}
+.b-dissociatif{background:#E6FAF7;color:#0F766E;}
+.b-cannabinoide{background:#E9F8EF;color:#15803D;}
+.b-empathogene{background:#FDEEF6;color:#BE185D;}
+.b-nootropique{background:#EAF6FF;color:#0369A1;}
+
+/* — Pastilles d'intensité / risque — */
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+.lv-0{background:var(--green);}  .tx-0{color:var(--green);}
+.lv-1{background:#5FB98C;}        .tx-1{color:#3F9E72;}
+.lv-2{background:var(--amber);}  .tx-2{color:#B45309;}
+.lv-3{background:var(--red);}    .tx-3{color:var(--red);}
+
+/* ── Bottom nav ────────────────────────────────────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:var(--maxw);height:var(--nav-h);
+  display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);box-shadow:var(--sh-up);z-index:80;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#94A3B8;}
+.bn-item svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.9;fill:none;transition:stroke-width .15s;}
+.bn-item span{font-family:var(--disp);font-weight:600;font-size:9.5px;letter-spacing:.01em;}
+.bn-item.on{color:var(--blue);}
+.bn-item.on svg{stroke-width:2.4;}
+.has-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));}
+
+/* ── Feuille modale (bottom sheet) ─────────────────── */
+.sheet-bg{position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.42);
+  backdrop-filter:blur(2px);display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;transition:opacity .18s;}
+.sheet-bg.on{opacity:1;}
+.sheet{width:100%;max-width:var(--maxw);background:var(--card);
+  border-radius:24px 24px 0 0;padding:8px 18px calc(26px + env(safe-area-inset-bottom));
+  box-shadow:var(--sh-md);transform:translateY(24px);transition:transform .22s cubic-bezier(.22,1,.36,1);
+  max-height:90svh;overflow-y:auto;}
+.sheet-bg.on .sheet{transform:translateY(0);}
+.sheet-grip{width:38px;height:4px;border-radius:2px;background:var(--line-2);margin:8px auto 16px;}
+
+/* ── Divers ────────────────────────────────────────── */
+.empty{text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;
+  padding:30px 18px;background:var(--card);border:1px dashed var(--line-2);border-radius:var(--r);}
+.divider{height:1px;background:var(--line);border:none;margin:16px 0;}
+.row{display:flex;align-items:center;gap:10px;}
+.tag-num{font-family:var(--disp);font-weight:700;font-size:12px;color:var(--blue);
+  background:var(--blue-50);border-radius:8px;padding:3px 8px;}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+</style>
+<style>
+#wrap{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:28px 24px;}
+.logo-wrap{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:18px;background:linear-gradient(140deg,#2563EB,#1D4ED8);box-shadow:0 8px 22px rgba(37,99,235,.28);margin-bottom:20px;}
+h1{font-family:var(--disp);font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:6px;}
+h1 b{color:var(--blue,#2563EB);}
+.sub{color:var(--muted,#64748B);font-size:14.5px;line-height:1.55;margin-bottom:26px;}
+.row2{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;}
+.note{text-align:center;color:var(--muted,#64748B);font-size:12px;line-height:1.6;margin-top:16px;}
+#f-cancel{display:none;margin-top:10px;width:100%;background:none;border:none;color:#2563EB;font-family:var(--disp);font-weight:700;font-size:13px;padding:10px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div style="margin-bottom:18px;font-size:22px;" data-wordmark></div>
+  <h1>MyDope <b>Off</b></h1>
+  <p class="sub">Ici, tu gardes les commandes. Comprendre, mesurer, couper la boucle — tes données restent sur ton appareil.</p>
+
+  <div class="field">
+    <label>Prénom ou pseudo</label>
+    <input class="input" type="text" id="f-name" placeholder="Ton prénom" maxlength="30" autocomplete="given-name"/>
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>Âge</label>
+      <input class="input" type="number" id="f-age" placeholder="24" min="14" max="99"/>
+    </div>
+    <div class="field">
+      <label>Région</label>
+      <select class="select" id="f-region">
+        <option value="BE">Belgique</option>
+        <option value="FR">France</option>
+        <option value="CH">Suisse</option>
+        <option value="CA">Canada (QC)</option>
+        <option value="LU">Luxembourg</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn btn-primary" id="f-go" disabled onclick="doSave()">Entrer</button>
+  <button id="f-cancel" onclick="location.href=LUCIDE.link('index.html')">← Revenir à l'accueil</button>
+  <p class="note">Aucun compte · aucune inscription en ligne · 100 % local</p>
+</div>
+
+<script>
+/* MyDope Off — socle commun (nav, profil, logo) */
+window.LUCIDE = (function () {
+
+  const KEY = 'ctc_v6';
+  const LANG_KEY = 'mydopeoff_lang';
+  const LANGS = ['fr', 'en', 'es', 'de'];
+  const LANG_NAMES = { fr: 'Français', en: 'English', es: 'Español', de: 'Deutsch' };
+
+  /* ============================================================
+     I18N — dictionnaire du "cadre" (UI partagée).
+     Pour traduire le contenu (fiches) plus tard : remplir
+     window.LUCIDE_FICHES_I18N (voir docs en bas) — aucune
+     modification d'architecture nécessaire.
+     ============================================================ */
+  const DICT = {
+    // Navigation
+    'nav.home':        { fr: 'Accueil',      en: 'Home',        es: 'Inicio',       de: 'Start' },
+    'nav.tracking':    { fr: 'Suivi conso',  en: 'Tracking',    es: 'Seguimiento',  de: 'Tracking' },
+    'nav.substances':  { fr: 'Substances',   en: 'Substances',  es: 'Sustancias',   de: 'Substanzen' },
+    'nav.protocols':   { fr: 'Protocoles',   en: 'Protocols',   es: 'Protocolos',   de: 'Protokolle' },
+    'nav.rdr':         { fr: 'RDR',          en: 'Harm red.',   es: 'RdD',          de: 'Risiko' },
+    // Commun
+    'common.back':     { fr: 'Accueil',      en: 'Home',        es: 'Inicio',       de: 'Start' },
+    'common.back_prev':{ fr: 'Retour',       en: 'Back',        es: 'Atrás',        de: 'Zurück' },
+    'common.close':    { fr: 'Fermer',       en: 'Close',       es: 'Cerrar',       de: 'Schließen' },
+    'common.save':     { fr: 'Enregistrer',  en: 'Save',        es: 'Guardar',      de: 'Speichern' },
+    'common.cancel':   { fr: 'Annuler',      en: 'Cancel',      es: 'Cancelar',     de: 'Abbrechen' },
+    'common.add':      { fr: 'Ajouter',      en: 'Add',         es: 'Añadir',       de: 'Hinzufügen' },
+    'common.delete':   { fr: 'Supprimer',    en: 'Delete',      es: 'Eliminar',     de: 'Löschen' },
+    'common.search':   { fr: 'Rechercher…',  en: 'Search…',     es: 'Buscar…',      de: 'Suchen…' },
+    'common.language': { fr: 'Langue',       en: 'Language',    es: 'Idioma',       de: 'Sprache' },
+    // Accueil
+    'home.intro':      { fr: "Ici, tu n'es pas un dossier : tu gardes les commandes. MyDope Off t'aide à comprendre les substances, mesurer ta consommation et couper la boucle quand tu le décides — sans jugement, sans compte, tout reste sur ton appareil.",
+                         en: "Here you're not a case file — you stay in control. MyDope Off helps you understand substances, track your use and break the loop when you decide — no judgement, no account, everything stays on your device.",
+                         es: "Aquí no eres un expediente: tú tienes el control. MyDope Off te ayuda a entender las sustancias, medir tu consumo y romper el ciclo cuando tú decidas — sin juicios, sin cuenta, todo se queda en tu dispositivo.",
+                         de: "Hier bist du keine Akte — du behältst die Kontrolle. MyDope Off hilft dir, Substanzen zu verstehen, deinen Konsum zu erfassen und den Kreislauf zu durchbrechen, wenn du willst — ohne Urteil, ohne Konto, alles bleibt auf deinem Gerät." },
+    'home.spaces':     { fr: 'Les 5 espaces', en: 'The 5 spaces', es: 'Los 5 espacios', de: 'Die 5 Bereiche' },
+    'home.welcome':    { fr: 'Bienvenue',    en: 'Welcome',     es: 'Bienvenido',   de: 'Willkommen' },
+    'home.welcome_sub':{ fr: 'Commence par tenir ton journal dans Suivi conso.',
+                         en: 'Start by keeping your journal in Tracking.',
+                         es: 'Empieza llevando tu diario en Seguimiento.',
+                         de: 'Beginne mit deinem Tagebuch im Tracking.' },
+    'home.tile_track': { fr: 'Journal, coûts, détection, objectifs',
+                         en: 'Journal, costs, detection, goals',
+                         es: 'Diario, costes, detección, objetivos',
+                         de: 'Tagebuch, Kosten, Nachweis, Ziele' },
+    'home.tile_subs':  { fr: '270 fiches, interactions, risques',
+                         en: '270 substances, interactions, risks',
+                         es: '270 fichas, interacciones, riesgos',
+                         de: '270 Substanzen, Wechselwirkungen, Risiken' },
+    'home.tile_proto': { fr: 'Exercices et jeux anti-craving',
+                         en: 'Anti-craving exercises and games',
+                         es: 'Ejercicios y juegos anti-craving',
+                         de: 'Anti-Craving-Übungen und -Spiele' },
+    'home.tile_rdr':   { fr: 'Urgences, centres, conseils',
+                         en: 'Emergencies, centres, advice',
+                         es: 'Urgencias, centros, consejos',
+                         de: 'Notfälle, Zentren, Ratschläge' },
+    'home.edit_info':  { fr: 'Modifier mes infos', en: 'Edit my info', es: 'Editar mis datos', de: 'Meine Daten ändern' },
+    'home.support':    { fr: 'Soutenir le projet', en: 'Support the project', es: 'Apoyar el proyecto', de: 'Projekt unterstützen' },
+    'home.guide_link': { fr: 'Guide d\'utilisation', en: 'User guide', es: 'Guía de uso', de: 'Anleitung' },
+    // Suivi
+    'track.title':     { fr: 'Suivi conso',  en: 'Tracking',    es: 'Seguimiento',  de: 'Tracking' },
+    'track.tab_board': { fr: 'Tableau',      en: 'Board',       es: 'Tablero',      de: 'Übersicht' },
+    'track.tab_journal':{ fr: 'Journal',     en: 'Journal',     es: 'Diario',       de: 'Tagebuch' },
+    'track.tab_costs': { fr: 'Coûts',        en: 'Costs',       es: 'Costes',       de: 'Kosten' },
+    'track.tab_goals': { fr: 'Objectifs',    en: 'Goals',       es: 'Objetivos',    de: 'Ziele' },
+    // RDR / interactions génériques
+    'inter.title':     { fr: "Vérificateur d'interactions", en: 'Interaction checker', es: 'Verificador de interacciones', de: 'Wechselwirkungs-Check' },
+    'inter.analyze':   { fr: 'Analyser les interactions', en: 'Check interactions', es: 'Analizar interacciones', de: 'Wechselwirkungen prüfen' }
+  };
+
+  function lang() {
+    let l = null;
+    try { l = localStorage.getItem(LANG_KEY); } catch (e) {}
+    if (l && LANGS.indexOf(l) !== -1) return l;
+    const nav = (navigator.language || 'fr').slice(0, 2).toLowerCase();
+    return LANGS.indexOf(nav) !== -1 ? nav : 'fr';
+  }
+
+  function setLang(l) {
+    if (LANGS.indexOf(l) === -1) return;
+    try { localStorage.setItem(LANG_KEY, l); } catch (e) {}
+    applyI18n();
+    document.documentElement.setAttribute('lang', l);
+    // notifier les pages qui ont du contenu dynamique à re-rendre
+    document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: l } }));
+  }
+
+  function t(keyOrObj, vars) {
+    const l = lang();
+    let s;
+    if (keyOrObj && typeof keyOrObj === 'object') {
+      // objet {fr,en,es,de} fourni directement
+      s = keyOrObj[l] || keyOrObj.fr || '';
+    } else {
+      const entry = DICT[keyOrObj];
+      s = entry ? (entry[l] || entry.fr) : keyOrObj;
+    }
+    if (vars) Object.keys(vars).forEach(k => { s = s.replace('{' + k + '}', vars[k]); });
+    return s;
+  }
+
+  /* Traduit tous les éléments porteurs d'attributs i18n */
+  function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (DICT[k]) el.textContent = t(k);
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const k = el.getAttribute('data-i18n-html');
+      if (DICT[k]) el.innerHTML = t(k);
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const k = el.getAttribute('data-i18n-ph');
+      if (DICT[k]) el.setAttribute('placeholder', t(k));
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const k = el.getAttribute('data-i18n-aria');
+      if (DICT[k]) el.setAttribute('aria-label', t(k));
+    });
+    // re-render nav (libellés traduits)
+    const navEl = document.querySelector('.bottom-nav');
+    if (navEl && navEl.getAttribute('data-page') !== null) {
+      navEl.outerHTML = renderNav(navEl.getAttribute('data-page') || '');
+    }
+  }
+
+  /* Sélecteur de langue : remplit tout [data-langselect] */
+  function renderLangSelect() {
+    document.querySelectorAll('[data-langselect]').forEach(host => {
+      const cur = lang();
+      host.innerHTML = '<div class="lang-select" style="display:inline-flex;gap:4px;background:var(--soft,#F1F5F9);padding:4px;border-radius:11px;">' +
+        LANGS.map(l => '<button type="button" data-setlang="' + l + '" style="border:none;cursor:pointer;font-family:var(--disp,Manrope,sans-serif);font-weight:700;font-size:12px;padding:6px 11px;border-radius:8px;background:' +
+          (l === cur ? '#fff' : 'transparent') + ';color:' + (l === cur ? '#2563EB' : '#64748B') +
+          (l === cur ? ';box-shadow:0 1px 3px rgba(15,23,42,.08)' : '') + ';">' + l.toUpperCase() + '</button>').join('') +
+        '</div>';
+      host.querySelectorAll('[data-setlang]').forEach(b => {
+        b.addEventListener('click', () => { setLang(b.getAttribute('data-setlang')); renderLangSelect(); });
+      });
+    });
+  }
+
+  function user() {
+    try { return (JSON.parse(localStorage.getItem(KEY)) || {}).user || null; }
+    catch (e) { return null; }
+  }
+
+  function qs() {
+    const u = user();
+    if (!u || !u.name) return '';
+    return '?name=' + encodeURIComponent(u.name) + '&region=' + (u.region || 'BE') + (u.age ? '&age=' + u.age : '');
+  }
+
+  function link(href) {
+    const q = qs();
+    if (!q) return href;
+    const i = href.indexOf('#');
+    return i === -1 ? href + q : href.slice(0, i) + q + href.slice(i);
+  }
+
+  function logoSVG(size, mono) {
+    size = size || 32;
+    const ring = mono ? '#fff' : '#2563EB';
+    const bar  = mono ? '#fff' : '#0F172A';
+    return '<svg viewBox="0 0 48 48" width="' + size + '" height="' + size + '" fill="none" aria-label="MyDope Off">' +
+      '<path d="M15.2 13.6a14 14 0 1 0 17.6 0" stroke="' + ring + '" stroke-width="5" stroke-linecap="round"/>' +
+      '<line x1="24" y1="6" x2="24" y2="22" stroke="' + bar + '" stroke-width="5" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  function appIcon(size) {
+    size = size || 56;
+    return '<span style="display:inline-flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:' + Math.round(size * .28) + 'px;background:linear-gradient(140deg,#2563EB,#1D4ED8);box-shadow:0 6px 18px rgba(37,99,235,.28);">' +
+      logoSVG(Math.round(size * .56), true) + '</span>';
+  }
+
+  function wordmark() {
+    return '<span style="font-family:var(--disp,Manrope,sans-serif);font-weight:800;letter-spacing:-.02em;color:#0F172A;white-space:nowrap;">MyDope <b style="color:#2563EB;font-weight:800;">Off</b></span>';
+  }
+
+  /* Navigation — libellés via clés i18n */
+  const NAV = [
+    { k: 'index', href: 'index.html', tkey: 'nav.home',
+      icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+    { k: 'suivi', href: 'suivi.html', tkey: 'nav.tracking',
+      icon: '<path d="M22 7L13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>' },
+    { k: 'psychochecker', href: 'psychochecker.html', tkey: 'nav.substances',
+      icon: '<path d="M11 11m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>' },
+    { k: 'fiches', href: 'fiches.html', tkey: 'nav.protocols',
+      icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>' },
+    { k: 'rdr', href: 'rdr.html', tkey: 'nav.rdr',
+      icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' }
+  ];
+
+  function renderNav(active) {
+    return '<nav class="bottom-nav" data-page="' + (active || '') + '">' + NAV.map(n =>
+      '<a class="bn-item' + (n.k === active ? ' active on' : '') + '" href="' + link(n.href) + '">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + n.icon + '</svg>' +
+      '<span>' + t(n.tkey) + '</span></a>').join('') + '</nav>';
+  }
+
+  function init(opts) {
+    opts = opts || {};
+    document.documentElement.setAttribute('lang', lang());
+
+    document.querySelectorAll('[data-logo]').forEach(el => {
+      el.innerHTML = logoSVG(parseInt(el.getAttribute('data-logo')) || 32, el.hasAttribute('data-mono'));
+    });
+    document.querySelectorAll('[data-appicon]').forEach(el => {
+      el.innerHTML = appIcon(parseInt(el.getAttribute('data-appicon')) || 56);
+    });
+    document.querySelectorAll('[data-wordmark]').forEach(el => { el.innerHTML = wordmark(); });
+
+    const nav = document.querySelector('[data-nav]');
+    if (nav) nav.outerHTML = renderNav(opts.page || '');
+
+    document.querySelectorAll('[data-go]').forEach(a => {
+      a.setAttribute('href', link(a.getAttribute('data-go')));
+    });
+
+    document.querySelectorAll('[data-back]').forEach(b => {
+      b.addEventListener('click', () => {
+        if (window.history.length > 1 && document.referrer && document.referrer.indexOf(location.origin) === 0) {
+          window.history.back();
+        } else {
+          location.href = link('index.html');
+        }
+      });
+    });
+
+    applyI18n();
+    renderLangSelect();
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  }
+
+  return { user, qs, link, logoSVG, appIcon, wordmark, renderNav, init,
+           t, lang, setLang, applyI18n, renderLangSelect, LANGS, LANG_NAMES, DICT };
+})();
+
+
+
+
+
+
+
+</script>
+<script>
+const KEY='ctc_v6';
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}};
+const save=d=>{try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}};
+
+const nameI=document.getElementById('f-name');
+const goBtn=document.getElementById('f-go');
+nameI.addEventListener('input',()=>goBtn.disabled=nameI.value.trim().length===0);
+nameI.addEventListener('keydown',e=>{if(e.key==='Enter'&&nameI.value.trim())doSave();});
+
+function doSave(){
+  const name=nameI.value.trim(); if(!name)return;
+  const d=load();
+  d.user={name,age:document.getElementById('f-age').value.trim(),region:document.getElementById('f-region').value};
+  save(d);
+  location.href=LUCIDE.link('index.html');
+}
+
+/* Si un profil existe déjà : on pré-remplit et on propose le retour (mode "modifier mes infos") */
+(function(){
+  const u=load().user;
+  if(u&&u.name){
+    nameI.value=u.name;document.getElementById('f-age').value=u.age||'';
+    document.getElementById('f-region').value=u.region||'BE';
+    goBtn.disabled=false;goBtn.textContent='Enregistrer';
+    document.getElementById('f-cancel').style.display='block';
+  }
+})();
+LUCIDE.init({page:''});
+
+/* Avertissement à la première ouverture */
+(function(){
+  if(localStorage.getItem('mdo_consent'))return;
+  const m=document.createElement('div');
+  m.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.62);display:flex;align-items:flex-end;justify-content:center;z-index:1000;';
+  m.innerHTML='<div style="background:#fff;max-width:480px;width:100%;border-radius:20px 20px 0 0;padding:24px 22px 26px;box-shadow:0 -10px 40px rgba(15,23,42,.25);">'
+    +'<div style="width:44px;height:5px;background:#E2E8F0;border-radius:3px;margin:0 auto 18px;"></div>'
+    +'<h2 style="font-family:var(--disp);font-weight:800;font-size:19px;margin-bottom:10px;">Avant de commencer</h2>'
+    +'<p style="font-size:13.5px;line-height:1.6;color:#334155;margin-bottom:10px;">MyDope Off est un outil de <b>réduction des risques</b> à visée éducative. Il ne remplace ni un avis médical, ni un traitement, ni un service d\'urgence.</p>'
+    +'<p style="font-size:13.5px;line-height:1.6;color:#334155;margin-bottom:10px;">Les informations sur les substances, interactions et durées de détection sont des <b>estimations</b> qui varient selon chaque personne. En cas d\'urgence, appelle le 112.</p>'
+    +'<p style="font-size:13.5px;line-height:1.6;color:#334155;margin-bottom:18px;">Tes données restent uniquement sur cet appareil. Si tu vides le cache, elles disparaissent.</p>'
+    +'<button id="consent-ok" style="width:100%;height:50px;border:none;border-radius:13px;background:#2563EB;color:#fff;font-family:var(--disp);font-weight:700;font-size:15px;cursor:pointer;">J\'ai compris</button></div>';
+  document.body.appendChild(m);
+  m.querySelector('#consent-ok').onclick=()=>{localStorage.setItem('mdo_consent','1');m.remove();};
+})();</script>
+</body>
+</html>
