@@ -28,9 +28,15 @@ jobs:
         run: |
           mkdir -p _site
           unzip -o mydopeoff-revise.zip -d _site
-          if [ ! -f _site/index.html ]; then
-            inner=$(find _site -maxdepth 2 -name index.html | head -n1)
-            if [ -n "$inner" ]; then cp -r "$(dirname "$inner")"/* _site/; fi
+          
+          # Chercher index.html partout (plus profond)
+          inner=$(find _site -name "index.html" -type f | head -n1)
+          if [ -n "$inner" ]; then
+            dir=$(dirname "$inner")
+            if [ "$dir" != "_site" ]; then
+              cp -r "$dir"/* _site/ 2>/dev/null || true
+              find _site -maxdepth 1 -type d ! -name "_site" ! -name "." -exec rm -rf {} + 2>/dev/null || true
+            fi
           fi
 
       - name: Configurer Pages
